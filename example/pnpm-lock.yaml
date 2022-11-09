@@ -6,8 +6,9 @@ specifiers:
   '@types/react-dom': 18.0.8
   eslint: 8.26.0
   eslint-config-next: 13.0.2
-  lucid-cardano: ^0.7.1
+  lucid-cardano: ^0.7.3
   next: 13.0.2
+  next-http-proxy-middleware: ^1.2.5
   react: 18.2.0
   react-dom: 18.2.0
   typescript: 4.8.4
@@ -19,8 +20,9 @@ dependencies:
   '@types/react-dom': 18.0.8
   eslint: 8.26.0
   eslint-config-next: 13.0.2_wyqvi574yv7oiwfeinomdzmc3m
-  lucid-cardano: 0.7.1
+  lucid-cardano: 0.7.3
   next: 13.0.2_biqbaboplfbrettd7655fr4n2y
+  next-http-proxy-middleware: 1.2.5
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   typescript: 4.8.4
@@ -228,8 +230,8 @@ packages:
       fastq: 1.13.0
     dev: false
 
-  /@peculiar/asn1-schema/2.3.0:
-    resolution: {integrity: sha512-DtNLAG4vmDrdSJFPe7rypkcj597chNQL7u+2dBtYo5mh7VW2+im6ke+O0NVr8W1f4re4C3F71LhoMb0Yxqa48Q==}
+  /@peculiar/asn1-schema/2.3.3:
+    resolution: {integrity: sha512-6GptMYDMyWBHTUKndHaDsRZUO/XMSgIns2krxcm2L7SEExRHwawFvSwNBhqNPR9HJwv3MruAiF1bhN0we6j6GQ==}
     dependencies:
       asn1js: 3.0.5
       pvtsutils: 1.3.2
@@ -247,7 +249,7 @@ packages:
     resolution: {integrity: sha512-eK4C6WTNYxoI7JOabMoZICiyqRRtJB220bh0Mbj5RwRycleZf9BPyZoxsTvpP0FpmVS2aS13NKOuh5/tN3sIRw==}
     engines: {node: '>=10.12.0'}
     dependencies:
-      '@peculiar/asn1-schema': 2.3.0
+      '@peculiar/asn1-schema': 2.3.3
       '@peculiar/json-schema': 1.1.12
       pvtsutils: 1.3.2
       tslib: 2.4.1
@@ -262,6 +264,12 @@ packages:
     resolution: {integrity: sha512-rEUrBSGIoSFuYxwBYtlUFMlE2CwGhmW+w9355/5oduSw8e5h2+Tj4UrAGNNgP9915++wj5vkQo0UuOBqOAq4nw==}
     dependencies:
       tslib: 2.4.1
+    dev: false
+
+  /@types/http-proxy/1.17.3:
+    resolution: {integrity: sha512-wIPqXANye5BbORbuh74exbwNzj+UWCwWyeEFJzUQ7Fq3W2NSAy+7x7nX1fgbEypr2/TdKqpeuxLnXWgzN533/Q==}
+    dependencies:
+      '@types/node': 18.11.9
     dev: false
 
   /@types/json5/0.0.29:
@@ -946,6 +954,10 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: false
 
+  /eventemitter3/4.0.7:
+    resolution: {integrity: sha512-8guHBZCwKnFhYdHr2ysuRWErTwhoN2X8XELRlrRwpmfeY2jjuUN4taQMsULKUVo1K4DvZl+0pgfyoysHxvmvEw==}
+    dev: false
+
   /fast-deep-equal/3.1.3:
     resolution: {integrity: sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q==}
     dev: false
@@ -1015,6 +1027,16 @@ packages:
 
   /flatted/3.2.7:
     resolution: {integrity: sha512-5nqDSxl8nn5BSNxyR3n4I6eDmbolI6WT+QqR547RwxQapgjQBmtktdP+HTBb/a/zLsbzERTONyUB5pefh5TtjQ==}
+    dev: false
+
+  /follow-redirects/1.15.2:
+    resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
     dev: false
 
   /formdata-polyfill/4.0.10:
@@ -1153,6 +1175,17 @@ packages:
     engines: {node: '>= 0.4.0'}
     dependencies:
       function-bind: 1.1.1
+    dev: false
+
+  /http-proxy/1.18.1:
+    resolution: {integrity: sha512-7mz/721AbnJwIVbnaSv1Cz3Am0ZLT/UBwkC92VlxhXv/k/BBQfM2fXElQNC27BVGr0uwUpplYPQM9LnaBMR5NQ==}
+    engines: {node: '>=8.0.0'}
+    dependencies:
+      eventemitter3: 4.0.7
+      follow-redirects: 1.15.2
+      requires-port: 1.0.0
+    transitivePeerDependencies:
+      - debug
     dev: false
 
   /ignore/5.2.0:
@@ -1378,13 +1411,13 @@ packages:
       yallist: 4.0.0
     dev: false
 
-  /lucid-cardano/0.7.1:
-    resolution: {integrity: sha512-43ZdT30l4j+uiP61WzNgD2aPTToOIILmOTE3Bw/bdx+sV99t+g5ZXJlyvE+0Vj+783ADZ9zWZTxzEsPb5cx0pQ==}
+  /lucid-cardano/0.7.3:
+    resolution: {integrity: sha512-egXJr/1+Ga1LNqxmarpOD+Lct1nCmQr+Iic4i9Hm+mvYiXdTH0ov/Lr1uZPfo7TlfhFqpIPph9uU9aj0Jkjdhg==}
     engines: {node: '>=14'}
     dependencies:
       '@peculiar/webcrypto': 1.4.1
       node-fetch: 3.2.10
-      ws: 8.10.0
+      ws: 8.11.0
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -1433,6 +1466,16 @@ packages:
 
   /natural-compare/1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
+    dev: false
+
+  /next-http-proxy-middleware/1.2.5:
+    resolution: {integrity: sha512-ni73cl1FKC3s1aTD1aziIhV07TiG5ZrtyCkw8S0yqBRvTIJ2tqII1R+aEgxRav42W2Ht8yTpy96gQuaDJwNOMQ==}
+    engines: {node: '>=10.0.0'}
+    dependencies:
+      '@types/http-proxy': 1.17.3
+      http-proxy: 1.18.1
+    transitivePeerDependencies:
+      - debug
     dev: false
 
   /next/13.0.2_biqbaboplfbrettd7655fr4n2y:
@@ -1705,6 +1748,10 @@ packages:
     engines: {node: '>=8'}
     dev: false
 
+  /requires-port/1.0.0:
+    resolution: {integrity: sha512-KigOCHcocU3XODJxsu8i/j8T9tzT4adHiecwORRQ0ZZFcp7ahwXuRU1m+yuO90C5ZUyGeGfocHDI14M3L3yDAQ==}
+    dev: false
+
   /resolve-from/4.0.0:
     resolution: {integrity: sha512-pb/MYmXstAkysRFx8piNI1tGFNQIFA3vkE3Gq4EuA1dF6gHp/+vgZqsCGJapvy8N3Q+4o7FwvquPJcnZ7RYy4g==}
     engines: {node: '>=4'}
@@ -1965,7 +2012,7 @@ packages:
   /webcrypto-core/1.7.5:
     resolution: {integrity: sha512-gaExY2/3EHQlRNNNVSrbG2Cg94Rutl7fAaKILS1w8ZDhGxdFOaw6EbCfHIxPy9vt/xwp5o0VQAx9aySPF6hU1A==}
     dependencies:
-      '@peculiar/asn1-schema': 2.3.0
+      '@peculiar/asn1-schema': 2.3.3
       '@peculiar/json-schema': 1.1.12
       asn1js: 3.0.5
       pvtsutils: 1.3.2
@@ -1999,8 +2046,8 @@ packages:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
     dev: false
 
-  /ws/8.10.0:
-    resolution: {integrity: sha512-+s49uSmZpvtAsd2h37vIPy1RBusaLawVe8of+GyEPsaJTCMpj/2v8NpeK1SHXjBlQ95lQTmQofOJnFiLoaN3yw==}
+  /ws/8.11.0:
+    resolution: {integrity: sha512-HPG3wQd9sNQoT9xHyNCXoDUa+Xw/VevmY9FoHyQ+g+rrMn4j6FB4np7Z0OhdTgjx6MgQLK7jwSy1YecU1+4Asg==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       bufferutil: ^4.0.1
