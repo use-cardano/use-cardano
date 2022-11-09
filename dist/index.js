@@ -17210,31 +17210,41 @@ const useNetworkId = (walletApi) => {
         setNetworkId(newNetworkId);
     };
     useEffect(() => {
-        if (!(walletApi === null || walletApi === void 0 ? void 0 : walletApi.experimental))
+        if (!walletApi)
             return;
         walletApi.getNetworkId().then(setNetworkId);
-        walletApi.experimental.on("networkChange", onNetworkChange);
+        if (!walletApi.experimental)
+            return;
+        if (walletApi.experimental.on)
+            walletApi.experimental.on("networkChange", onNetworkChange);
         return () => {
-            walletApi.experimental.off("networkChange", onNetworkChange);
+            if (walletApi.experimental.off)
+                walletApi.experimental.off("networkChange", onNetworkChange);
         };
     }, [walletApi]);
     return networkId;
 };
 
-const useWalletApi = () => {
+const useWalletApi = (name) => {
     const [walletApi, setWalletApi] = useState();
     useEffect(() => {
-        var _a;
-        if (!((_a = window.cardano) === null || _a === void 0 ? void 0 : _a.nami))
+        if (!window.cardano)
             return;
-        window.cardano.nami.enable().then(setWalletApi);
-    }, []);
+        if (!window.cardano[name])
+            return;
+        window.cardano[name].enable().then(setWalletApi);
+    }, [name]);
     return walletApi;
 };
 
-const useLucid = () => {
+const defaultOptions = {
+    walletProvider: "nami",
+    nodeProvider: "blockfrost",
+};
+const useCardano = (options) => {
+    const { walletProvider } = Object.assign(Object.assign({}, defaultOptions), options);
     const [lucid, setLucid] = useState();
-    const walletApi = useWalletApi();
+    const walletApi = useWalletApi(walletProvider);
     const networkId = useNetworkId(walletApi);
     const initializeLucid = useCallback(async () => {
         if (lodash.exports.isNil(networkId) || lodash.exports.isNil(walletApi))
@@ -17257,20 +17267,24 @@ const useLucid = () => {
     };
 };
 
-const useHasNamiExtension = () => {
-    const [hasNamiExtension, setHasNamiExtension] = useState();
+const useHasExtension = (walletProvider) => {
+    const [hasExtension, setHasExtension] = useState();
     useEffect(() => {
         // give the browser a chance to load the extension
         // and for it to inject itself into the window object
         const timeout = setTimeout(() => {
-            var _a;
-            setHasNamiExtension(!!((_a = window.cardano) === null || _a === void 0 ? void 0 : _a.nami));
+            if (!window.cardano)
+                setHasExtension(false);
+            else if (!window.cardano[walletProvider])
+                setHasExtension(false);
+            else
+                setHasExtension(true);
         }, 10);
         return () => {
             clearTimeout(timeout);
         };
     }, []);
-    return hasNamiExtension;
+    return hasExtension;
 };
 
 const useTransaction = (lucid) => {
@@ -17329,5 +17343,5 @@ const useTransaction = (lucid) => {
     };
 };
 
-export { useHasNamiExtension, useLucid, useTransaction };
+export { useCardano, useHasExtension, useTransaction };
 //# sourceMappingURL=index.js.map

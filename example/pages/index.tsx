@@ -1,14 +1,16 @@
-import { useHasNamiExtension, useLucid, useTransaction } from "use-cardano"
+import { useState } from "react"
+import { useCardano, useHasExtension, useTransaction, WalletProvider } from "use-cardano"
 
 import styles from "../styles/index.module.css"
 
 const Index = () => {
-  const hasNamiExtension = useHasNamiExtension()
-  const { lucid, networkId } = useLucid()
+  const [walletProvider, setWalletProvider] = useState<WalletProvider>("nami")
+  const hasExtension = useHasExtension("nami")
+  const { lucid, networkId } = useCardano({ walletProvider })
   const tx = useTransaction(lucid)
 
   // strict equals to avoid undefined
-  if (hasNamiExtension === false)
+  if (hasExtension === false)
     return <div>This example only works with the Nami extension installed. Please install it.</div>
 
   // not initialized yet
@@ -19,6 +21,16 @@ const Index = () => {
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Cardano Lucid Blockfrost Proxy API Example</h1>
+
+      <div>
+        Wallet Provider: {walletProvider}
+        <div>
+          <button onClick={() => setWalletProvider("nami")}>Nami</button>{" "}
+          <button onClick={() => setWalletProvider("eternl")}>eternl</button>
+        </div>
+      </div>
+
+      <br />
 
       <div>
         Connected to the{" "}

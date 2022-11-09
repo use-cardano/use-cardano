@@ -5,9 +5,28 @@ import { useCallback, useEffect, useState } from "react"
 import { useNetworkId } from "./use-network-id"
 import { useWalletApi } from "./use-wallet-api"
 
-const useLucid = () => {
+type walletProvider = "nami" | "eternl" | "ccvault"
+
+type UseCardanoOptions = {
+  walletProvider?: walletProvider
+  nodeProvider?: "blockfrost"
+}
+
+type DefaultUseCardanoOptions = {
+  walletProvider: "nami"
+  nodeProvider: "blockfrost"
+}
+
+const defaultOptions: DefaultUseCardanoOptions = {
+  walletProvider: "nami",
+  nodeProvider: "blockfrost",
+}
+
+const useCardano = (options: UseCardanoOptions) => {
+  const { walletProvider } = { ...defaultOptions, ...options }
+
   const [lucid, setLucid] = useState<Lucid>()
-  const walletApi = useWalletApi()
+  const walletApi = useWalletApi(walletProvider)
   const networkId = useNetworkId(walletApi)
 
   const initializeLucid = useCallback(async () => {
@@ -36,4 +55,5 @@ const useLucid = () => {
   }
 }
 
-export { useLucid }
+export type { walletProvider }
+export { useCardano }

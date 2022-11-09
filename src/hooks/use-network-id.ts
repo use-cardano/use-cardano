@@ -1,5 +1,5 @@
-import { WalletApi } from 'lucid-cardano';
-import { useEffect, useState } from 'react';
+import { WalletApi } from "lucid-cardano"
+import { useEffect, useState } from "react"
 
 const useNetworkId = (walletApi?: WalletApi) => {
   const [networkId, setNetworkId] = useState<number>()
@@ -9,14 +9,16 @@ const useNetworkId = (walletApi?: WalletApi) => {
   }
 
   useEffect(() => {
-    if (!walletApi?.experimental) return
+    if (!walletApi) return
 
     walletApi.getNetworkId().then(setNetworkId)
 
-    walletApi.experimental.on("networkChange", onNetworkChange)
+    if (!walletApi.experimental) return
+
+    if (walletApi.experimental.on) walletApi.experimental.on("networkChange", onNetworkChange)
 
     return () => {
-      walletApi.experimental.off("networkChange", onNetworkChange)
+      if (walletApi.experimental.off) walletApi.experimental.off("networkChange", onNetworkChange)
     }
   }, [walletApi])
 
