@@ -23,11 +23,19 @@ const Index = () => {
       <h1 className={styles.title}>Cardano Lucid Blockfrost Proxy API Example</h1>
 
       <div>
-        Wallet Provider: {walletProvider}
+        Selected Wallet Provider: {walletProvider}
         <div>
           <button onClick={() => setWalletProvider("nami")}>Nami</button>{" "}
           <button onClick={() => setWalletProvider("eternl")}>eternl</button>
         </div>
+        {walletProvider !== "nami" && (
+          <div className={styles.info}>
+            <small>
+              {walletProvider} does not emit events when switching networks in the wallet UI. You
+              will need to <b>reload the page after switching network</b>
+            </small>
+          </div>
+        )}
       </div>
 
       <br />
