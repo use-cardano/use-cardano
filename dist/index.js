@@ -17226,15 +17226,26 @@ const useNetworkId = (walletApi) => {
 };
 
 const useWalletApi = (name) => {
+    const [error, setError] = useState();
     const [walletApi, setWalletApi] = useState();
     useEffect(() => {
         if (!window.cardano)
             return;
         if (!window.cardano[name])
             return;
-        window.cardano[name].enable().then(setWalletApi);
+        setError(undefined);
+        window.cardano[name]
+            .enable()
+            .then(setWalletApi)
+            .catch((e) => {
+            console.log(e);
+            // if (e instanceof Object)
+            //   if ((e as any).error instanceof Error) setError((error as any).error)
+            if (e instanceof Error)
+                setError(e);
+        });
     }, [name]);
-    return walletApi;
+    return { walletApi, error };
 };
 
 const defaultOptions = {
@@ -17244,7 +17255,7 @@ const defaultOptions = {
 const useCardano = (options) => {
     const { walletProvider } = Object.assign(Object.assign({}, defaultOptions), options);
     const [lucid, setLucid] = useState();
-    const walletApi = useWalletApi(walletProvider);
+    const { walletApi, error } = useWalletApi(walletProvider);
     const networkId = useNetworkId(walletApi);
     const initializeLucid = useCallback(async () => {
         if (lodash.exports.isNil(networkId) || lodash.exports.isNil(walletApi))
@@ -17261,10 +17272,12 @@ const useCardano = (options) => {
         initializeLucid();
         // Do we need to un-initialize anything here?
     }, [initializeLucid]);
+    console.log("From inside hook", error);
     return {
         networkId,
         walletApi,
         lucid,
+        error, // todo, handle more types of errors, not only from wallet connection
     };
 };
 

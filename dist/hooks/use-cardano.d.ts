@@ -8,6 +8,7 @@ declare const useCardano: (options: UseCardanoOptions) => {
     networkId: number | undefined;
     walletApi: import("lucid-cardano").WalletApi | undefined;
     lucid: Lucid | undefined;
+    error: Error | undefined;
 };
 export type { walletProvider };
 export { useCardano };

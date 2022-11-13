@@ -5,7 +5,7 @@ import { useCallback, useEffect, useState } from "react"
 import { useNetworkId } from "./use-network-id"
 import { useWalletApi } from "./use-wallet-api"
 
-type walletProvider = "nami" | "eternl" | "ccvault" 
+type walletProvider = "nami" | "eternl" | "ccvault"
 
 type UseCardanoOptions = {
   walletProvider?: walletProvider
@@ -26,7 +26,7 @@ const useCardano = (options: UseCardanoOptions) => {
   const { walletProvider } = { ...defaultOptions, ...options }
 
   const [lucid, setLucid] = useState<Lucid>()
-  const walletApi = useWalletApi(walletProvider)
+  const { walletApi, error } = useWalletApi(walletProvider)
   const networkId = useNetworkId(walletApi)
 
   const initializeLucid = useCallback(async () => {
@@ -50,10 +50,13 @@ const useCardano = (options: UseCardanoOptions) => {
     // Do we need to un-initialize anything here?
   }, [initializeLucid])
 
+  console.log("From inside hook", error)
+  
   return {
     networkId,
     walletApi,
     lucid,
+    error, // todo, handle more types of errors, not only from wallet connection
   }
 }
 

@@ -6,11 +6,13 @@ import styles from "../styles/index.module.css"
 const Index = () => {
   const [walletProvider, setWalletProvider] = useState<WalletProvider>("nami")
   const hasExtension = useHasExtension(walletProvider)
-  const { lucid, networkId } = useCardano({ walletProvider })
-  const tx = useTransaction(lucid)
+  const cardano = useCardano({ walletProvider })
+  const tx = useTransaction(cardano.lucid)
 
   // not initialized yet
-  if (!lucid) return null
+  if (!cardano.lucid) return null
+
+  console.log("Cardano error", cardano.error)
 
   const canTransact = tx.lovelace > 0 && tx.toAccount
 
@@ -19,9 +21,9 @@ const Index = () => {
       <div>
         Connected to the{" "}
         <b>
-          {networkId === 0
+          {cardano.networkId === 0
             ? "Testnet"
-            : networkId === 1
+            : cardano.networkId === 1
             ? "Mainnet"
             : "Invalid network, use Testnet or Mainnet"}
         </b>{" "}
@@ -31,7 +33,7 @@ const Index = () => {
         </div>
       </div>
 
-      {networkId === 1 && (
+      {cardano.networkId === 1 && (
         <>
           <br />
           <div>
@@ -111,6 +113,7 @@ const Index = () => {
         <button onClick={() => setWalletProvider("eternl")}>eternl</button>{" "}
         <button onClick={() => setWalletProvider("yoroi")}>yoroi</button>
       </div>
+
       {hasExtension === false && (
         <div className={styles.info}>
           <small>
@@ -118,6 +121,7 @@ const Index = () => {
           </small>
         </div>
       )}
+      
       {walletProvider !== "nami" && (
         <div className={styles.info}>
           <small>
@@ -126,6 +130,13 @@ const Index = () => {
           </small>
         </div>
       )}
+      
+      {cardano.error && (
+        <div className={styles.info}>
+          <small>{cardano.error.message}</small>
+        </div>
+      )}
+      
     </div>
   )
 
