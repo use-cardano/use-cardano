@@ -17259,6 +17259,7 @@ const useCardano = (options) => {
     }, [lucid, networkId, walletApi]);
     useEffect(() => {
         initializeLucid();
+        // Do we need to un-initialize anything here?
     }, [initializeLucid]);
     return {
         networkId,

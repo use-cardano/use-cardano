@@ -5,7 +5,7 @@ import { useCallback, useEffect, useState } from "react"
 import { useNetworkId } from "./use-network-id"
 import { useWalletApi } from "./use-wallet-api"
 
-type walletProvider = "nami" | "eternl" | "ccvault"
+type walletProvider = "nami" | "eternl" | "ccvault" 
 
 type UseCardanoOptions = {
   walletProvider?: walletProvider
@@ -46,6 +46,8 @@ const useCardano = (options: UseCardanoOptions) => {
 
   useEffect(() => {
     initializeLucid()
+
+    // Do we need to un-initialize anything here?
   }, [initializeLucid])
 
   return {

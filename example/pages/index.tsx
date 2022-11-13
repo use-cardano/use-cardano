@@ -5,41 +5,17 @@ import styles from "../styles/index.module.css"
 
 const Index = () => {
   const [walletProvider, setWalletProvider] = useState<WalletProvider>("nami")
-  const hasExtension = useHasExtension("nami")
+  const hasExtension = useHasExtension(walletProvider)
   const { lucid, networkId } = useCardano({ walletProvider })
   const tx = useTransaction(lucid)
-
-  // strict equals to avoid undefined
-  if (hasExtension === false)
-    return <div>This example only works with the Nami extension installed. Please install it.</div>
 
   // not initialized yet
   if (!lucid) return null
 
   const canTransact = tx.lovelace > 0 && tx.toAccount
 
-  return (
-    <div className={styles.container}>
-      <h1 className={styles.title}>Cardano Lucid Blockfrost Proxy API Example</h1>
-
-      <div>
-        Selected Wallet Provider: {walletProvider}
-        <div>
-          <button onClick={() => setWalletProvider("nami")}>Nami</button>{" "}
-          <button onClick={() => setWalletProvider("eternl")}>eternl</button>
-        </div>
-        {walletProvider !== "nami" && (
-          <div className={styles.info}>
-            <small>
-              {walletProvider} does not emit events when switching networks in the wallet UI. You
-              will need to <b>reload the page after switching network</b>
-            </small>
-          </div>
-        )}
-      </div>
-
-      <br />
-
+  const mainContent = (
+    <>
       <div>
         Connected to the{" "}
         <b>
@@ -124,6 +100,44 @@ const Index = () => {
           </p>
         )}
       </div>
+    </>
+  )
+
+  const header = (
+    <div>
+      Selected Wallet Provider: {walletProvider}
+      <div>
+        <button onClick={() => setWalletProvider("nami")}>Nami</button>{" "}
+        <button onClick={() => setWalletProvider("eternl")}>eternl</button>{" "}
+        <button onClick={() => setWalletProvider("yoroi")}>yoroi</button>
+      </div>
+      {hasExtension === false && (
+        <div className={styles.info}>
+          <small>
+            You do not have the selected extension installed. Please install it or switch provider.
+          </small>
+        </div>
+      )}
+      {walletProvider !== "nami" && (
+        <div className={styles.info}>
+          <small>
+            {walletProvider} does not emit events when switching networks in the wallet UI. You will
+            need to <b>reload the page after switching network</b>
+          </small>
+        </div>
+      )}
+    </div>
+  )
+
+  return (
+    <div className={styles.container}>
+      <h1 className={styles.title}>Cardano Lucid Blockfrost Proxy API Example</h1>
+
+      {header}
+
+      <br />
+
+      {mainContent}
     </div>
   )
 }
