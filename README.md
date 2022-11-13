@@ -23,8 +23,8 @@ Feel free to contribute in any capacity you can and want to. Either by opening a
 ### Running the project in development mode
 
 1. Clone the repository
-1. Install pnpm: `npm install -g pnpm` (this is recommended over npm or yarn because it handles dependency linking better)
+1. Install pnpm: `npm i -g pnpm` (this is recommended over npm or yarn because it handles dependency linking better)
 1. Install example dependencies: `cd example && pnpm i && cd ..`
 1. Link the library run time dependencies: `pnpm link ./example/node_modules/react ./example/node_modules/lucid-cardano`
-1. Install library dependencies: `& pnpm i`
-1. Run the library in watch mode, and launch the example app: `pnpm dev`
+1. Install library dependencies: `pnpm i`
+1. Run the library in watch mode, and launch the example app: `pnpm run dev`
