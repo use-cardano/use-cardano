@@ -5,8 +5,16 @@ import styles from "../styles/index.module.css"
 
 const Index = () => {
   const [walletProvider, setWalletProvider] = useState<WalletProvider>("nami")
+
+  const cardano = useCardano({
+    walletProvider,
+    node: {
+      proxyUrl: "/api/blockfrost",
+      provider: "blockfrost-proxy",
+    },
+  })
+
   const hasExtension = useHasExtension(walletProvider)
-  const cardano = useCardano({ walletProvider })
   const tx = useTransaction(cardano.lucid)
 
   // not initialized yet
@@ -16,32 +24,6 @@ const Index = () => {
 
   const mainContent = (
     <>
-      <div>
-        Connected to the{" "}
-        <b>
-          {cardano.networkId === 0
-            ? "Testnet"
-            : cardano.networkId === 1
-            ? "Mainnet"
-            : "Invalid network, use Testnet or Mainnet"}
-        </b>{" "}
-        Network
-        <div className={styles.info}>
-          <small>You can switch network in the nami wallet extension</small>
-        </div>
-      </div>
-
-      {cardano.networkId === 1 && (
-        <>
-          <br />
-          <div>
-            <b className={styles.warning}>
-              ⚠️ mainnet - be aware that you are sending real ADA to real people! ⚠️
-            </b>
-          </div>
-        </>
-      )}
-
       <br />
 
       <div>
@@ -114,25 +96,58 @@ const Index = () => {
       {hasExtension === false && (
         <div className={styles.info}>
           <small>
-            You do not have the selected extension installed. Please install it or switch provider.
+            You do not have the {walletProvider} extension installed. Please install it or switch
+            provider.
           </small>
         </div>
       )}
-      {walletProvider !== "nami" && (
-        <div className={styles.info}>
-          <small>
-            {walletProvider} does not emit events when switching networks in the wallet UI. You will
-            need to <b>reload the page after switching network</b>
-          </small>
-        </div>
+      {cardano.warnings.length > 0 && (
+        <>
+          <br />
+
+          <div>Warnings</div>
+
+          {cardano.warnings.map((warning, i) => (
+            <div key={`${warning.type}.${i}`} className={styles.info}>
+              <small>{warning.message}</small>
+            </div>
+          ))}
+        </>
       )}
       {cardano.errors.length > 0 && (
         <>
+          <br />
+
+          <div>Errors</div>
+
           {cardano.errors.map((error, i) => (
-            <div key={i} className={styles.info}>
+            <div key={`${i}.${error.type}`} className={styles.info}>
               <small>{error.message}</small>
             </div>
           ))}
+        </>
+      )}
+      {cardano.info.length > 0 && (
+        <>
+          <br />
+
+          <div>Info</div>
+
+          {cardano.info.map((info, i) => (
+            <div key={`${i}.${info}`} className={styles.info}>
+              <small>{info}</small>
+            </div>
+          ))}
+        </>
+      )}
+      {cardano.networkId === 1 && (
+        <>
+          <br />
+          <div>
+            <b className={styles.warning}>
+              ⚠️ mainnet - be aware that you are sending real ADA to real people! ⚠️
+            </b>
+          </div>
         </>
       )}
     </div>

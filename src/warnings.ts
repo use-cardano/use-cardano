@@ -1,6 +1,6 @@
-export type WarningType = "NO_LIVE_NETWORK_CHANGE" 
+export type USE_CARDANO_WARNING = "NO_LIVE_NETWORK_CHANGE" | "UNKNOWN"
 
-export interface UseCardanoWarning {
-    type: WarningType
+export type UseCardanoWarning = {
+    type: USE_CARDANO_WARNING
     message: string
 }

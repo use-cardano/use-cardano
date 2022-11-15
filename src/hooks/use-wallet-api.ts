@@ -26,6 +26,13 @@ const useWalletApi = (name: WalletApiName) => {
                 "The user rejected the request to connect their wallet."
               )
             )
+          if (e.message === "no account set")
+            setError(
+              new UseCardanoError(
+                "NO_ACCOUNT_SET",
+                `The user doesn't have an account with the ${name} wallet provider.`
+              )
+            )
           else setError(new UseCardanoError("UNKNOWN", e.message))
         }
       })

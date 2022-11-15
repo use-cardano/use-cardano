@@ -1,5 +1,13 @@
-import { Blockfrost, Lucid } from 'lucid-cardano';
+import { Lucid, Blockfrost } from 'lucid-cardano';
 import { useState, useEffect, useCallback } from 'react';
+
+class UseCardanoError extends Error {
+    constructor(type, message) {
+        super(message);
+        this.type = type;
+        this.name = "UseCardanoError";
+    }
+}
 
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
@@ -17225,14 +17233,6 @@ const useNetworkId = (walletApi) => {
     return networkId;
 };
 
-class UseCardanoError extends Error {
-    constructor(type, message) {
-        super(message);
-        this.type = type;
-        this.name = "UseCardanoError";
-    }
-}
-
 const useWalletApi = (name) => {
     const [error, setError] = useState();
     const [walletApi, setWalletApi] = useState();
@@ -17249,6 +17249,8 @@ const useWalletApi = (name) => {
             if (e instanceof Error) {
                 if (e.message === "user reject")
                     setError(new UseCardanoError("USER_REJECTED", "The user rejected the request to connect their wallet."));
+                if (e.message === "no account set")
+                    setError(new UseCardanoError("NO_ACCOUNT_SET", `The user doesn't have an account with the ${name} wallet provider.`));
                 else
                     setError(new UseCardanoError("UNKNOWN", e.message));
             }
@@ -17259,17 +17261,30 @@ const useWalletApi = (name) => {
 
 const defaultOptions = {
     walletProvider: "nami",
-    nodeProvider: "blockfrost",
+    node: {
+        provider: "blockfrost",
+        proxyUrl: undefined,
+        projectId: undefined,
+    },
+};
+const getProvider = ({ networkId, provider, projectId, proxyUrl, }) => {
+    if (provider === "blockfrost") {
+        const network = networkId === 0 ? "testnet" : "mainnet";
+        return new Blockfrost(`https://cardano-${network.toLowerCase()}.blockfrost.io/api/v0`, projectId);
+    }
+    if (provider === "blockfrost-proxy")
+        return new Blockfrost(`${proxyUrl}/${networkId}`);
+    throw new Error(`Unknown provider: ${provider}`);
 };
 const useCardano = (options) => {
-    const { walletProvider } = Object.assign(Object.assign({}, defaultOptions), options);
+    const { walletProvider, node } = Object.assign(Object.assign({}, defaultOptions), options);
     const [lucid, setLucid] = useState();
     const { walletApi, error } = useWalletApi(walletProvider);
     const networkId = useNetworkId(walletApi);
     const initializeLucid = useCallback(async () => {
         if (lodash.exports.isNil(networkId) || lodash.exports.isNil(walletApi))
             return;
-        const provider = new Blockfrost(`/api/blockfrost/${networkId}`);
+        const provider = getProvider(Object.assign(Object.assign({}, node), { networkId }));
         const network = networkId === 0 ? "Testnet" : "Mainnet";
         const updatedLucid = await (lodash.exports.isNil(lucid)
             ? Lucid.new(provider, network)
@@ -17281,16 +17296,31 @@ const useCardano = (options) => {
         initializeLucid();
         // Do we need to un-initialize anything here?
     }, [initializeLucid]);
-    console.log("From inside hook", error);
     const errors = [];
-    if (!lodash.exports.isNil(error))
-        errors.push(error);
+    if (!lodash.exports.isNil(error)) {
+        // todo, find out how to properly capture wallet errors that doesn't happen during connection
+        if (error.message === "user reject")
+            errors.push(new UseCardanoError("USER_REJECTED", "The user rejected the request to connect their wallet."));
+        else
+            errors.push(error);
+    }
+    const warnings = [];
+    if (walletProvider !== "nami")
+        warnings.push({
+            type: "NO_LIVE_NETWORK_CHANGE",
+            message: `Live network change is not supported for the ${walletProvider} wallet provider`,
+        });
     return {
         networkId,
         walletApi,
         lucid,
-        warnings: [],
+        warnings,
         errors,
+        info: [
+            `Using the ${walletProvider} wallet provider.`,
+            `Using the ${node.provider} node provider.`,
+            `Connected to the ${networkId === 0 ? "Testnet" : "Mainnet"} network.`,
+        ],
     };
 };
 

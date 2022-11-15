@@ -34,3 +34,9 @@ Feel free to contribute in any capacity you can and want to. Either by opening a
 1. Link the library run time dependencies: `pnpm link ./example/node_modules/react ./example/node_modules/lucid-cardano`
 1. Install library dependencies: `pnpm i`
 1. Run the library in watch mode, and launch the example app: `pnpm run dev`
+
+### Example app
+
+There is an example app in the `/example` folder. It is a simple react app that uses the library. It is set up to use the library in development mode, so you can make changes to the library and see the changes in the example app.
+
+![Example app](.github/example-app.png)
