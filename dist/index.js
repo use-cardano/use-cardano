@@ -17225,6 +17225,14 @@ const useNetworkId = (walletApi) => {
     return networkId;
 };
 
+class UseCardanoError extends Error {
+    constructor(type, message) {
+        super(message);
+        this.type = type;
+        this.name = "UseCardanoError";
+    }
+}
+
 const useWalletApi = (name) => {
     const [error, setError] = useState();
     const [walletApi, setWalletApi] = useState();
@@ -17238,11 +17246,12 @@ const useWalletApi = (name) => {
             .enable()
             .then(setWalletApi)
             .catch((e) => {
-            console.log(e);
-            // if (e instanceof Object)
-            //   if ((e as any).error instanceof Error) setError((error as any).error)
-            if (e instanceof Error)
-                setError(e);
+            if (e instanceof Error) {
+                if (e.message === "user reject")
+                    setError(new UseCardanoError("USER_REJECTED", "The user rejected the request to connect their wallet."));
+                else
+                    setError(new UseCardanoError("UNKNOWN", e.message));
+            }
         });
     }, [name]);
     return { walletApi, error };
@@ -17273,11 +17282,15 @@ const useCardano = (options) => {
         // Do we need to un-initialize anything here?
     }, [initializeLucid]);
     console.log("From inside hook", error);
+    const errors = [];
+    if (!lodash.exports.isNil(error))
+        errors.push(error);
     return {
         networkId,
         walletApi,
         lucid,
-        error, // todo, handle more types of errors, not only from wallet connection
+        warnings: [],
+        errors,
     };
 };
 

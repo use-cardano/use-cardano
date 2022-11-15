@@ -12,8 +12,6 @@ const Index = () => {
   // not initialized yet
   if (!cardano.lucid) return null
 
-  console.log("Cardano error", cardano.error)
-
   const canTransact = tx.lovelace > 0 && tx.toAccount
 
   const mainContent = (
@@ -113,7 +111,6 @@ const Index = () => {
         <button onClick={() => setWalletProvider("eternl")}>eternl</button>{" "}
         <button onClick={() => setWalletProvider("yoroi")}>yoroi</button>
       </div>
-
       {hasExtension === false && (
         <div className={styles.info}>
           <small>
@@ -121,7 +118,6 @@ const Index = () => {
           </small>
         </div>
       )}
-      
       {walletProvider !== "nami" && (
         <div className={styles.info}>
           <small>
@@ -130,13 +126,15 @@ const Index = () => {
           </small>
         </div>
       )}
-      
-      {cardano.error && (
-        <div className={styles.info}>
-          <small>{cardano.error.message}</small>
-        </div>
+      {cardano.errors.length > 0 && (
+        <>
+          {cardano.errors.map((error, i) => (
+            <div key={i} className={styles.info}>
+              <small>{error.message}</small>
+            </div>
+          ))}
+        </>
       )}
-      
     </div>
   )
 

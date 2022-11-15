@@ -1,7 +1,9 @@
+import { UseCardanoError } from "error"
 import { isNil } from "lodash"
-import { Blockfrost, Lucid } from "lucid-cardano"
+import { Blockfrost, Lucid, WalletApi } from "lucid-cardano"
 import { useCallback, useEffect, useState } from "react"
 
+import { UseCardanoWarning } from "../warnings"
 import { useNetworkId } from "./use-network-id"
 import { useWalletApi } from "./use-wallet-api"
 
@@ -22,7 +24,15 @@ const defaultOptions: DefaultUseCardanoOptions = {
   nodeProvider: "blockfrost",
 }
 
-const useCardano = (options: UseCardanoOptions) => {
+interface UseCardanoState {
+  networkId?: number
+  walletApi?: WalletApi
+  lucid?: Lucid
+  warnings: UseCardanoWarning[]
+  errors: UseCardanoError[]
+}
+
+const useCardano = (options: UseCardanoOptions): UseCardanoState => {
   const { walletProvider } = { ...defaultOptions, ...options }
 
   const [lucid, setLucid] = useState<Lucid>()
@@ -51,12 +61,17 @@ const useCardano = (options: UseCardanoOptions) => {
   }, [initializeLucid])
 
   console.log("From inside hook", error)
-  
+
+  const errors = []
+
+  if (!isNil(error)) errors.push(error)
+
   return {
     networkId,
     walletApi,
     lucid,
-    error, // todo, handle more types of errors, not only from wallet connection
+    warnings: [],
+    errors,
   }
 }
 
