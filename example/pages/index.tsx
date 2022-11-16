@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useCardano, useHasExtension, useTransaction, WalletProvider } from "use-cardano"
+import { useCardano, useTransaction, useWalletProviders, WalletProvider } from "use-cardano"
 
 import styles from "../styles/index.module.css"
 
@@ -14,7 +14,9 @@ const Index = () => {
     },
   })
 
-  const hasExtension = useHasExtension(walletProvider)
+  const { availableWalletProviders, currentProviderIsAvailable } =
+    useWalletProviders(walletProvider)
+
   const tx = useTransaction(cardano.lucid)
 
   // not initialized yet
@@ -89,11 +91,26 @@ const Index = () => {
     <div>
       Selected Wallet Provider: {walletProvider}
       <div>
-        <button onClick={() => setWalletProvider("nami")}>Nami</button>{" "}
-        <button onClick={() => setWalletProvider("eternl")}>eternl</button>{" "}
-        <button onClick={() => setWalletProvider("yoroi")}>yoroi</button>
+        <button
+          disabled={!availableWalletProviders.find((p) => p === "nami")}
+          onClick={() => setWalletProvider("nami")}
+        >
+          Nami
+        </button>{" "}
+        <button
+          disabled={!availableWalletProviders.find((p) => p === "eternl")}
+          onClick={() => setWalletProvider("eternl")}
+        >
+          eternl
+        </button>{" "}
+        <button
+          disabled={!availableWalletProviders.find((p) => p === "yoroi")}
+          onClick={() => setWalletProvider("yoroi")}
+        >
+          yoroi
+        </button>
       </div>
-      {hasExtension === false && (
+      {currentProviderIsAvailable === false && (
         <div className={styles.info}>
           <small>
             You do not have the {walletProvider} extension installed. Please install it or switch

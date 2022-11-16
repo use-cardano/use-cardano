@@ -17239,8 +17239,10 @@ const useWalletApi = (name) => {
     useEffect(() => {
         if (!window.cardano)
             return;
-        if (!window.cardano[name])
+        if (!window.cardano[name]) {
+            setError(new UseCardanoError("NO_DAPP_CONNECTOR", `The user doesn't have the ${name} wallet provider installed.`));
             return;
+        }
         setError(undefined);
         window.cardano[name]
             .enable()
@@ -17324,24 +17326,32 @@ const useCardano = (options) => {
     };
 };
 
-const useHasExtension = (walletProvider) => {
-    const [hasExtension, setHasExtension] = useState();
+const useWalletProviders = (walletProvider) => {
+    const [availableWalletProviders, setAvailableWalletProviders] = useState([]);
+    const [currentProviderIsAvailable, setCurrentProviderIsAvailable] = useState();
     useEffect(() => {
         // give the browser a chance to load the extension
         // and for it to inject itself into the window object
         const timeout = setTimeout(() => {
-            if (!window.cardano)
-                setHasExtension(false);
-            else if (!window.cardano[walletProvider])
-                setHasExtension(false);
+            if (!window.cardano) {
+                setCurrentProviderIsAvailable(false);
+                setAvailableWalletProviders([]);
+                return;
+            }
+            setAvailableWalletProviders(Object.keys(window.cardano).filter((key) => !(window.cardano[key] instanceof Function)));
+            if (!window.cardano[walletProvider])
+                setCurrentProviderIsAvailable(false);
             else
-                setHasExtension(true);
+                setCurrentProviderIsAvailable(true);
         }, 10);
         return () => {
             clearTimeout(timeout);
         };
     }, []);
-    return hasExtension;
+    return {
+        currentProviderIsAvailable,
+        availableWalletProviders,
+    };
 };
 
 const useTransaction = (lucid) => {
@@ -17400,5 +17410,5 @@ const useTransaction = (lucid) => {
     };
 };
 
-export { useCardano, useHasExtension, useTransaction };
+export { useCardano, useTransaction, useWalletProviders };
 //# sourceMappingURL=index.js.map

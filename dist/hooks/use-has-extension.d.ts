@@ -1,3 +1,3 @@
-import { walletProvider } from "./use-cardano";
-declare const useHasExtension: (walletProvider: walletProvider) => boolean | undefined;
-export { useHasExtension };
+import { WalletProvider } from "./use-cardano";
+declare const useHasWalletProvider: (walletProvider: WalletProvider) => boolean | undefined;
+export { useHasWalletProvider };

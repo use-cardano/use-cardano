@@ -1,4 +1,4 @@
 export { useCardano } from "./hooks/use-cardano"
-export { useHasExtension } from "./hooks/use-has-extension"
+export { useWalletProviders } from "./hooks/use-wallet-providers"
 export { useTransaction } from "./hooks/use-transaction"
-export type { walletProvider } from "./hooks/use-cardano"
+export type { WalletProvider } from "./hooks/use-cardano"

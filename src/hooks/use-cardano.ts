@@ -9,7 +9,7 @@ import { useWalletApi } from "./use-wallet-api"
 
 // todo, add support for more node providers, when available in lucid
 type NodeProvider = "blockfrost" | "blockfrost-proxy"
-type walletProvider = "nami" | "eternl" | "ccvault"
+type WalletProvider = "nami" | "eternl" | "ccvault" | "yoroi"
 
 type UseCardanoNodeOptions = {
   provider?: NodeProvider
@@ -18,7 +18,7 @@ type UseCardanoNodeOptions = {
 }
 
 type UseCardanoOptions = {
-  walletProvider?: walletProvider
+  walletProvider?: WalletProvider
   node?: UseCardanoNodeOptions
 }
 
@@ -132,5 +132,5 @@ const useCardano = (options: UseCardanoOptions): UseCardanoState => {
   }
 }
 
-export type { walletProvider }
+export type { WalletProvider }
 export { useCardano }

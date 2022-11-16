@@ -10,7 +10,16 @@ const useWalletApi = (name: WalletApiName) => {
 
   useEffect(() => {
     if (!window.cardano) return
-    if (!window.cardano[name]) return
+    if (!window.cardano[name]) {
+      setError(
+        new UseCardanoError(
+          "NO_DAPP_CONNECTOR",
+          `The user doesn't have the ${name} wallet provider installed.`
+        )
+      )
+
+      return
+    }
 
     setError(undefined)
 

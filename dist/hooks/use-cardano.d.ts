@@ -2,14 +2,14 @@ import { UseCardanoError } from "error";
 import { Lucid, WalletApi } from "lucid-cardano";
 import { UseCardanoWarning } from "../warnings";
 declare type NodeProvider = "blockfrost" | "blockfrost-proxy";
-declare type walletProvider = "nami" | "eternl" | "ccvault";
+declare type WalletProvider = "nami" | "eternl" | "ccvault" | "yoroi";
 declare type UseCardanoNodeOptions = {
     provider?: NodeProvider;
     proxyUrl?: string;
     projectId?: string;
 };
 declare type UseCardanoOptions = {
-    walletProvider?: walletProvider;
+    walletProvider?: WalletProvider;
     node?: UseCardanoNodeOptions;
 };
 interface UseCardanoState {
@@ -21,5 +21,5 @@ interface UseCardanoState {
     errors: UseCardanoError[];
 }
 declare const useCardano: (options: UseCardanoOptions) => UseCardanoState;
-export type { walletProvider };
+export type { WalletProvider };
 export { useCardano };
