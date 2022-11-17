@@ -4,17 +4,19 @@ import { useEffect, useState } from "react"
 
 import { WalletProvider } from "./use-cardano"
 
-const useWalletApi = (name: WalletProvider) => {
+const useWalletApi = (walletProvider?: WalletProvider) => {
   const [error, setError] = useState<UseCardanoError>()
   const [walletApi, setWalletApi] = useState<WalletApi>()
 
   useEffect(() => {
     if (!window.cardano) return
-    if (!window.cardano[name]) {
+    if (!walletProvider) return
+
+    if (!window.cardano[walletProvider]) {
       setError(
         new UseCardanoError(
           "NO_DAPP_CONNECTOR",
-          `The user doesn't have the ${name} wallet provider installed.`
+          `The user doesn't have the ${walletProvider} wallet provider installed.`
         )
       )
 
@@ -23,7 +25,7 @@ const useWalletApi = (name: WalletProvider) => {
 
     setError(undefined)
 
-    window.cardano[name]
+    window.cardano[walletProvider]
       .enable()
       .then(setWalletApi)
       .catch((e) => {
@@ -39,13 +41,13 @@ const useWalletApi = (name: WalletProvider) => {
             setError(
               new UseCardanoError(
                 "NO_ACCOUNT_SET",
-                `The user doesn't have an account with the ${name} wallet provider.`
+                `The user doesn't have an account with the ${walletProvider} wallet provider.`
               )
             )
           else setError(new UseCardanoError("UNKNOWN", e.message))
         }
       })
-  }, [name])
+  }, [walletProvider])
 
   return { walletApi, error }
 }

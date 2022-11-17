@@ -5,7 +5,9 @@ import { useCallback, useEffect, useState } from "react"
 
 import { UseCardanoWarning } from "../warnings"
 import { useNetworkId } from "./use-network-id"
+import { useTransaction } from "./use-transaction"
 import { useWalletApi } from "./use-wallet-api"
+import { useWalletProviders } from "./use-wallet-providers"
 
 // todo, add support for more node providers, when available in lucid
 type NodeProvider = "blockfrost" | "blockfrost-proxy"
@@ -18,12 +20,11 @@ type UseCardanoNodeOptions = {
 }
 
 type UseCardanoOptions = {
-  walletProvider?: WalletProvider
+  defaultWalletProvider?: WalletProvider
   node?: UseCardanoNodeOptions
 }
 
 type DefaultUseCardanoOptions = {
-  walletProvider: "nami"
   node: {
     provider: "blockfrost"
     proxyUrl: undefined
@@ -32,7 +33,6 @@ type DefaultUseCardanoOptions = {
 }
 
 const defaultOptions: DefaultUseCardanoOptions = {
-  walletProvider: "nami",
   node: {
     provider: "blockfrost",
     proxyUrl: undefined,
@@ -47,6 +47,8 @@ interface UseCardanoState {
   info: string[]
   warnings: UseCardanoWarning[]
   errors: UseCardanoError[]
+  walletProvider: ReturnType<typeof useWalletProviders>
+  tx: ReturnType<typeof useTransaction>
 }
 
 const getProvider = ({
@@ -69,10 +71,11 @@ const getProvider = ({
 }
 
 const useCardano = (options: UseCardanoOptions): UseCardanoState => {
-  const { walletProvider, node } = { ...defaultOptions, ...options }
+  const { defaultWalletProvider, node } = { ...defaultOptions, ...options }
+  const walletProvider = useWalletProviders(defaultWalletProvider)
 
   const [lucid, setLucid] = useState<Lucid>()
-  const { walletApi, error } = useWalletApi(walletProvider)
+  const { walletApi, error } = useWalletApi(walletProvider.current)
   const networkId = useNetworkId(walletApi)
 
   const initializeLucid = useCallback(async () => {
@@ -112,11 +115,13 @@ const useCardano = (options: UseCardanoOptions): UseCardanoState => {
 
   const warnings: UseCardanoWarning[] = []
 
-  if (walletProvider !== "nami")
+  if (walletProvider.current !== "nami")
     warnings.push({
       type: "NO_LIVE_NETWORK_CHANGE",
-      message: `Live network change is not supported for the ${walletProvider} wallet provider`,
+      message: `Live network change is not supported for the ${walletProvider.current} wallet provider`,
     })
+
+  const tx = useTransaction(lucid)
 
   return {
     networkId,
@@ -125,10 +130,12 @@ const useCardano = (options: UseCardanoOptions): UseCardanoState => {
     warnings,
     errors,
     info: [
-      `Using the ${walletProvider} wallet provider.`,
+      `Using the ${walletProvider.current} wallet provider.`,
       `Using the ${node.provider} node provider.`,
       `Connected to the ${networkId === 0 ? "Testnet" : "Mainnet"} network.`,
     ],
+    walletProvider,
+    tx,
   }
 }
 

@@ -60,6 +60,7 @@ const useTransaction = (lucid?: Lucid) => {
     toAccount,
     setToAccount: toAccountSetter,
     sendTransaction,
+    canTransact: lovelace > 0 && toAccount,
   }
 }
 
