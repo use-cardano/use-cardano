@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "module": "dist/index.js",
   "scripts": {
+    "build": "rollup -c",
     "dev:package": "rollup -c -w &",
     "dev:example": "cd example && pnpm run dev",
     "dev": "concurrently \"pnpm run dev:package\" \"pnpm run dev:example &\" \"open-cli http://localhost:3000\""

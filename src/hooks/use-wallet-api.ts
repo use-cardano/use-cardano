@@ -2,9 +2,9 @@ import { UseCardanoError } from "error"
 import { WalletApi } from "lucid-cardano"
 import { useEffect, useState } from "react"
 
-type WalletApiName = "nami" | "eternl" | "ccvault"
+import { WalletProvider } from "./use-cardano"
 
-const useWalletApi = (name: WalletApiName) => {
+const useWalletApi = (name: WalletProvider) => {
   const [error, setError] = useState<UseCardanoError>()
   const [walletApi, setWalletApi] = useState<WalletApi>()
 

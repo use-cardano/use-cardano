@@ -1,7 +1,7 @@
 import { UseCardanoError } from "error";
 import { WalletApi } from "lucid-cardano";
-declare type WalletApiName = "nami" | "eternl" | "ccvault";
-declare const useWalletApi: (name: WalletApiName) => {
+import { WalletProvider } from "./use-cardano";
+declare const useWalletApi: (name: WalletProvider) => {
     walletApi: WalletApi | undefined;
     error: UseCardanoError | undefined;
 };
