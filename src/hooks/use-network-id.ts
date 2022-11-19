@@ -1,26 +1,40 @@
+import { WalletProvider } from "hooks/use-cardano"
+import { isNil } from "lodash"
 import { WalletApi } from "lucid-cardano"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
-const useNetworkId = (walletApi?: WalletApi) => {
+const useNetworkId = (walletApi?: WalletApi, currentWalletProvider?: WalletProvider) => {
+  const interval = useRef<ReturnType<typeof setInterval>>()
   const [networkId, setNetworkId] = useState<number>()
 
   const onNetworkChange = (newNetworkId: unknown) => {
-    setNetworkId(newNetworkId as number)
+    if (typeof newNetworkId === "number") setNetworkId(newNetworkId)
+    else if (typeof newNetworkId === "string") setNetworkId(parseInt(newNetworkId))
   }
 
   useEffect(() => {
     if (!walletApi) return
 
-    walletApi.getNetworkId().then(setNetworkId)
+    walletApi.getNetworkId().then(onNetworkChange)
 
-    if (!walletApi.experimental) return
+    if (!isNil(walletApi.experimental?.on))
+      walletApi.experimental.on("networkChange", onNetworkChange)
+    else {
+      if (interval.current) clearInterval(interval.current)
 
-    if (walletApi.experimental.on) walletApi.experimental.on("networkChange", onNetworkChange)
+      interval.current = setInterval(() => {
+        walletApi.getNetworkId().then(onNetworkChange)
+      }, 1000) // TODO, what is a meaningful interval rate?
+    }
 
     return () => {
-      if (walletApi.experimental.off) walletApi.experimental.off("networkChange", onNetworkChange)
+      if (!isNil(walletApi.experimental?.off))
+        walletApi.experimental.off("networkChange", onNetworkChange)
+      else {
+        if (interval.current) clearInterval(interval.current)
+      }
     }
-  }, [walletApi])
+  }, [walletApi, currentWalletProvider])
 
   return networkId
 }

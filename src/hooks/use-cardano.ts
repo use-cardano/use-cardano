@@ -1,9 +1,11 @@
 import { UseCardanoError } from "error"
+import { getProvider } from "lib/get-provider"
 import { isNil } from "lodash"
-import { Blockfrost, Lucid, WalletApi } from "lucid-cardano"
+import { Lucid, WalletApi } from "lucid-cardano"
 import { useCallback, useEffect, useState } from "react"
 
 import { UseCardanoWarning } from "../warnings"
+import { useAccount } from "./use-account"
 import { useNetworkId } from "./use-network-id"
 import { useTransaction } from "./use-transaction"
 import { useWalletApi } from "./use-wallet-api"
@@ -13,7 +15,7 @@ import { useWalletProviders } from "./use-wallet-providers"
 type NodeProvider = "blockfrost" | "blockfrost-proxy"
 type WalletProvider = "nami" | "eternl" | "ccvault" | "yoroi"
 
-type UseCardanoNodeOptions = {
+export type UseCardanoNodeOptions = {
   provider?: NodeProvider
   proxyUrl?: string
   projectId?: string
@@ -41,42 +43,27 @@ const defaultOptions: DefaultUseCardanoOptions = {
 }
 
 interface UseCardanoState {
+  __apis: {
+    walletApi?: WalletApi
+    lucid?: Lucid
+  }
   networkId?: number
-  walletApi?: WalletApi
-  lucid?: Lucid
   info: string[]
   warnings: UseCardanoWarning[]
   errors: UseCardanoError[]
+  fullyInitialized: boolean
+  account: ReturnType<typeof useAccount>
   walletProvider: ReturnType<typeof useWalletProviders>
   tx: ReturnType<typeof useTransaction>
 }
 
-const getProvider = ({
-  networkId,
-  provider,
-  projectId,
-  proxyUrl,
-}: UseCardanoNodeOptions & { networkId: number }) => {
-  if (provider === "blockfrost") {
-    const network = networkId === 0 ? "testnet" : "mainnet"
-    return new Blockfrost(
-      `https://cardano-${network.toLowerCase()}.blockfrost.io/api/v0`,
-      projectId
-    )
-  }
-
-  if (provider === "blockfrost-proxy") return new Blockfrost(`${proxyUrl}/${networkId}`)
-
-  throw new Error(`Unknown provider: ${provider}`)
-}
-
-const useCardano = (options: UseCardanoOptions): UseCardanoState => {
+const useCardano = (options: UseCardanoOptions = {}): UseCardanoState => {
   const { defaultWalletProvider, node } = { ...defaultOptions, ...options }
   const walletProvider = useWalletProviders(defaultWalletProvider)
 
   const [lucid, setLucid] = useState<Lucid>()
   const { walletApi, error } = useWalletApi(walletProvider.current)
-  const networkId = useNetworkId(walletApi)
+  const networkId = useNetworkId(walletApi, walletProvider.current)
 
   const initializeLucid = useCallback(async () => {
     if (isNil(networkId) || isNil(walletApi)) return
@@ -115,18 +102,30 @@ const useCardano = (options: UseCardanoOptions): UseCardanoState => {
 
   const warnings: UseCardanoWarning[] = []
 
-  if (walletProvider.current !== "nami")
+  if (walletProvider.current !== "nami") {
     warnings.push({
       type: "NO_LIVE_NETWORK_CHANGE",
       message: `Live network change is not supported for the ${walletProvider.current} wallet provider`,
     })
 
+    warnings.push({
+      type: "NO_LIVE_ACCOUNT_CHANGE",
+      message: `Live account change is not supported for the ${walletProvider.current} wallet provider`,
+    })
+  }
+
+  const account = useAccount(lucid, walletApi) //, walletProvider.current)
   const tx = useTransaction(lucid)
 
+  const fullyInitialized =
+    !isNil(lucid) && !isNil(networkId) && !isNil(walletApi) && !isNil(account)
+
   return {
+    __apis: {
+      walletApi,
+      lucid,
+    },
     networkId,
-    walletApi,
-    lucid,
     warnings,
     errors,
     info: [
@@ -134,6 +133,8 @@ const useCardano = (options: UseCardanoOptions): UseCardanoState => {
       `Using the ${node.provider} node provider.`,
       `Connected to the ${networkId === 0 ? "Testnet" : "Mainnet"} network.`,
     ],
+    fullyInitialized,
+    account,
     walletProvider,
     tx,
   }

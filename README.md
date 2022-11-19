@@ -6,11 +6,11 @@
 
 ## At a glance
 
-`use-cardano` is a react hook that makes interacting with the Cardano blockchain easy. The library lets you connect web3 dapp wallets using the CIP-30 Web Bridge and [lucid-cardano](). It is written in TypeScript and uses the aforementioned library lucid-cardano for functionality such as signing transactions.
+`use-cardano` is a react hook that makes interacting with the Cardano blockchain easy. The library lets you connect web3 dapp wallets using the [CIP-30 Web Bridge](https://cips.cardano.org/cips/cip30/) and [lucid-cardano](https://github.com/spacebudz/lucid). It is written in TypeScript and uses the aforementioned library lucid-cardano for functionality such as signing transactions.
 
 ## Philosophy
 
-While the library largely builds on `cardano-lucid` for core functionality, I went with the more generic name `use-cardano` to signify that I intend to expand beyond the core concepts with QoL utility functions, hooks and components. I want to make it as easy as possible to get started building Cardano dapps with React, and I hope this will lower the bar of entry.
+While the library largely builds on `cardano-lucid` for core functionality, I went with the more generic name `use-cardano` to signify that I intend to expand beyond the core concepts with QoL utility functions, hooks and components. The purpose of this package is to make it as easy as possible to get started building Cardano dApps with React, and I hope this will lower the bar of entry into Cardano dApps development.
 
 ## Docs
 
@@ -30,9 +30,15 @@ _I am looking to add support for more providers besides blockfrost as lucid-card
 
 See the `/example` folder
 
+## Components
+
+Alongside the core functionality of the hook, I am also working on a set of components that will make it easy to build Cardano dApps. The components are built on top of the hook and are intended to be used in conjunction with it. These can be found in the `/components` folder, and are currently in a very early stage.
+
 ## Contributing / Development
 
 Feel free to contribute in any capacity you can and want to. Either by opening an issue, creating a pull request or just by giving feedback.
+
+New to Open Source development, or the Cardano dApps eco system? I know it can be daunting, but do not be afraid to reach out in an issue. Any contributions to `use-cardano` are welcome, wether it is a question, a bug report, a feature request or a pull request.
 
 ### Running the project in development mode
 

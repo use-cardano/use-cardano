@@ -1,7 +1,7 @@
 import styles from "styles/index.module.css"
 import { useCardano } from "use-cardano"
 
-const WalletSelectExamplePage = () => {
+const WalletProviderSelectExamplePage = () => {
   const cardano = useCardano({
     defaultWalletProvider: "nami",
     node: {
@@ -23,17 +23,19 @@ const WalletSelectExamplePage = () => {
         <br />
 
         <div>Selected wallet: {cardano.walletProvider.current}</div>
-        
+
         <br />
 
         <div>Installed wallet extensions: {cardano.walletProvider.available.join(", ")}</div>
-                
+
         <br />
 
-        <div>Wallet extensions supported by use-cardano: {cardano.walletProvider.supported.join(", ")}</div>
+        <div>
+          Wallet extensions supported by use-cardano: {cardano.walletProvider.supported.join(", ")}
+        </div>
       </div>
     </div>
   )
 }
 
-export default WalletSelectExamplePage
+export default WalletProviderSelectExamplePage

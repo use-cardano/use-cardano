@@ -6,7 +6,15 @@ const Index = () => {
     <div>
       <ul>
         <li>
-          <Link href="/examples/wallet-select">Wallet Select</Link>
+          <Link href="/examples/change-wallet-provider">Change Wallet Provider</Link>
+        </li>
+
+        <li>
+          <Link href="/examples/change-account">Change Account</Link>
+        </li>
+
+        <li>
+          <Link href="/examples/change-network">Change Network</Link>
         </li>
 
         <li>
