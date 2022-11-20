@@ -10,8 +10,6 @@ const ChangeAccountExamplePage = () => {
     },
   })
 
-  if (!cardano.fullyInitialized) return null
-
   const warning = cardano.warnings.find((w) => w.type === "NO_LIVE_ACCOUNT_CHANGE")
 
   return (
@@ -28,18 +26,7 @@ const ChangeAccountExamplePage = () => {
 
       <br />
 
-      {warning ? (
-        <>
-          <div className={styles.warning}>{warning.message}</div>
-
-          <br />
-        </>
-      ) : (
-        <>
-          <br />
-          <br />
-        </>
-      )}
+      <div className={styles.warning}>{warning?.message || "Live account change is supported"}</div>
 
       <br />
 

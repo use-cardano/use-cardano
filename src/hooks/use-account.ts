@@ -1,10 +1,11 @@
 import { isNil } from "lodash"
-import { C, fromHex, Lucid, WalletApi } from "lucid-cardano"
-import { useCallback, useEffect, useRef, useState } from "react"
+import { C, fromHex, WalletApi } from "lucid-cardano"
+import { useCallback, useEffect, useState } from "react"
 
-const useAccount = (lucid?: Lucid, walletApi?: WalletApi) => {
-  const interval = useRef<ReturnType<typeof setInterval>>()
+import { UseCardanoWarning } from "../warnings"
 
+const useAccount = (walletApi?: WalletApi) => {
+  const [warning, setWarning] = useState<UseCardanoWarning>()
   const [addressLoaded, setAddressLoaded] = useState(false)
   const [address, setAddress] = useState<string | null>()
 
@@ -15,70 +16,78 @@ const useAccount = (lucid?: Lucid, walletApi?: WalletApi) => {
   const [rewardAddress, setRewardAddress] = useState<string | null>()
 
   const updateAddresses = useCallback(() => {
-    if (!lucid || !walletApi) return
-
-    setAddressLoaded(false)
-    setUnusedAddressLoaded(false)
-    setRewardAddressLoaded(false)
+    if (!walletApi) return
 
     walletApi
       .getUsedAddresses()
       .then((usedAddresses) => {
-        setAddress(C.Address.from_bytes(fromHex(usedAddresses[0])).to_bech32(undefined))
+        if (usedAddresses.length > 0)
+          setAddress(C.Address.from_bytes(fromHex(usedAddresses[0])).to_bech32(undefined))
+        else setAddress(null)
       })
-      .catch(() => setAddress(null))
+      .catch((e) => {
+        if (process.env.NODE_ENV === "development") console.error(e)
+        setAddress(null)
+      })
       .finally(() => setAddressLoaded(true))
 
     walletApi
       .getUnusedAddresses()
       .then((unusedAddresses) => {
-        setUnusedAddress(C.Address.from_bytes(fromHex(unusedAddresses[0])).to_bech32(undefined))
+        if (unusedAddresses.length > 0)
+          setUnusedAddress(C.Address.from_bytes(fromHex(unusedAddresses[0])).to_bech32(undefined))
+        else setUnusedAddress(null)
       })
-      .catch(() => setUnusedAddress(null))
+      .catch((e) => {
+        if (process.env.NODE_ENV === "development") console.error(e)
+        setUnusedAddress(null)
+      })
       .finally(() => setUnusedAddressLoaded(true))
 
-    lucid.wallet
-      .rewardAddress()
-      .then((rewardAddress) => {
-        setRewardAddress(rewardAddress)
+    walletApi
+      .getRewardAddresses()
+      .then((rewardAddresses) => {
+        if (rewardAddresses.length > 0)
+          setRewardAddress(C.Address.from_bytes(fromHex(rewardAddresses[0])).to_bech32(undefined))
+        else setRewardAddress(null)
       })
-      .catch(() => setRewardAddress(null))
+      .catch((e) => {
+        if (process.env.NODE_ENV === "development") console.error(e)
+        setRewardAddress(null)
+      })
       .finally(() => setRewardAddressLoaded(true))
-  }, [lucid, walletApi])
-
-  useEffect(() => {
-    updateAddresses()
-  }, [lucid, walletApi, updateAddresses])
+  }, [walletApi])
 
   useEffect(() => {
     if (!walletApi) return
 
     updateAddresses()
 
-    if (!isNil(walletApi.experimental?.on))
-      walletApi.experimental.on("accountChange", updateAddresses)
-    else {
-      if (interval.current) clearInterval(interval.current)
+    const listenersAvailable = isNil(walletApi.experimental?.on)
 
-      interval.current = setInterval(() => {
-        // TODO, this isn't really working well, need to figure out a better way to do this
-      }, 1000) // TODO, what is a meaningful interval rate?
-    }
+    setWarning(
+      listenersAvailable
+        ? undefined
+        : {
+            type: "NO_LIVE_ACCOUNT_CHANGE",
+            message: `Live account change is not supported`,
+          }
+    )
+
+    if (listenersAvailable) walletApi.experimental.on("accountChange", updateAddresses)
 
     return () => {
       if (!isNil(walletApi.experimental?.off))
         walletApi.experimental.off("accountChange", updateAddresses)
-      else {
-        if (interval.current) clearInterval(interval.current)
-      }
     }
-  }, [walletApi, lucid])
+  }, [walletApi, updateAddresses])
 
   const loaded = addressLoaded && unusedAddressLoaded && rewardAddressLoaded
 
   if (!loaded)
     return {
       loaded,
+      warning,
       address: null,
       unusedAddress: null,
       rewardAddress: null,
@@ -86,6 +95,7 @@ const useAccount = (lucid?: Lucid, walletApi?: WalletApi) => {
 
   return {
     loaded,
+    warning,
     address,
     unusedAddress,
     rewardAddress,

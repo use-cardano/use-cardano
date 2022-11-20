@@ -1,7 +1,6 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@types/node': 18.11.9
   '@types/react': 18.0.24
   '@types/react-dom': 18.0.8
   eslint: 8.26.0
@@ -15,7 +14,6 @@ specifiers:
   use-cardano: link:..
 
 dependencies:
-  '@types/node': 18.11.9
   '@types/react': 18.0.24
   '@types/react-dom': 18.0.8
   eslint: 8.26.0

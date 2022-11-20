@@ -1,10 +1,11 @@
 import { WalletProvider } from "hooks/use-cardano"
 import { isNil } from "lodash"
 import { WalletApi } from "lucid-cardano"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
+import { UseCardanoWarning } from "warnings"
 
 const useNetworkId = (walletApi?: WalletApi, currentWalletProvider?: WalletProvider) => {
-  const interval = useRef<ReturnType<typeof setInterval>>()
+  const [warning, setWarning] = useState<UseCardanoWarning>()
   const [networkId, setNetworkId] = useState<number>()
 
   const onNetworkChange = (newNetworkId: unknown) => {
@@ -15,28 +16,33 @@ const useNetworkId = (walletApi?: WalletApi, currentWalletProvider?: WalletProvi
   useEffect(() => {
     if (!walletApi) return
 
-    walletApi.getNetworkId().then(onNetworkChange)
+    walletApi.getNetworkId().then((newNetworkId) => {
+      onNetworkChange(newNetworkId)
 
-    if (!isNil(walletApi.experimental?.on))
-      walletApi.experimental.on("networkChange", onNetworkChange)
-    else {
-      if (interval.current) clearInterval(interval.current)
+      const listenersAvailable = isNil(walletApi.experimental?.on)
 
-      interval.current = setInterval(() => {
-        walletApi.getNetworkId().then(onNetworkChange)
-      }, 1000) // TODO, what is a meaningful interval rate?
-    }
+      setWarning(
+        listenersAvailable
+          ? undefined
+          : {
+              type: "NO_LIVE_NETWORK_CHANGE",
+              message: `Live network change is not supported`,
+            }
+      )
+
+      if (listenersAvailable) walletApi.experimental.on("networkChange", onNetworkChange)
+    })
 
     return () => {
       if (!isNil(walletApi.experimental?.off))
         walletApi.experimental.off("networkChange", onNetworkChange)
-      else {
-        if (interval.current) clearInterval(interval.current)
-      }
     }
-  }, [walletApi, currentWalletProvider])
+  }, [walletApi])
 
-  return networkId
+  return {
+    warning,
+    networkId,
+  }
 }
 
 export { useNetworkId }

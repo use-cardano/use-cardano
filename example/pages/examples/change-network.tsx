@@ -10,9 +10,7 @@ const ChangeNetworkExamplePage = () => {
     },
   })
 
-  if (!cardano.fullyInitialized) return null
-
-  const warning = cardano.warnings.find((w) => w.type === "NO_LIVE_ACCOUNT_CHANGE")
+  const warning = cardano.warnings.find((w) => w.type === "NO_LIVE_NETWORK_CHANGE")
 
   return (
     <div className={styles.container}>
@@ -28,18 +26,7 @@ const ChangeNetworkExamplePage = () => {
 
       <br />
 
-      {warning ? (
-        <>
-          <div className={styles.warning}>{warning.message}</div>
-
-          <br />
-        </>
-      ) : (
-        <>
-          <br />
-          <br />
-        </>
-      )}
+      <div className={styles.warning}>{warning?.message || "Live network change is active"}</div>
 
       <br />
 

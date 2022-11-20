@@ -22,6 +22,7 @@
     "@rollup/plugin-node-resolve": "^15.0.1",
     "@rollup/plugin-typescript": "^9.0.2",
     "@types/lodash": "^4.14.188",
+    "@types/node": "^18.11.9",
     "@types/react": "^18.0.24",
     "concurrently": "^7.5.0",
     "open": "^8.4.0",

@@ -13,7 +13,7 @@ import { useWalletProviders } from "./use-wallet-providers"
 
 // todo, add support for more node providers, when available in lucid
 type NodeProvider = "blockfrost" | "blockfrost-proxy"
-type WalletProvider = "nami" | "eternl" | "ccvault" | "yoroi"
+type WalletProvider = "nami" | "eternl" | "gero" | "flint"
 
 export type UseCardanoNodeOptions = {
   provider?: NodeProvider
@@ -59,11 +59,12 @@ interface UseCardanoState {
 
 const useCardano = (options: UseCardanoOptions = {}): UseCardanoState => {
   const { defaultWalletProvider, node } = { ...defaultOptions, ...options }
+
   const walletProvider = useWalletProviders(defaultWalletProvider)
+  const { walletApi, error } = useWalletApi(walletProvider.current)
+  const { warning: networkWarning, networkId } = useNetworkId(walletApi)
 
   const [lucid, setLucid] = useState<Lucid>()
-  const { walletApi, error } = useWalletApi(walletProvider.current)
-  const networkId = useNetworkId(walletApi, walletProvider.current)
 
   const initializeLucid = useCallback(async () => {
     if (isNil(networkId) || isNil(walletApi)) return
@@ -102,20 +103,11 @@ const useCardano = (options: UseCardanoOptions = {}): UseCardanoState => {
 
   const warnings: UseCardanoWarning[] = []
 
-  if (walletProvider.current !== "nami") {
-    warnings.push({
-      type: "NO_LIVE_NETWORK_CHANGE",
-      message: `Live network change is not supported for the ${walletProvider.current} wallet provider`,
-    })
-
-    warnings.push({
-      type: "NO_LIVE_ACCOUNT_CHANGE",
-      message: `Live account change is not supported for the ${walletProvider.current} wallet provider`,
-    })
-  }
-
-  const account = useAccount(lucid, walletApi) //, walletProvider.current)
+  const account = useAccount(walletApi)
   const tx = useTransaction(lucid)
+
+  if (networkWarning) warnings.push(networkWarning)
+  if (account.warning) warnings.push(account.warning)
 
   const fullyInitialized =
     !isNil(lucid) && !isNil(networkId) && !isNil(walletApi) && !isNil(account)
