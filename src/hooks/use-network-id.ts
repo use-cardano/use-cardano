@@ -16,22 +16,16 @@ const useNetworkId = (walletApi?: WalletApi, currentWalletProvider?: WalletProvi
   useEffect(() => {
     if (!walletApi) return
 
-    walletApi.getNetworkId().then((newNetworkId) => {
-      onNetworkChange(newNetworkId)
+    walletApi.getNetworkId().then(onNetworkChange)
 
-      const listenersAvailable = isNil(walletApi.experimental?.on)
-
-      setWarning(
-        listenersAvailable
-          ? undefined
-          : {
-              type: "NO_LIVE_NETWORK_CHANGE",
-              message: `Live network change is not supported`,
-            }
-      )
-
-      if (listenersAvailable) walletApi.experimental.on("networkChange", onNetworkChange)
-    })
+    if (!isNil(walletApi.experimental?.on)) {
+      walletApi.experimental.on("networkChange", onNetworkChange)
+      setWarning(undefined)
+    } else
+      setWarning({
+        type: "NO_LIVE_NETWORK_CHANGE",
+        message: `Live network change is not supported`,
+      })
 
     return () => {
       if (!isNil(walletApi.experimental?.off))

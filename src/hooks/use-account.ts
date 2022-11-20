@@ -63,18 +63,14 @@ const useAccount = (walletApi?: WalletApi) => {
 
     updateAddresses()
 
-    const listenersAvailable = isNil(walletApi.experimental?.on)
-
-    setWarning(
-      listenersAvailable
-        ? undefined
-        : {
-            type: "NO_LIVE_ACCOUNT_CHANGE",
-            message: `Live account change is not supported`,
-          }
-    )
-
-    if (listenersAvailable) walletApi.experimental.on("accountChange", updateAddresses)
+    if (!isNil(walletApi.experimental?.on)) {
+      walletApi.experimental.on("accountChange", updateAddresses)
+      setWarning(undefined)
+    } else
+      setWarning({
+        type: "NO_LIVE_ACCOUNT_CHANGE",
+        message: `Live account change is not supported`,
+      })
 
     return () => {
       if (!isNil(walletApi.experimental?.off))
