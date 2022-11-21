@@ -17,8 +17,13 @@ const useWalletProviders = (defaultWalletProvider?: WalletProvider) => {
   const onWalletProviderChange = (provider: WalletProvider) => {
     setLoaded(false)
 
-    context.showToaster(`Connected to the ${provider} wallet provider`)
+    const text = `Connected to the ${provider} wallet provider`
+    const info =
+      provider === "nami"
+        ? undefined
+        : "Live account and network change is not supported. After changing account or network in the wallet extension, refresh the page."
 
+    context.showToaster(text, info)
     setWalletProvider(provider)
 
     if (timeout.current) clearTimeout(timeout.current)
@@ -41,9 +46,19 @@ const useWalletProviders = (defaultWalletProvider?: WalletProvider) => {
       )
 
       setAvailableProviders(providers)
-      const provider = providers.find((w) => w === defaultWalletProvider)
+      const connectedProvider = providers.find((w) => w === defaultWalletProvider)
 
-      if (provider) setWalletProvider(provider as WalletProvider)
+      // todo, configure if auto (re)connect
+      if (connectedProvider) {
+        setWalletProvider(connectedProvider as WalletProvider)
+        const text = `Connected to the ${connectedProvider} wallet provider`
+        const info =
+          connectedProvider === "nami"
+            ? undefined
+            : "Live account and network change is not supported. After changing account or network in the wallet extension, refresh the page."
+
+        context.showToaster(text, info)
+      }
     }, 10)
 
     return () => {

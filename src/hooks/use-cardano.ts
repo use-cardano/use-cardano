@@ -103,7 +103,7 @@ const useCardano = (options: UseCardanoOptions = {}): UseCardanoState => {
 
   const warnings: UseCardanoWarning[] = []
 
-  const account = useAccount(walletApi)
+  const account = useAccount(walletApi, networkId)
   const tx = useTransaction(lucid)
 
   if (networkWarning) warnings.push(networkWarning)

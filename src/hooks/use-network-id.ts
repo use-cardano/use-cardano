@@ -2,7 +2,7 @@ import { WalletProvider } from "hooks/use-cardano"
 import { isNil } from "lodash"
 import { WalletApi } from "lucid-cardano"
 import { useEffect, useState } from "react"
-import { UseCardanoWarning } from "warnings"
+import { noLiveNetworkChangeWarning, UseCardanoWarning } from "warnings"
 
 const useNetworkId = (walletApi?: WalletApi, currentWalletProvider?: WalletProvider) => {
   const [warning, setWarning] = useState<UseCardanoWarning>()
@@ -21,11 +21,7 @@ const useNetworkId = (walletApi?: WalletApi, currentWalletProvider?: WalletProvi
     if (!isNil(walletApi.experimental?.on)) {
       walletApi.experimental.on("networkChange", onNetworkChange)
       setWarning(undefined)
-    } else
-      setWarning({
-        type: "NO_LIVE_NETWORK_CHANGE",
-        message: `Live network change is not supported`,
-      })
+    } else setWarning(noLiveNetworkChangeWarning)
 
     return () => {
       if (!isNil(walletApi.experimental?.off))

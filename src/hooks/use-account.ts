@@ -1,108 +1,75 @@
 import { isNil } from "lodash"
-import { C, fromHex, WalletApi } from "lucid-cardano"
-import { useCallback, useEffect, useState } from "react"
+import { WalletApi } from "lucid-cardano"
+import { useCallback, useEffect, useRef, useState } from "react"
+import { hexArrayToAddress } from "lib/hex-array-to-address"
 
-import { UseCardanoWarning } from "../warnings"
+import { noLiveAccountChangeWarning, UseCardanoWarning } from "../warnings"
 
-const useAccount = (walletApi?: WalletApi) => {
+interface Account {
+  address?: string | null
+  unusedAddress?: string | null
+  rewardAddress?: string | null
+}
+
+const useAccount = (walletApi?: WalletApi, networkId?: number) => {
+  const loadedTimeout = useRef<NodeJS.Timeout>()
+
+  const [account, setAccount] = useState<Account>({})
   const [warning, setWarning] = useState<UseCardanoWarning>()
-  const [addressLoaded, setAddressLoaded] = useState(false)
-  const [address, setAddress] = useState<string | null>()
+  const [loaded, setLoaded] = useState(false)
 
-  const [unusedAddressLoaded, setUnusedAddressLoaded] = useState(false)
-  const [unusedAddress, setUnusedAddress] = useState<string | null>()
+  const updateAddresses = useCallback(async () => {
+    if (!walletApi || isNil(networkId)) return
 
-  const [rewardAddressLoaded, setRewardAddressLoaded] = useState(false)
-  const [rewardAddress, setRewardAddress] = useState<string | null>()
+    try {
+      const [address, unusedAddress, rewardAddress] = await Promise.all([
+        walletApi.getUsedAddresses().then(hexArrayToAddress),
+        walletApi.getUnusedAddresses().then(hexArrayToAddress),
+        walletApi.getRewardAddresses().then(hexArrayToAddress),
+      ])
 
-  const updateAddresses = useCallback(() => {
-    if (!walletApi) return
-
-    walletApi
-      .getUsedAddresses()
-      .then((usedAddresses) => {
-        if (usedAddresses.length > 0)
-          setAddress(C.Address.from_bytes(fromHex(usedAddresses[0])).to_bech32(undefined))
-        else setAddress(null)
+      setAccount({
+        address,
+        unusedAddress,
+        rewardAddress,
       })
-      .catch((e) => {
-        if (process.env.NODE_ENV === "development") console.error(e)
-        setAddress(null)
-      })
-      .finally(() => setAddressLoaded(true))
-
-    walletApi
-      .getUnusedAddresses()
-      .then((unusedAddresses) => {
-        if (unusedAddresses.length > 0)
-          setUnusedAddress(C.Address.from_bytes(fromHex(unusedAddresses[0])).to_bech32(undefined))
-        else setUnusedAddress(null)
-      })
-      .catch((e) => {
-        if (process.env.NODE_ENV === "development") console.error(e)
-        setUnusedAddress(null)
-      })
-      .finally(() => setUnusedAddressLoaded(true))
-
-    walletApi
-      .getRewardAddresses()
-      .then((rewardAddresses) => {
-        if (rewardAddresses.length > 0)
-          setRewardAddress(C.Address.from_bytes(fromHex(rewardAddresses[0])).to_bech32(undefined))
-        else setRewardAddress(null)
-      })
-      .catch((e) => {
-        if (process.env.NODE_ENV === "development") console.error(e)
-        setRewardAddress(null)
-      })
-      .finally(() => setRewardAddressLoaded(true))
-  }, [walletApi])
+    } catch (e) {
+      if (process.env.NODE_ENV === "development") console.error(e)
+    } finally {
+      setLoaded(true)
+    }
+  }, [walletApi, networkId])
 
   useEffect(() => {
     if (!walletApi) return
 
-    setAddress(null)
-    setUnusedAddress(null)
-    setRewardAddress(null)
+    if (loadedTimeout.current) clearTimeout(loadedTimeout.current)
 
-    setAddressLoaded(false)
-    setUnusedAddressLoaded(false)
-    setRewardAddressLoaded(false)
+    // only set loaded if the provider change actually takes time
+    loadedTimeout.current = setTimeout(() => setLoaded(false), 250)
 
-    updateAddresses()
+    updateAddresses().then(() => {
+      // cancel loaded timeout if the provider change was quick enough
+      if (loadedTimeout.current) clearTimeout(loadedTimeout.current)
 
-    if (!isNil(walletApi.experimental?.on)) {
-      walletApi.experimental.on("accountChange", updateAddresses)
-      setWarning(undefined)
-    } else
-      setWarning({
-        type: "NO_LIVE_ACCOUNT_CHANGE",
-        message: `Live account change is not supported`,
-      })
+      if (!isNil(walletApi.experimental?.on)) {
+        walletApi.experimental.on("accountChange", updateAddresses)
+        setWarning(undefined)
+      } else {
+        setWarning(noLiveAccountChangeWarning)
+      }
+    })
 
     return () => {
       if (!isNil(walletApi.experimental?.off))
         walletApi.experimental.off("accountChange", updateAddresses)
     }
-  }, [walletApi, updateAddresses])
-
-  const loaded = addressLoaded && unusedAddressLoaded && rewardAddressLoaded
-
-  if (!loaded)
-    return {
-      loaded,
-      warning,
-      address: null,
-      unusedAddress: null,
-      rewardAddress: null,
-    }
+  }, [walletApi, networkId, updateAddresses])
 
   return {
     loaded,
     warning,
-    address,
-    unusedAddress,
-    rewardAddress,
+    ...account,
   }
 }
 

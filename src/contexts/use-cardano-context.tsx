@@ -1,5 +1,4 @@
-import * as React from "react"
-import { PropsWithChildren, useReducer } from "react"
+import { createContext, PropsWithChildren, useContext, useReducer, useRef, useState } from "react"
 
 enum UseCardanoContextActionType {
   showToaster = "useCardano/showToaster",
@@ -10,37 +9,42 @@ enum UseCardanoContextActionType {
 interface UseCardanoContextAction {
   type: UseCardanoContextActionType
   text?: string
+  info?: string
 }
 
 interface UseCardanoState {
   toasterIsShowing: boolean
   text?: string
+  info?: string
 }
 
 interface UseCardanoContextState extends UseCardanoState {
-  showToaster: (text: string) => void
+  count: number
+  showToaster: (text: string, info?: string) => void
   hideToaster: () => void
 }
 
 const defaultState: UseCardanoState = {
   toasterIsShowing: false,
   text: "",
+  info: "",
 }
 
 const defaultContextState: UseCardanoContextState = {
   ...defaultState,
-  showToaster: (_: string) => {},
+  count: 0,
+  showToaster: (_: string, __?: string) => {},
   hideToaster: () => {},
 }
 
-const UseCardanoContext = React.createContext<UseCardanoContextState>(defaultContextState)
+const UseCardanoContext = createContext<UseCardanoContextState>(defaultContextState)
 
 const useCardanoContextReducer = (
   state: UseCardanoState,
-  { type, text }: UseCardanoContextAction
+  { type, text, info }: UseCardanoContextAction
 ) => {
   if (type === UseCardanoContextActionType.showToaster)
-    return { ...state, toasterIsShowing: true, text }
+    return { ...state, toasterIsShowing: true, text, info }
 
   if (type === UseCardanoContextActionType.hideToaster) return { ...state, toasterIsShowing: false }
 
@@ -51,10 +55,13 @@ const useCardanoContextReducer = (
 }
 
 const UseCardanoProvider = ({ children }: PropsWithChildren<{}>) => {
+  const [count, setCount] = useState(0)
   const [state, dispatch] = useReducer(useCardanoContextReducer, defaultState)
 
-  const showToaster = (text: string) =>
-    dispatch({ type: UseCardanoContextActionType.showToaster, text })
+  const showToaster = (text: string, info?: string) => {
+    setCount((c) => (c += 1))
+    dispatch({ type: UseCardanoContextActionType.showToaster, text, info })
+  }
 
   const hideToaster = () => dispatch({ type: UseCardanoContextActionType.hideToaster })
 
@@ -63,6 +70,8 @@ const UseCardanoProvider = ({ children }: PropsWithChildren<{}>) => {
       value={{
         toasterIsShowing: state.toasterIsShowing,
         text: state.text,
+        info: state.info,
+        count: count,
         showToaster,
         hideToaster,
       }}
@@ -73,7 +82,7 @@ const UseCardanoProvider = ({ children }: PropsWithChildren<{}>) => {
 }
 
 const useCardanoContext = () => {
-  const context = React.useContext(UseCardanoContext)
+  const context = useContext(UseCardanoContext)
 
   if (context === undefined)
     throw new Error("wrap your application in <UseCardanoProvider> to use useCardano components")
