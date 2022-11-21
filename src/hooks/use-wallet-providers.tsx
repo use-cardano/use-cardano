@@ -6,6 +6,13 @@ import { WalletProvider } from "./use-cardano"
 
 const supportedWalletProviders: WalletProvider[] = ["nami", "eternl", "gero", "flint"]
 
+const getText = (provider: WalletProvider) => `Connected to the ${provider} wallet provider`
+
+const getInfo = (provider: WalletProvider) =>
+  provider === "nami"
+    ? undefined
+    : `Live account and network change is not supported with ${provider}. After changing account or network in the wallet extension, refresh the page.`
+
 const useWalletProviders = (defaultWalletProvider?: WalletProvider) => {
   const timeout = useRef<NodeJS.Timeout>()
   const [loaded, setLoaded] = useState(false)
@@ -16,19 +23,16 @@ const useWalletProviders = (defaultWalletProvider?: WalletProvider) => {
 
   const onWalletProviderChange = (provider: WalletProvider) => {
     setLoaded(false)
+    setWalletProvider(provider)
 
-    const text = `Connected to the ${provider} wallet provider`
-    const info =
-      provider === "nami"
-        ? undefined
-        : "Live account and network change is not supported. After changing account or network in the wallet extension, refresh the page."
+    const text = getText(provider)
+    const info = getInfo(provider)
 
     context.showToaster(text, info)
-    setWalletProvider(provider)
 
     if (timeout.current) clearTimeout(timeout.current)
 
-    // NOTE: Give the selected wallets some time to load before enabling switching again
+    // give the selected wallets some time to load before enabling switching again
     timeout.current = setTimeout(() => {
       setLoaded(true)
     }, 1500)
@@ -46,16 +50,16 @@ const useWalletProviders = (defaultWalletProvider?: WalletProvider) => {
       )
 
       setAvailableProviders(providers)
-      const connectedProvider = providers.find((w) => w === defaultWalletProvider)
+      const connectedProvider = providers.find(
+        (w): w is WalletProvider => w === defaultWalletProvider
+      )
 
-      // todo, configure if auto (re)connect
+      // todo, configure if auto the wallet provider should auto-(re)connect
       if (connectedProvider) {
-        setWalletProvider(connectedProvider as WalletProvider)
-        const text = `Connected to the ${connectedProvider} wallet provider`
-        const info =
-          connectedProvider === "nami"
-            ? undefined
-            : "Live account and network change is not supported. After changing account or network in the wallet extension, refresh the page."
+        setWalletProvider(connectedProvider)
+
+        const text = getText(connectedProvider)
+        const info = getInfo(connectedProvider)
 
         context.showToaster(text, info)
       }
