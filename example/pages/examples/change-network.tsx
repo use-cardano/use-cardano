@@ -3,7 +3,7 @@ import { useCardano } from "use-cardano"
 
 const ChangeNetworkExamplePage = () => {
   const cardano = useCardano({
-    defaultWalletProvider: "nami",
+    defaultWalletProvider: "eternl",
     node: {
       provider: "blockfrost-proxy",
       proxyUrl: "/api/blockfrost",
@@ -34,7 +34,10 @@ const ChangeNetworkExamplePage = () => {
         <b>Current network</b>
       </div>
 
-      <div>{cardano.networkId}</div>
+      <div>
+        {cardano.networkId}{" "}
+        {cardano.networkId === 1 ? "(Mainnet)" : cardano.networkId === 0 ? "(Testnet)" : ""}
+      </div>
     </div>
   )
 }

@@ -61,6 +61,14 @@ const useAccount = (walletApi?: WalletApi) => {
   useEffect(() => {
     if (!walletApi) return
 
+    setAddress(null)
+    setUnusedAddress(null)
+    setRewardAddress(null)
+
+    setAddressLoaded(false)
+    setUnusedAddressLoaded(false)
+    setRewardAddressLoaded(false)
+
     updateAddresses()
 
     if (!isNil(walletApi.experimental?.on)) {

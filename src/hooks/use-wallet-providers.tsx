@@ -1,4 +1,5 @@
 import { WalletProviderSelector } from "components/WalletProviderSelector"
+import { useCardanoContext } from "contexts/use-cardano-context"
 import { useEffect, useMemo, useRef, useState } from "react"
 
 import { WalletProvider } from "./use-cardano"
@@ -11,8 +12,12 @@ const useWalletProviders = (defaultWalletProvider?: WalletProvider) => {
   const [availableProviders, setAvailableProviders] = useState<string[]>([])
   const [walletProvider, setWalletProvider] = useState<WalletProvider>()
 
+  const context = useCardanoContext()
+
   const onWalletProviderChange = (provider: WalletProvider) => {
     setLoaded(false)
+
+    context.showToaster(`Connected to the ${provider} wallet provider`)
 
     setWalletProvider(provider)
 

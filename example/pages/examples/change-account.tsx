@@ -12,6 +12,10 @@ const ChangeAccountExamplePage = () => {
 
   const warning = cardano.warnings.find((w) => w.type === "NO_LIVE_ACCOUNT_CHANGE")
 
+  const loadingContent = (address?: string | null) => (
+    <>{cardano.account.loaded ? <>{address || <br />}</> : <>Loading ...</>}</>
+  )
+
   return (
     <div className={styles.container}>
       <h1>Change Account example</h1>
@@ -30,33 +34,27 @@ const ChangeAccountExamplePage = () => {
 
       <br />
 
-      {cardano.account.loaded ? (
-        <>
-          <div>
-            <b>Current used address</b>
-          </div>
+      <div>
+        <b>Current used address</b>
+      </div>
 
-          <div>{cardano.account.address ? cardano.account.address : <br />}</div>
+      <div>{loadingContent(cardano.account.address)}</div>
 
-          <br />
+      <br />
 
-          <div>
-            <b>Current unused address</b>
-          </div>
+      <div>
+        <b>Current unused address</b>
+      </div>
 
-          <div>{cardano.account.unusedAddress ? cardano.account.unusedAddress : <br />}</div>
+      <div>{loadingContent(cardano.account.unusedAddress)}</div>
 
-          <br />
+      <br />
 
-          <div>
-            <b>Current reward address</b>
-          </div>
+      <div>
+        <b>Current reward address</b>
+      </div>
 
-          <div>{cardano.account.rewardAddress ? cardano.account.rewardAddress : <br />}</div>
-        </>
-      ) : (
-        <div>Loading account...</div>
-      )}
+      <div>{loadingContent(cardano.account.rewardAddress)}</div>
     </div>
   )
 }
