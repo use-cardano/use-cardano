@@ -1,54 +1,72 @@
 import { useCardanoContext } from "contexts/use-cardano-context"
-import { useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 
 export const WalletProviderToaster = () => {
   const { toasterIsShowing, count, text, info, hideToaster } = useCardanoContext()
 
+  const [progress, setProgress] = useState(0)
+  const [progressIsPaused, setProgressIsPaused] = useState(false)
+
   const openTimeout = useRef<NodeJS.Timeout>()
   const progressInterval = useRef<ReturnType<typeof setInterval>>()
-  const [progress, setProgress] = useState(0)
+
+  const pauseProgress = useCallback(() => setProgressIsPaused(true), [])
+  const resumeProgress = useCallback(() => setProgressIsPaused(false), [])
 
   useEffect(() => {
+    if (openTimeout.current) clearTimeout(openTimeout.current)
+
     if (progressInterval.current) {
       clearInterval(progressInterval.current)
       setProgress(0)
     }
+  }, [count])
+
+  useEffect(() => {
+    if (progressInterval.current) clearInterval(progressInterval.current)
 
     progressInterval.current = setInterval(() => {
-      if (progress > 100) {
-        setProgress(0)
-        clearInterval(progressInterval.current)
-      } else {
-        setProgress((p) => p + 0.1)
-      }
+      if (!progressIsPaused && progress <= 100) setProgress((p) => p + 0.1)
     }, 5000 / 1000)
 
     return () => {
-      if (progressInterval.current) {
-        clearInterval(progressInterval.current)
-        setProgress(0)
-      }
+      if (progressInterval.current) clearInterval(progressInterval.current)
     }
-  }, [count, toasterIsShowing])
+  }, [count, progressIsPaused])
 
   useEffect(() => {
+    if (progressIsPaused) {
+      if (openTimeout.current) clearTimeout(openTimeout.current)
+
+      return
+    }
+
     if (toasterIsShowing) {
       if (openTimeout.current) clearTimeout(openTimeout.current)
+
       openTimeout.current = setTimeout(() => {
-        setProgress(0)
-        clearInterval(progressInterval.current)
+        setTimeout(() => {
+          setProgress(0)
+          clearInterval(progressInterval.current)
+        }, 250)
+
         hideToaster()
-      }, 5000)
+      }, ((100 - progress) / 100) * 5000) // NOTE: Time remaining since last paused, or 5 seconds
     }
 
     return () => {
       if (openTimeout.current) clearTimeout(openTimeout.current)
     }
-  }, [count, toasterIsShowing])
+
+    // Would like to avoid having progress as a dependency, but it's needed to calculate the timeout
+  }, [count, toasterIsShowing, progress, progressIsPaused])
 
   return (
     <div
+      onMouseEnter={pauseProgress}
+      onMouseLeave={resumeProgress}
       style={{
+        userSelect: "none",
         zIndex: 1000,
         fontFamily: '"Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif',
         fontSize: "1.1rem",

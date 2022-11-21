@@ -70,6 +70,7 @@ export const WalletProviderSelector = (providers: Props) => {
           {providers.supported.map((provider, i) => {
             const installed = providers.available.includes(provider)
             const disabled = !installed || !providers.loaded
+            const isCurrent = provider === providers.current
 
             return (
               <li key={`use-cardano-provider-select-${provider}`}>
@@ -81,12 +82,13 @@ export const WalletProviderSelector = (providers: Props) => {
                     borderBottom: i === providers.supported.length - 1 ? undefined : "none",
                     borderRadius: i === providers.supported.length - 1 ? "0 0 4px 4px" : undefined,
                     color: installed ? undefined : "#ccc",
-                    cursor: installed ? "pointer" : undefined,
+                    cursor: installed && !isCurrent ? "pointer" : undefined,
                   }}
                   title={installed ? undefined : `${provider} extension is not installed`}
                   disabled={disabled}
                   onClick={() => {
-                    providers.setCurrent(provider)
+                    if (!isCurrent) providers.setCurrent(provider)
+
                     setOpen(false)
                   }}
                 >
