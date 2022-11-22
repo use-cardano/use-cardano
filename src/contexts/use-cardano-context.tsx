@@ -1,4 +1,5 @@
-import { createContext, PropsWithChildren, useContext, useReducer, useRef, useState } from "react"
+import { isNil } from "lodash"
+import { createContext, PropsWithChildren, useContext, useReducer, useState } from "react"
 
 enum UseCardanoContextActionType {
   showToaster = "useCardano/showToaster",
@@ -20,7 +21,7 @@ interface UseCardanoState {
 
 interface UseCardanoContextState extends UseCardanoState {
   count: number
-  showToaster: (text: string, info?: string) => void
+  showToaster: (text?: string, info?: string) => void
   hideToaster: () => void
 }
 
@@ -33,7 +34,7 @@ const defaultState: UseCardanoState = {
 const defaultContextState: UseCardanoContextState = {
   ...defaultState,
   count: 0,
-  showToaster: (_: string, __?: string) => {},
+  showToaster: (_?: string, __?: string) => {},
   hideToaster: () => {},
 }
 
@@ -43,8 +44,11 @@ const useCardanoContextReducer = (
   state: UseCardanoState,
   { type, text, info }: UseCardanoContextAction
 ) => {
-  if (type === UseCardanoContextActionType.showToaster)
+  if (type === UseCardanoContextActionType.showToaster) {
+    if (isNil(text) && isNil(info)) return { ...state, toasterIsShowing: true }
+
     return { ...state, toasterIsShowing: true, text, info }
+  }
 
   if (type === UseCardanoContextActionType.hideToaster) return { ...state, toasterIsShowing: false }
 
@@ -58,7 +62,7 @@ const UseCardanoProvider = ({ children }: PropsWithChildren<{}>) => {
   const [count, setCount] = useState(0)
   const [state, dispatch] = useReducer(useCardanoContextReducer, defaultState)
 
-  const showToaster = (text: string, info?: string) => {
+  const showToaster = (text?: string, info?: string) => {
     setCount((c) => (c += 1))
     dispatch({ type: UseCardanoContextActionType.showToaster, text, info })
   }
