@@ -19,7 +19,11 @@ const useAccount = (walletApi?: WalletApi, networkId?: number) => {
   const [loaded, setLoaded] = useState(false)
 
   const updateAddresses = useCallback(async () => {
-    if (!walletApi || isNil(networkId)) return
+    if (!walletApi || isNil(networkId)) {
+      setAccount({})
+
+      return
+    }
 
     try {
       const [address, unusedAddress, rewardAddress] = await Promise.all([
@@ -41,8 +45,6 @@ const useAccount = (walletApi?: WalletApi, networkId?: number) => {
   }, [walletApi, networkId])
 
   useEffect(() => {
-    if (!walletApi) return
-
     if (loadedTimeout.current) clearTimeout(loadedTimeout.current)
 
     // only set loaded if the provider change actually takes time
@@ -51,6 +53,8 @@ const useAccount = (walletApi?: WalletApi, networkId?: number) => {
     updateAddresses().then(() => {
       // cancel loaded timeout if the provider change was quick enough
       if (loadedTimeout.current) clearTimeout(loadedTimeout.current)
+
+      if (!walletApi) return
 
       if (!isNil(walletApi.experimental?.on)) {
         walletApi.experimental.on("accountChange", updateAddresses)
@@ -61,8 +65,8 @@ const useAccount = (walletApi?: WalletApi, networkId?: number) => {
     })
 
     return () => {
-      if (!isNil(walletApi.experimental?.off))
-        walletApi.experimental.off("accountChange", updateAddresses)
+      if (!isNil(walletApi?.experimental?.off))
+        walletApi?.experimental.off("accountChange", updateAddresses)
     }
   }, [walletApi, networkId, updateAddresses])
 

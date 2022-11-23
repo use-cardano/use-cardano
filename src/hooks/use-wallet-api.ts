@@ -46,6 +46,8 @@ const useWalletApi = (walletProvider?: WalletProvider) => {
             )
           else setError(new UseCardanoError("UNKNOWN", e.message))
         }
+
+        setWalletApi(undefined)
       })
   }, [walletProvider])
 
