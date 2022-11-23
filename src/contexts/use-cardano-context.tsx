@@ -1,38 +1,18 @@
-import { isNil } from "lodash"
-import { createContext, PropsWithChildren, useContext, useReducer, useState } from "react"
+import { createContext, PropsWithChildren, useCallback, useContext, useMemo, useState } from "react"
 
-enum UseCardanoContextActionType {
-  showToaster = "useCardano/showToaster",
-  hideToaster = "useCardano/hideToaster",
-}
-
-// An interface for our actions
-interface UseCardanoContextAction {
-  type: UseCardanoContextActionType
-  text?: string
-  info?: string
-}
-
-interface UseCardanoState {
+interface UseCardanoContextState {
   toasterIsShowing: boolean
   text?: string
   info?: string
-}
-
-interface UseCardanoContextState extends UseCardanoState {
   count: number
   showToaster: (text?: string, info?: string) => void
   hideToaster: () => void
 }
 
-const defaultState: UseCardanoState = {
+const defaultContextState: UseCardanoContextState = {
   toasterIsShowing: false,
   text: "",
   info: "",
-}
-
-const defaultContextState: UseCardanoContextState = {
-  ...defaultState,
   count: 0,
   showToaster: (_?: string, __?: string) => {},
   hideToaster: () => {},
@@ -40,42 +20,32 @@ const defaultContextState: UseCardanoContextState = {
 
 const UseCardanoContext = createContext<UseCardanoContextState>(defaultContextState)
 
-const useCardanoContextReducer = (
-  state: UseCardanoState,
-  { type, text, info }: UseCardanoContextAction
-) => {
-  if (type === UseCardanoContextActionType.showToaster) {
-    if (isNil(text) && isNil(info)) return { ...state, toasterIsShowing: true }
-
-    return { ...state, toasterIsShowing: true, text, info }
-  }
-
-  if (type === UseCardanoContextActionType.hideToaster) return { ...state, toasterIsShowing: false }
-
-  if (process.env.NODE_ENV === "development")
-    console.warn(`Unhandled action type in useCardanoContextReducer: ${type}`)
-
-  return state
-}
-
 const UseCardanoProvider = ({ children }: PropsWithChildren<{}>) => {
   const [count, setCount] = useState(0)
-  const [state, dispatch] = useReducer(useCardanoContextReducer, defaultState)
+  const [toasterIsShowingState, setToasterIsShowing] = useState(false)
+  const [textState, setText] = useState<string>()
+  const [infoState, setInfo] = useState<string>()
 
-  const showToaster = (text?: string, info?: string) => {
+  const showToaster = useCallback((text?: string, info?: string) => {
     setCount((c) => (c += 1))
-    dispatch({ type: UseCardanoContextActionType.showToaster, text, info })
-  }
+    setToasterIsShowing(true)
+    if (text) setText(text)
+    if (info) setInfo(info)
+  }, [])
 
-  const hideToaster = () => dispatch({ type: UseCardanoContextActionType.hideToaster })
+  const hideToaster = useCallback(() => setToasterIsShowing(false), [])
+
+  const toasterIsShowing = useMemo(() => toasterIsShowingState, [toasterIsShowingState])
+  const text = useMemo(() => textState, [textState])
+  const info = useMemo(() => infoState, [infoState])
 
   return (
     <UseCardanoContext.Provider
       value={{
-        toasterIsShowing: state.toasterIsShowing,
-        text: state.text,
-        info: state.info,
-        count: count,
+        toasterIsShowing,
+        text,
+        info,
+        count,
         showToaster,
         hideToaster,
       }}
