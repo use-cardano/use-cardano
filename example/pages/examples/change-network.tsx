@@ -12,6 +12,8 @@ const ChangeNetworkExamplePage = () => {
 
   const warning = cardano.warnings.find((w) => w.type === "NO_LIVE_NETWORK_CHANGE")
 
+  const { networkId } = cardano.context
+
   return (
     <div className={styles.container}>
       <h1>Change Network example</h1>
@@ -35,8 +37,7 @@ const ChangeNetworkExamplePage = () => {
       </div>
 
       <div>
-        {cardano.networkId}{" "}
-        {cardano.networkId === 1 ? "(Mainnet)" : cardano.networkId === 0 ? "(Testnet)" : ""}
+        {networkId} {networkId === 1 ? "(Mainnet)" : networkId === 0 ? "(Testnet)" : ""}
       </div>
     </div>
   )

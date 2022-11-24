@@ -6,12 +6,12 @@ import { WalletProvider } from "./use-cardano"
 
 const supportedWalletProviders: WalletProvider[] = ["nami", "eternl", "gero", "flint"]
 
-const getText = (provider: WalletProvider) => `Connected to the ${provider} wallet provider`
+const getText = (provider: WalletProvider) => `Connected to ${provider}`
 
 const getInfo = (provider: WalletProvider) =>
   provider === "nami"
-    ? undefined
-    : `Live account and network change is not supported with ${provider}. After changing account or network in the wallet extension, refresh the page.`
+    ? "Live account and network changes are supported."
+    : `Live account and network changes are not supported. After changing account or network in the wallet extension, refresh the page.`
 
 const useWalletProviders = (defaultWalletProvider?: WalletProvider) => {
   const [availableProviders, setAvailableProviders] = useState<string[]>([])

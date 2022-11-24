@@ -1,11 +1,10 @@
 import { useCardanoContext, UseCardanoContextState } from "contexts/use-cardano-context"
-import { getProvider } from "lib/get-provider"
 import { isNil } from "lodash"
 import { Lucid, WalletApi } from "lucid-cardano"
-import { useCallback, useEffect, useState } from "react"
 
 import { UseCardanoWarning } from "../warnings"
 import { useAccount } from "./use-account"
+import { useLucid } from "./use-lucid"
 import { useNetworkId } from "./use-network-id"
 import { useTransaction } from "./use-transaction"
 import { useWalletApi } from "./use-wallet-api"
@@ -47,8 +46,6 @@ interface UseCardanoState {
     walletApi?: WalletApi
     lucid?: Lucid
   }
-  networkId?: number
-  info: string[]
   warnings: UseCardanoWarning[]
   fullyInitialized: boolean
   account: ReturnType<typeof useAccount>
@@ -62,56 +59,30 @@ const useCardano = (options: UseCardanoOptions = {}): UseCardanoState => {
 
   const walletProvider = useWalletProviders(defaultWalletProvider)
   const { walletApi } = useWalletApi(walletProvider.current)
-  const { warning: networkWarning, networkId } = useNetworkId(walletApi)
 
-  const [lucid, setLucid] = useState<Lucid>()
-
-  const initializeLucid = useCallback(async () => {
-    if (isNil(networkId) || isNil(walletApi)) return
-
-    const provider = getProvider({ ...node, networkId })
-    const network = networkId === 0 ? "Testnet" : "Mainnet"
-
-    const updatedLucid = await (isNil(lucid)
-      ? Lucid.new(provider, network)
-      : lucid.switchProvider(provider, network))
-
-    const lucidWithWallet = updatedLucid.selectWallet(walletApi)
-
-    setLucid(lucidWithWallet)
-  }, [lucid, networkId, walletApi])
-
-  useEffect(() => {
-    initializeLucid()
-
-    // Do we need to un-initialize anything here?
-  }, [initializeLucid])
+  useNetworkId(walletApi)
 
   const warnings: UseCardanoWarning[] = []
 
   const account = useAccount(walletApi)
-  const tx = useTransaction(lucid)
 
-  if (networkWarning) warnings.push(networkWarning)
   if (account.warning) warnings.push(account.warning)
 
-  const fullyInitialized =
-    !isNil(lucid) && !isNil(networkId) && !isNil(walletApi) && !isNil(account)
-
   const context = useCardanoContext()
+
+  const lucid = useLucid(node, walletApi)
+
+  const tx = useTransaction(lucid)
+
+  const fullyInitialized =
+    !isNil(lucid) && !isNil(context.networkId) && !isNil(walletApi) && !isNil(account)
 
   return {
     __apis: {
       walletApi,
       lucid,
     },
-    networkId,
     warnings,
-    info: [
-      `Using the ${walletProvider.current} wallet provider.`,
-      `Using the ${node.provider} node provider.`,
-      `Connected to the ${networkId === 0 ? "Testnet" : "Mainnet"} network.`,
-    ],
     fullyInitialized,
     account,
     walletProvider,

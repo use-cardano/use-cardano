@@ -10,7 +10,10 @@ const TransactionExamplePage = () => {
     },
   })
 
-  const { tx } = cardano
+  const {
+    tx,
+    context: { walletApiError, networkId, accountError },
+  } = cardano
 
   const mainContent = (
     <>
@@ -92,31 +95,27 @@ const TransactionExamplePage = () => {
           ))}
         </>
       )}
-      {cardano.context.walletApiError && (
-        <>
-          <br />
+      {walletApiError ||
+        (accountError && (
+          <>
+            <br />
 
-          <div>Errors</div>
+            <div>Errors</div>
 
-          <div className={styles.info}>
-            <small>{cardano.context.walletApiError.message}</small>
-          </div>
-        </>
-      )}
-      {cardano.info.length > 0 && (
-        <>
-          <br />
+            {walletApiError && (
+              <div className={styles.info}>
+                <small>{walletApiError.message}</small>
+              </div>
+            )}
 
-          <div>Info</div>
-
-          {cardano.info.map((info, i) => (
-            <div key={`${i}.${info}`} className={styles.info}>
-              <small>{info}</small>
-            </div>
-          ))}
-        </>
-      )}
-      {cardano.networkId === 1 && (
+            {accountError && (
+              <div className={styles.info}>
+                <small>{accountError.message}</small>
+              </div>
+            )}
+          </>
+        ))}
+      {networkId === 1 && (
         <>
           <br />
           <div>

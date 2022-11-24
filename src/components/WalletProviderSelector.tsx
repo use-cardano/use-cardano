@@ -25,6 +25,7 @@ export const WalletProviderSelector = (providers: Props) => {
   return (
     <div
       style={{
+        userSelect: "none",
         display: "inline-block",
         position: "relative",
       }}

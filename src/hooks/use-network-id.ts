@@ -1,12 +1,11 @@
-import { WalletProvider } from "hooks/use-cardano"
+import { useCardanoContext } from "contexts/use-cardano-context"
 import { isNil } from "lodash"
 import { WalletApi } from "lucid-cardano"
-import { useEffect, useState } from "react"
-import { noLiveNetworkChangeWarning, UseCardanoWarning } from "warnings"
+import { useEffect } from "react"
+import { noLiveNetworkChangeWarning } from "warnings"
 
-const useNetworkId = (walletApi?: WalletApi, currentWalletProvider?: WalletProvider) => {
-  const [warning, setWarning] = useState<UseCardanoWarning>()
-  const [networkId, setNetworkId] = useState<number>()
+const useNetworkId = (walletApi?: WalletApi) => {
+  const { setNetworkId, setNetworkWarning } = useCardanoContext()
 
   const onNetworkChange = (newNetworkId: unknown) => {
     if (typeof newNetworkId === "number") setNetworkId(newNetworkId)
@@ -18,21 +17,17 @@ const useNetworkId = (walletApi?: WalletApi, currentWalletProvider?: WalletProvi
 
     walletApi.getNetworkId().then(onNetworkChange)
 
-    if (!isNil(walletApi.experimental?.on)) {
-      walletApi.experimental.on("networkChange", onNetworkChange)
-      setWarning(undefined)
-    } else setWarning(noLiveNetworkChangeWarning)
+    const hasEventListener =
+      !isNil(walletApi.experimental?.on) && !isNil(walletApi.experimental?.off)
+
+    setNetworkWarning(hasEventListener ? undefined : noLiveNetworkChangeWarning)
+
+    if (hasEventListener) walletApi.experimental.on("networkChange", onNetworkChange)
 
     return () => {
-      if (!isNil(walletApi.experimental?.off))
-        walletApi.experimental.off("networkChange", onNetworkChange)
+      if (hasEventListener) walletApi.experimental.off("networkChange", onNetworkChange)
     }
   }, [walletApi])
-
-  return {
-    warning,
-    networkId,
-  }
 }
 
 export { useNetworkId }

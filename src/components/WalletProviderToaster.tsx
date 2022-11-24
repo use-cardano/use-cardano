@@ -25,7 +25,7 @@ export const WalletProviderToaster = () => {
     openTimeout.current = setTimeout(() => {
       hideToaster()
       setIsManuallyOpen(false)
-    }, 3000)
+    }, 4000)
 
     return () => {
       if (openTimeout.current) clearTimeout(openTimeout.current)
