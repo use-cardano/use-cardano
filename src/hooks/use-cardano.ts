@@ -41,11 +41,6 @@ const defaultOptions: DefaultUseCardanoOptions = {
 }
 
 interface UseCardanoState {
-  __apis: {
-    walletApi?: WalletApi
-    lucid?: Lucid
-  }
-  fullyInitialized: boolean
   account: ReturnType<typeof useAccount>
   walletProvider: ReturnType<typeof useWalletProviders>
   tx: ReturnType<typeof useTransaction>
@@ -65,15 +60,7 @@ const useCardano = (options: UseCardanoOptions = {}): UseCardanoState => {
   const lucid = useLucid(node, walletApi)
   const tx = useTransaction(lucid)
 
-  const fullyInitialized =
-    !isNil(lucid) && !isNil(context.networkId) && !isNil(walletApi) && !isNil(account)
-
   return {
-    __apis: {
-      walletApi,
-      lucid,
-    },
-    fullyInitialized,
     account,
     walletProvider,
     tx,
