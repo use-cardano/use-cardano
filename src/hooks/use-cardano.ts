@@ -1,5 +1,4 @@
 import { useCardanoContext, UseCardanoContextState } from "contexts/use-cardano-context"
-import { UseCardanoError } from "error"
 import { getProvider } from "lib/get-provider"
 import { isNil } from "lodash"
 import { Lucid, WalletApi } from "lucid-cardano"
@@ -90,7 +89,7 @@ const useCardano = (options: UseCardanoOptions = {}): UseCardanoState => {
 
   const warnings: UseCardanoWarning[] = []
 
-  const account = useAccount(walletApi, networkId)
+  const account = useAccount(walletApi)
   const tx = useTransaction(lucid)
 
   if (networkWarning) warnings.push(networkWarning)

@@ -1,6 +1,6 @@
 import { WalletProviderSelector } from "components/WalletProviderSelector"
 import { useCardanoContext } from "contexts/use-cardano-context"
-import { useEffect, useMemo, useRef, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 
 import { WalletProvider } from "./use-cardano"
 
@@ -14,35 +14,24 @@ const getInfo = (provider: WalletProvider) =>
     : `Live account and network change is not supported with ${provider}. After changing account or network in the wallet extension, refresh the page.`
 
 const useWalletProviders = (defaultWalletProvider?: WalletProvider) => {
-  const timeout = useRef<NodeJS.Timeout>()
-  const [loaded, setLoaded] = useState(false)
   const [availableProviders, setAvailableProviders] = useState<string[]>([])
   const [walletProvider, setWalletProvider] = useState<WalletProvider>()
 
-  const context = useCardanoContext()
+  const { showToaster, setWalletProviderLoading } = useCardanoContext()
 
   const onWalletProviderChange = (provider: WalletProvider) => {
-    setLoaded(false)
+    setWalletProviderLoading(true)
     setWalletProvider(provider)
 
     const text = getText(provider)
     const info = getInfo(provider)
 
-    context.showToaster(text, info)
-
-    if (timeout.current) clearTimeout(timeout.current)
-
-    // give the selected wallets some time to load before enabling switching again
-    timeout.current = setTimeout(() => {
-      setLoaded(true)
-    }, 1500)
+    showToaster(text, info)
   }
 
   useEffect(() => {
     // give the browser a chance to load the extension and for it to inject itself into the window object
     const timeout = setTimeout(() => {
-      setLoaded(true)
-
       if (!window.cardano) return
 
       const providers = Object.keys(window.cardano).filter(
@@ -61,7 +50,7 @@ const useWalletProviders = (defaultWalletProvider?: WalletProvider) => {
         const text = getText(connectedProvider)
         const info = getInfo(connectedProvider)
 
-        context.showToaster(text, info)
+        showToaster(text, info)
       }
     }, 10)
 
@@ -77,7 +66,7 @@ const useWalletProviders = (defaultWalletProvider?: WalletProvider) => {
   }
 
   const Selector = useMemo(
-    () => <WalletProviderSelector {...state} setCurrent={onWalletProviderChange} loaded={loaded} />,
+    () => <WalletProviderSelector {...state} setCurrent={onWalletProviderChange} />,
     [state, setWalletProvider]
   )
 

@@ -1,25 +1,28 @@
+import { useCardanoContext } from "contexts/use-cardano-context"
+import { UseCardanoError } from "error"
+import { hexArrayToAddress } from "lib/hex-array-to-address"
 import { isNil } from "lodash"
 import { WalletApi } from "lucid-cardano"
 import { useCallback, useEffect, useRef, useState } from "react"
-import { hexArrayToAddress } from "lib/hex-array-to-address"
 
 import { noLiveAccountChangeWarning, UseCardanoWarning } from "../warnings"
 
 interface Account {
   address?: string | null
-  unusedAddress?: string | null
   rewardAddress?: string | null
 }
 
-const useAccount = (walletApi?: WalletApi, networkId?: number) => {
+const useAccount = (walletApi?: WalletApi) => {
   const loadedTimeout = useRef<NodeJS.Timeout>()
 
   const [account, setAccount] = useState<Account>({})
   const [warning, setWarning] = useState<UseCardanoWarning>()
   const [loaded, setLoaded] = useState(false)
 
+  const { setAccountError, setWalletProviderLoading } = useCardanoContext()
+
   const updateAddresses = useCallback(async () => {
-    if (!walletApi || isNil(networkId)) {
+    if (!walletApi) {
       setAccount({})
 
       return
@@ -32,17 +35,31 @@ const useAccount = (walletApi?: WalletApi, networkId?: number) => {
         walletApi.getRewardAddresses().then(hexArrayToAddress),
       ])
 
+      if (!address && !unusedAddress)
+        setAccountError(
+          new UseCardanoError(
+            "INVALID_WALLET",
+            "No addresses found in wallet. This is an unexpected error, please check your wallet."
+          )
+        )
+      else setAccountError(undefined)
+
       setAccount({
-        address,
-        unusedAddress,
+        address: address || unusedAddress,
         rewardAddress,
       })
     } catch (e) {
       if (process.env.NODE_ENV === "development") console.error(e)
+
+      if (e instanceof Error) setAccountError(new UseCardanoError("UNKNOWN", e.message))
     } finally {
       setLoaded(true)
+
+      // Note, this isn't the technically correct place to do this
+      // but from a UI point of view, it makes sense to do it here
+      setWalletProviderLoading(false)
     }
-  }, [walletApi, networkId])
+  }, [walletApi])
 
   useEffect(() => {
     if (loadedTimeout.current) clearTimeout(loadedTimeout.current)
@@ -57,6 +74,7 @@ const useAccount = (walletApi?: WalletApi, networkId?: number) => {
       if (!walletApi) return
 
       if (!isNil(walletApi.experimental?.on)) {
+        walletApi.experimental.on("networkChange", updateAddresses)
         walletApi.experimental.on("accountChange", updateAddresses)
         setWarning(undefined)
       } else {
@@ -65,10 +83,12 @@ const useAccount = (walletApi?: WalletApi, networkId?: number) => {
     })
 
     return () => {
-      if (!isNil(walletApi?.experimental?.off))
+      if (!isNil(walletApi?.experimental?.off)) {
+        walletApi?.experimental.off("networkChange", updateAddresses)
         walletApi?.experimental.off("accountChange", updateAddresses)
+      }
     }
-  }, [walletApi, networkId, updateAddresses])
+  }, [walletApi, updateAddresses])
 
   return {
     loaded,

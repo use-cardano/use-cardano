@@ -6,7 +6,8 @@ import { useEffect, useState } from "react"
 import { WalletProvider } from "./use-cardano"
 
 const useWalletApi = (walletProvider?: WalletProvider) => {
-  const { setWalletApiError } = useCardanoContext()
+  const { setWalletApiError, setWalletProviderLoading } = useCardanoContext()
+
   const [walletApi, setWalletApi] = useState<WalletApi>()
 
   useEffect(() => {
@@ -34,6 +35,7 @@ const useWalletApi = (walletProvider?: WalletProvider) => {
       })
       .catch((e) => {
         setWalletApi(undefined)
+        setWalletProviderLoading(false)
 
         if (e instanceof Error) {
           switch (e.message) {

@@ -1,10 +1,10 @@
+import { useCardanoContext } from "contexts/use-cardano-context"
 import { WalletProvider } from "hooks/use-cardano"
 import { useWalletProviders } from "hooks/use-wallet-providers"
 import { useState } from "react"
 
 interface Props extends Omit<ReturnType<typeof useWalletProviders>, "Selector"> {
   setCurrent: (walletProvider: WalletProvider) => void
-  loaded: boolean
 }
 
 const buttonStyle = {
@@ -20,6 +20,8 @@ const buttonStyle = {
 export const WalletProviderSelector = (providers: Props) => {
   const [open, setOpen] = useState(false)
 
+  const { walletProviderLoading } = useCardanoContext()
+
   return (
     <div
       style={{
@@ -28,11 +30,12 @@ export const WalletProviderSelector = (providers: Props) => {
       }}
     >
       <button
+        disabled={walletProviderLoading}
         style={{
           ...buttonStyle,
           minWidth: 150,
           borderRadius: open ? "4px 4px 0 0" : 4,
-          borderBottom: open ? "2px solid transparent" : undefined,
+          cursor: walletProviderLoading ? "wait" : "default",
         }}
         onClick={() => setOpen((wasOpen) => !wasOpen)}
       >
@@ -69,7 +72,6 @@ export const WalletProviderSelector = (providers: Props) => {
         >
           {providers.supported.map((provider, i) => {
             const installed = providers.available.includes(provider)
-            const disabled = !installed || !providers.loaded
             const isCurrent = provider === providers.current
 
             return (
@@ -85,11 +87,12 @@ export const WalletProviderSelector = (providers: Props) => {
                     cursor: installed && !isCurrent ? "pointer" : undefined,
                   }}
                   title={installed ? undefined : `${provider} extension is not installed`}
-                  disabled={disabled}
+                  disabled={!installed}
                   onClick={() => {
-                    if (!isCurrent) providers.setCurrent(provider)
-
-                    setOpen(false)
+                    if (!isCurrent) {
+                      providers.setCurrent(provider)
+                      setOpen(false)
+                    }
                   }}
                 >
                   {provider}

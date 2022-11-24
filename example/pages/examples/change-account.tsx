@@ -35,18 +35,10 @@ const ChangeAccountExamplePage = () => {
       <br />
 
       <div>
-        <b>Current used address</b>
+        <b>Current address</b>
       </div>
 
       <div>{loadingContent(cardano.account.address)}</div>
-
-      <br />
-
-      <div>
-        <b>Current unused address</b>
-      </div>
-
-      <div>{loadingContent(cardano.account.unusedAddress)}</div>
 
       <br />
 

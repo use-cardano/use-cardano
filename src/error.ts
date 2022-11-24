@@ -1,4 +1,4 @@
-export type USE_CARDANO_ERROR = "USER_REJECTED" | "NO_ACCOUNT_SET" | "NO_DAPP_CONNECTOR" | "UNKNOWN"
+export type USE_CARDANO_ERROR = "USER_REJECTED" | "NO_ACCOUNT_SET" | "NO_DAPP_CONNECTOR" | "INVALID_WALLET" | "UNKNOWN"
  
 export class UseCardanoError extends Error {
   type?: USE_CARDANO_ERROR
