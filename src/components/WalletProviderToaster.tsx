@@ -2,7 +2,8 @@ import { useCardanoContext } from "contexts/use-cardano-context"
 import { useEffect, useRef, useState } from "react"
 
 export const WalletProviderToaster = () => {
-  const { toasterIsShowing, count, text, info, hideToaster, showToaster } = useCardanoContext()
+  const { toasterIsShowing, count, text, info, hideToaster, showToaster, walletApiError } =
+    useCardanoContext()
 
   const [isManuallyOpen, setIsManuallyOpen] = useState(false)
 
@@ -16,7 +17,7 @@ export const WalletProviderToaster = () => {
     openTimeout.current = setTimeout(() => {
       hideToaster()
       setIsManuallyOpen(false)
-    }, 2000)
+    }, 3000)
 
     return () => {
       if (openTimeout.current) clearTimeout(openTimeout.current)
@@ -59,7 +60,7 @@ export const WalletProviderToaster = () => {
             setIsManuallyOpen(true)
           }}
         >
-          ℹ️
+          1
         </div>
       </div>
 
@@ -108,11 +109,23 @@ export const WalletProviderToaster = () => {
           </div>
 
           <div>
-            <div>{text || null}</div>
+            {walletApiError ? (
+              <div style={{ color: "red" }}>
+                <div>Unable to connect wallet provider</div>
 
-            <small>
-              <i>{info || null}</i>
-            </small>
+                <small>
+                  <i>{walletApiError.message}</i>
+                </small>
+              </div>
+            ) : (
+              <>
+                <div>{text || null}</div>
+
+                <small>
+                  <i>{info || null}</i>
+                </small>
+              </>
+            )}
           </div>
         </div>
       </div>

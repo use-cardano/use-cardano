@@ -1,5 +1,5 @@
 export { useCardano } from "./hooks/use-cardano"
 export { useTransaction } from "./hooks/use-transaction"
-export { UseCardanoProvider } from "./contexts/use-cardano-context"
+export { UseCardanoProvider as Provider } from "./contexts/use-cardano-context"
 export { Toaster } from "./components/Toaster"
 export type { WalletProvider } from "./hooks/use-cardano"

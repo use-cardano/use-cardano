@@ -1,3 +1,4 @@
+import { useCardanoContext, UseCardanoContextState } from "contexts/use-cardano-context"
 import { UseCardanoError } from "error"
 import { getProvider } from "lib/get-provider"
 import { isNil } from "lodash"
@@ -50,18 +51,18 @@ interface UseCardanoState {
   networkId?: number
   info: string[]
   warnings: UseCardanoWarning[]
-  errors: UseCardanoError[]
   fullyInitialized: boolean
   account: ReturnType<typeof useAccount>
   walletProvider: ReturnType<typeof useWalletProviders>
   tx: ReturnType<typeof useTransaction>
+  context: UseCardanoContextState
 }
 
 const useCardano = (options: UseCardanoOptions = {}): UseCardanoState => {
   const { defaultWalletProvider, node } = { ...defaultOptions, ...options }
 
   const walletProvider = useWalletProviders(defaultWalletProvider)
-  const { walletApi, error } = useWalletApi(walletProvider.current)
+  const { walletApi } = useWalletApi(walletProvider.current)
   const { warning: networkWarning, networkId } = useNetworkId(walletApi)
 
   const [lucid, setLucid] = useState<Lucid>()
@@ -87,20 +88,6 @@ const useCardano = (options: UseCardanoOptions = {}): UseCardanoState => {
     // Do we need to un-initialize anything here?
   }, [initializeLucid])
 
-  const errors = []
-
-  if (!isNil(error)) {
-    // todo, find out how to properly capture wallet errors that doesn't happen during connection
-    if (error.message === "user reject")
-      errors.push(
-        new UseCardanoError(
-          "USER_REJECTED",
-          "The user rejected the request to connect their wallet."
-        )
-      )
-    else errors.push(error)
-  }
-
   const warnings: UseCardanoWarning[] = []
 
   const account = useAccount(walletApi, networkId)
@@ -112,6 +99,8 @@ const useCardano = (options: UseCardanoOptions = {}): UseCardanoState => {
   const fullyInitialized =
     !isNil(lucid) && !isNil(networkId) && !isNil(walletApi) && !isNil(account)
 
+  const context = useCardanoContext()
+
   return {
     __apis: {
       walletApi,
@@ -119,7 +108,6 @@ const useCardano = (options: UseCardanoOptions = {}): UseCardanoState => {
     },
     networkId,
     warnings,
-    errors,
     info: [
       `Using the ${walletProvider.current} wallet provider.`,
       `Using the ${node.provider} node provider.`,
@@ -129,6 +117,7 @@ const useCardano = (options: UseCardanoOptions = {}): UseCardanoState => {
     account,
     walletProvider,
     tx,
+    context,
   }
 }
 

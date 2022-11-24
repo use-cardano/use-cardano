@@ -1,14 +1,14 @@
 import "../styles/styles.css"
 
 import type { AppProps } from 'next/app'
-import { UseCardanoProvider, Toaster } from "use-cardano"
+import * as UseCardano from "use-cardano"
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <UseCardanoProvider>
+    <UseCardano.Provider>
       <Component {...pageProps} />
 
-      <Toaster />
-    </UseCardanoProvider>
+      <UseCardano.Toaster />
+    </UseCardano.Provider>
   )
 }

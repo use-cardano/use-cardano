@@ -1,10 +1,13 @@
+import { UseCardanoError } from "error"
 import { createContext, PropsWithChildren, useCallback, useContext, useMemo, useState } from "react"
 
 interface UseCardanoContextState {
   toasterIsShowing: boolean
+  walletApiError?: UseCardanoError
   text?: string
   info?: string
   count: number
+  setWalletApiError: (error?: UseCardanoError) => void
   showToaster: (text?: string, info?: string) => void
   hideToaster: () => void
 }
@@ -13,8 +16,10 @@ const defaultContextState: UseCardanoContextState = {
   toasterIsShowing: false,
   text: "",
   info: "",
+  walletApiError: undefined,
   count: 0,
-  showToaster: (_?: string, __?: string) => {},
+  setWalletApiError: () => {},
+  showToaster: () => {},
   hideToaster: () => {},
 }
 
@@ -22,9 +27,14 @@ const UseCardanoContext = createContext<UseCardanoContextState>(defaultContextSt
 
 const UseCardanoProvider = ({ children }: PropsWithChildren<{}>) => {
   const [count, setCount] = useState(0)
+  const [walletApiErrorState, setWalletApiErrorState] = useState<UseCardanoError>()
   const [toasterIsShowingState, setToasterIsShowing] = useState(false)
   const [textState, setText] = useState<string>()
   const [infoState, setInfo] = useState<string>()
+
+  const setWalletApiError = useCallback((error?: UseCardanoError) => {
+    setWalletApiErrorState(error)
+  }, [])
 
   const showToaster = useCallback((text?: string, info?: string) => {
     setCount((c) => (c += 1))
@@ -36,6 +46,7 @@ const UseCardanoProvider = ({ children }: PropsWithChildren<{}>) => {
   const hideToaster = useCallback(() => setToasterIsShowing(false), [])
 
   const toasterIsShowing = useMemo(() => toasterIsShowingState, [toasterIsShowingState])
+  const walletApiError = useMemo(() => walletApiErrorState, [walletApiErrorState])
   const text = useMemo(() => textState, [textState])
   const info = useMemo(() => infoState, [infoState])
 
@@ -43,11 +54,13 @@ const UseCardanoProvider = ({ children }: PropsWithChildren<{}>) => {
     <UseCardanoContext.Provider
       value={{
         toasterIsShowing,
+        walletApiError,
         text,
         info,
         count,
         showToaster,
         hideToaster,
+        setWalletApiError,
       }}
     >
       {children}
@@ -64,4 +77,5 @@ const useCardanoContext = () => {
   return context
 }
 
+export type { UseCardanoContextState }
 export { UseCardanoProvider, useCardanoContext }

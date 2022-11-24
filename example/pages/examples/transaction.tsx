@@ -92,17 +92,15 @@ const TransactionExamplePage = () => {
           ))}
         </>
       )}
-      {cardano.errors.length > 0 && (
+      {cardano.context.walletApiError && (
         <>
           <br />
 
           <div>Errors</div>
 
-          {cardano.errors.map((error, i) => (
-            <div key={`${i}.${error.type}`} className={styles.info}>
-              <small>{error.message}</small>
-            </div>
-          ))}
+          <div className={styles.info}>
+            <small>{cardano.context.walletApiError.message}</small>
+          </div>
         </>
       )}
       {cardano.info.length > 0 && (
