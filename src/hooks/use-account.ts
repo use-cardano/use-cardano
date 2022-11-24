@@ -1,11 +1,10 @@
 import { useCardanoContext } from "contexts/use-cardano-context"
-import { UseCardanoError } from "error"
+import { UseCardanoError } from "lib/errors"
 import { hexArrayToAddress } from "lib/hex-array-to-address"
+import { noLiveAccountChangeWarning } from "lib/warnings"
 import { isNil } from "lodash"
 import { WalletApi } from "lucid-cardano"
 import { useCallback, useEffect, useRef, useState } from "react"
-
-import { noLiveAccountChangeWarning, UseCardanoWarning } from "../warnings"
 
 interface Account {
   address?: string | null
@@ -16,10 +15,9 @@ const useAccount = (walletApi?: WalletApi) => {
   const loadedTimeout = useRef<NodeJS.Timeout>()
 
   const [account, setAccount] = useState<Account>({})
-  const [warning, setWarning] = useState<UseCardanoWarning>()
   const [loaded, setLoaded] = useState(false)
 
-  const { setAccountError, setWalletProviderLoading } = useCardanoContext()
+  const { setAccountError, setAccountWarning, setWalletProviderLoading } = useCardanoContext()
 
   const updateAddresses = useCallback(async () => {
     if (!walletApi) {
@@ -76,9 +74,9 @@ const useAccount = (walletApi?: WalletApi) => {
       if (!isNil(walletApi.experimental?.on)) {
         walletApi.experimental.on("networkChange", updateAddresses)
         walletApi.experimental.on("accountChange", updateAddresses)
-        setWarning(undefined)
+        setAccountWarning(undefined)
       } else {
-        setWarning(noLiveAccountChangeWarning)
+        setAccountWarning(noLiveAccountChangeWarning)
       }
     })
 
@@ -92,7 +90,6 @@ const useAccount = (walletApi?: WalletApi) => {
 
   return {
     loaded,
-    warning,
     ...account,
   }
 }

@@ -10,7 +10,7 @@ const ChangeAccountExamplePage = () => {
     },
   })
 
-  const warning = cardano.warnings.find((w) => w.type === "NO_LIVE_ACCOUNT_CHANGE")
+  const { accountWarning: warning } = cardano.context
 
   const loadingContent = (address?: string | null) => (
     <>{cardano.account.loaded ? <>{address || <br />}</> : <>Loading ...</>}</>

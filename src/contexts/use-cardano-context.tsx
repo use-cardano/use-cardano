@@ -1,6 +1,6 @@
-import { UseCardanoError } from "error"
+import { UseCardanoError } from "lib/errors"
+import { UseCardanoWarning } from "lib/warnings"
 import { createContext, PropsWithChildren, useCallback, useContext, useMemo, useState } from "react"
-import { UseCardanoWarning } from "warnings"
 
 interface UseCardanoContextState {
   text?: string
@@ -14,6 +14,8 @@ interface UseCardanoContextState {
   setWalletApiError: (error?: UseCardanoError) => void
   accountError?: UseCardanoError
   setAccountError: (error?: UseCardanoError) => void
+  accountWarning?: UseCardanoWarning
+  setAccountWarning: (warning?: UseCardanoWarning) => void
   walletProviderLoading: boolean
   setWalletProviderLoading: (loading: boolean) => void
   toasterIsShowing: boolean
@@ -35,6 +37,8 @@ const defaultContextState: UseCardanoContextState = {
   setWalletApiError: noop,
   accountError: undefined,
   setAccountError: noop,
+  accountWarning: undefined,
+  setAccountWarning: noop,
   walletProviderLoading: false,
   setWalletProviderLoading: noop,
   toasterIsShowing: false,
@@ -69,6 +73,11 @@ const UseCardanoProvider = ({ children }: PropsWithChildren<{}>) => {
     setAccountErrorState(error)
   }, [])
 
+  const [accountWarningState, setAccountWarningState] = useState<UseCardanoWarning>()
+  const setAccountWarning = useCallback((warning?: UseCardanoWarning) => {
+    setAccountWarningState(warning)
+  }, [])
+
   const [walletProviderLoadingState, setWalletProviderLoadingState] = useState(false)
   const setWalletProviderLoading = useCallback((loading: boolean) => {
     setWalletProviderLoadingState(loading)
@@ -90,6 +99,7 @@ const UseCardanoProvider = ({ children }: PropsWithChildren<{}>) => {
   const networkWarning = useMemo(() => networkWarningState, [networkWarningState])
   const walletApiError = useMemo(() => walletApiErrorState, [walletApiErrorState])
   const accountError = useMemo(() => accountErrorState, [accountErrorState])
+  const accountWarning = useMemo(() => accountWarningState, [accountWarningState])
   const walletProviderLoading = useMemo(
     () => walletProviderLoadingState,
     [walletProviderLoadingState]
@@ -110,6 +120,8 @@ const UseCardanoProvider = ({ children }: PropsWithChildren<{}>) => {
         setWalletApiError,
         accountError,
         setAccountError,
+        accountWarning,
+        setAccountWarning,
         walletProviderLoading,
         setWalletProviderLoading,
         toasterIsShowing,

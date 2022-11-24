@@ -2,7 +2,6 @@ import { useCardanoContext, UseCardanoContextState } from "contexts/use-cardano-
 import { isNil } from "lodash"
 import { Lucid, WalletApi } from "lucid-cardano"
 
-import { UseCardanoWarning } from "../warnings"
 import { useAccount } from "./use-account"
 import { useLucid } from "./use-lucid"
 import { useNetworkId } from "./use-network-id"
@@ -46,7 +45,6 @@ interface UseCardanoState {
     walletApi?: WalletApi
     lucid?: Lucid
   }
-  warnings: UseCardanoWarning[]
   fullyInitialized: boolean
   account: ReturnType<typeof useAccount>
   walletProvider: ReturnType<typeof useWalletProviders>
@@ -57,21 +55,14 @@ interface UseCardanoState {
 const useCardano = (options: UseCardanoOptions = {}): UseCardanoState => {
   const { defaultWalletProvider, node } = { ...defaultOptions, ...options }
 
+  const context = useCardanoContext()
+
   const walletProvider = useWalletProviders(defaultWalletProvider)
   const { walletApi } = useWalletApi(walletProvider.current)
 
   useNetworkId(walletApi)
-
-  const warnings: UseCardanoWarning[] = []
-
   const account = useAccount(walletApi)
-
-  if (account.warning) warnings.push(account.warning)
-
-  const context = useCardanoContext()
-
   const lucid = useLucid(node, walletApi)
-
   const tx = useTransaction(lucid)
 
   const fullyInitialized =
@@ -82,7 +73,6 @@ const useCardano = (options: UseCardanoOptions = {}): UseCardanoState => {
       walletApi,
       lucid,
     },
-    warnings,
     fullyInitialized,
     account,
     walletProvider,

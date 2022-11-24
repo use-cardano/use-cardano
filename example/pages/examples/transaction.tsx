@@ -12,7 +12,7 @@ const TransactionExamplePage = () => {
 
   const {
     tx,
-    context: { walletApiError, networkId, accountError },
+    context: { networkId, walletApiError, accountError, networkWarning, accountWarning },
   } = cardano
 
   const mainContent = (
@@ -82,39 +82,46 @@ const TransactionExamplePage = () => {
 
       <br />
 
-      {cardano.warnings.length > 0 && (
+      {(accountWarning || networkWarning) && (
         <>
           <br />
 
           <div>Warnings</div>
 
-          {cardano.warnings.map((warning, i) => (
-            <div key={`${warning.type}.${i}`} className={styles.info}>
-              <small>{warning.message}</small>
+          {accountWarning && (
+            <div className={styles.info}>
+              <small>{accountWarning.message}</small>
             </div>
-          ))}
+          )}
+
+          {networkWarning && (
+            <div className={styles.info}>
+              <small>{networkWarning.message}</small>
+            </div>
+          )}
         </>
       )}
-      {walletApiError ||
-        (accountError && (
-          <>
-            <br />
 
-            <div>Errors</div>
+      {(walletApiError || accountError) && (
+        <>
+          <br />
 
-            {walletApiError && (
-              <div className={styles.info}>
-                <small>{walletApiError.message}</small>
-              </div>
-            )}
+          <div>Errors</div>
 
-            {accountError && (
-              <div className={styles.info}>
-                <small>{accountError.message}</small>
-              </div>
-            )}
-          </>
-        ))}
+          {walletApiError && (
+            <div className={styles.info}>
+              <small>{walletApiError.message}</small>
+            </div>
+          )}
+
+          {accountError && (
+            <div className={styles.info}>
+              <small>{accountError.message}</small>
+            </div>
+          )}
+        </>
+      )}
+
       {networkId === 1 && (
         <>
           <br />

@@ -1,5 +1,5 @@
 import { useCardanoContext } from "contexts/use-cardano-context"
-import { UseCardanoError } from "error"
+import { UseCardanoError } from "lib/errors"
 import { WalletApi } from "lucid-cardano"
 import { useEffect, useState } from "react"
 
