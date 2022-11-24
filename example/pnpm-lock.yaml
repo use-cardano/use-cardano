@@ -5,7 +5,7 @@ specifiers:
   '@types/react-dom': 18.0.8
   eslint: 8.26.0
   eslint-config-next: 13.0.2
-  lucid-cardano: ^0.7.3
+  lucid-cardano: 0.7.8
   next: 13.0.2
   next-http-proxy-middleware: ^1.2.5
   react: 18.2.0
@@ -18,7 +18,7 @@ dependencies:
   '@types/react-dom': 18.0.8
   eslint: 8.26.0
   eslint-config-next: 13.0.2_wyqvi574yv7oiwfeinomdzmc3m
-  lucid-cardano: 0.7.3
+  lucid-cardano: 0.7.8
   next: 13.0.2_biqbaboplfbrettd7655fr4n2y
   next-http-proxy-middleware: 1.2.5
   react: 18.2.0
@@ -1409,8 +1409,8 @@ packages:
       yallist: 4.0.0
     dev: false
 
-  /lucid-cardano/0.7.3:
-    resolution: {integrity: sha512-egXJr/1+Ga1LNqxmarpOD+Lct1nCmQr+Iic4i9Hm+mvYiXdTH0ov/Lr1uZPfo7TlfhFqpIPph9uU9aj0Jkjdhg==}
+  /lucid-cardano/0.7.8:
+    resolution: {integrity: sha512-R65MyBx497FvdAJsJxnYxz/jvyakBDGVpce74l6i9MGh2Pgi4IaIALyPibWUqVKMEW65e4CYIsbWFrvcVeu3rw==}
     engines: {node: '>=14'}
     dependencies:
       '@peculiar/webcrypto': 1.4.1

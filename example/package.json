@@ -13,7 +13,7 @@
     "@types/react-dom": "18.0.8",
     "eslint": "8.26.0",
     "eslint-config-next": "13.0.2",
-    "lucid-cardano": "^0.7.3",
+    "lucid-cardano": "0.7.8",
     "next": "13.0.2",
     "next-http-proxy-middleware": "^1.2.5",
     "react": "18.2.0",

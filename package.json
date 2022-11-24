@@ -14,7 +14,7 @@
   "author": "Jesper Tullberg",
   "license": "ISC",
   "peerDependencies": {
-    "lucid-cardano": "0.7.1",
+    "lucid-cardano": "0.7.8",
     "react": "^18.2.0"
   },
   "devDependencies": {
