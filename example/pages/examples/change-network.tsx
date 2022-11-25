@@ -10,9 +10,7 @@ const ChangeNetworkExamplePage = () => {
     },
   })
 
-  const warning = cardano.warnings.find((w) => w.type === "NO_LIVE_NETWORK_CHANGE")
-
-  const { networkId } = cardano.context
+  const { networkId, networkWarning: warning } = cardano.context
 
   return (
     <div className={styles.container}>
