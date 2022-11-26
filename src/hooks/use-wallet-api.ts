@@ -3,10 +3,8 @@ import { UseCardanoError } from "lib/errors"
 import { WalletApi } from "lucid-cardano"
 import { useEffect, useState } from "react"
 
-import { WalletProvider } from "./use-cardano"
-
-const useWalletApi = (walletProvider?: WalletProvider) => {
-  const { setWalletApiError, setWalletProviderLoading } = useCardanoContext()
+const useWalletApi = () => {
+  const { walletProvider, setWalletApiError, setWalletApiLoading } = useCardanoContext()
 
   const [walletApi, setWalletApi] = useState<WalletApi>()
 
@@ -35,7 +33,7 @@ const useWalletApi = (walletProvider?: WalletProvider) => {
       })
       .catch((e) => {
         setWalletApi(undefined)
-        setWalletProviderLoading(false)
+        setWalletApiLoading(false)
 
         if (e instanceof Error) {
           switch (e.message) {

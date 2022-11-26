@@ -1,5 +1,5 @@
 import styles from "styles/index.module.css"
-import { useCardano } from "use-cardano"
+import { supportedWalletProviders, useCardano, WalletProviderSelector } from "use-cardano"
 
 const WalletProviderSelectExamplePage = () => {
   const cardano = useCardano({
@@ -10,6 +10,8 @@ const WalletProviderSelectExamplePage = () => {
     },
   })
 
+  const { walletProvider, availableProviders } = cardano.context
+
   return (
     <div
       style={{
@@ -18,21 +20,21 @@ const WalletProviderSelectExamplePage = () => {
       }}
     >
       <div className={styles.container}>
-        <div>{cardano.walletProvider.Selector}</div>
-
-        <br />
-
-        <div>Selected wallet: {cardano.walletProvider.current}</div>
-
-        <br />
-
-        <div>Installed wallet extensions: {cardano.walletProvider.available.join(", ")}</div>
-
-        <br />
-
         <div>
-          Wallet extensions supported by use-cardano: {cardano.walletProvider.supported.join(", ")}
+          <WalletProviderSelector />
         </div>
+
+        <br />
+
+        <div>Selected wallet: {walletProvider}</div>
+
+        <br />
+
+        <div>Installed wallet extensions: {availableProviders.join(", ")}</div>
+
+        <br />
+
+        <div>Wallet extensions supported by use-cardano: {supportedWalletProviders.join(", ")}</div>
       </div>
     </div>
   )

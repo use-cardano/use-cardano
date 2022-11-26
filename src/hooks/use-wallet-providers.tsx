@@ -1,33 +1,10 @@
-import { WalletProviderSelector } from "components/WalletProviderSelector"
 import { useCardanoContext } from "contexts/use-cardano-context"
-import { useEffect, useMemo, useState } from "react"
-
-import { WalletProvider } from "./use-cardano"
-
-const supportedWalletProviders: WalletProvider[] = ["nami", "eternl", "gero", "flint"]
-
-const getText = (provider: WalletProvider) => `Connected to ${provider}`
-
-const getInfo = (provider: WalletProvider) =>
-  provider === "nami"
-    ? "Live account and network changes are supported."
-    : `Live account and network changes are not supported. After changing account or network in the wallet extension, refresh the page.`
+import { WalletProvider } from "hooks/use-cardano"
+import { getInfo, getText } from "lib/get-toaster-texts"
+import { useEffect } from "react"
 
 const useWalletProviders = (defaultWalletProvider?: WalletProvider) => {
-  const [availableProviders, setAvailableProviders] = useState<string[]>([])
-  const [walletProvider, setWalletProvider] = useState<WalletProvider>()
-
-  const { showToaster, setWalletProviderLoading } = useCardanoContext()
-
-  const onWalletProviderChange = (provider: WalletProvider) => {
-    setWalletProviderLoading(true)
-    setWalletProvider(provider)
-
-    const text = getText(provider)
-    const info = getInfo(provider)
-
-    showToaster(text, info)
-  }
+  const { showToaster, setWalletProvider, setAvailableProviders } = useCardanoContext()
 
   useEffect(() => {
     // give the browser a chance to load the extension and for it to inject itself into the window object
@@ -58,22 +35,6 @@ const useWalletProviders = (defaultWalletProvider?: WalletProvider) => {
       clearTimeout(timeout)
     }
   }, [])
-
-  const state = {
-    supported: supportedWalletProviders.sort(),
-    available: availableProviders.sort(),
-    current: walletProvider,
-  }
-
-  const Selector = useMemo(
-    () => <WalletProviderSelector {...state} setCurrent={onWalletProviderChange} />,
-    [state, setWalletProvider]
-  )
-
-  return {
-    ...state,
-    Selector,
-  }
 }
 
 export { useWalletProviders }

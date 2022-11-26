@@ -1,3 +1,4 @@
+import { WalletProvider } from "hooks/use-cardano"
 import { UseCardanoError } from "lib/errors"
 import { UseCardanoWarning } from "lib/warnings"
 import { createContext, PropsWithChildren, useCallback, useContext, useMemo, useState } from "react"
@@ -16,8 +17,12 @@ interface UseCardanoContextState {
   setAccountError: (error?: UseCardanoError) => void
   accountWarning?: UseCardanoWarning
   setAccountWarning: (warning?: UseCardanoWarning) => void
-  walletProviderLoading: boolean
-  setWalletProviderLoading: (loading: boolean) => void
+  walletApiLoading: boolean
+  setWalletApiLoading: (loading: boolean) => void
+  walletProvider?: WalletProvider
+  setWalletProvider: (walletProvider: WalletProvider) => void
+  availableProviders: string[]
+  setAvailableProviders: (availableProviders: string[]) => void
   toasterIsShowing: boolean
   showToaster: (text?: string, info?: string) => void
   hideToaster: () => void
@@ -39,8 +44,12 @@ const defaultContextState: UseCardanoContextState = {
   setAccountError: noop,
   accountWarning: undefined,
   setAccountWarning: noop,
-  walletProviderLoading: false,
-  setWalletProviderLoading: noop,
+  walletApiLoading: false,
+  setWalletApiLoading: noop,
+  walletProvider: undefined,
+  setWalletProvider: noop,
+  availableProviders: [],
+  setAvailableProviders: noop,
   toasterIsShowing: false,
   showToaster: noop,
   hideToaster: noop,
@@ -53,37 +62,40 @@ const UseCardanoProvider = ({ children }: PropsWithChildren<{}>) => {
   const [textState, setText] = useState<string>()
   const [infoState, setInfo] = useState<string>()
 
+  const [walletProviderState, setWalletProviderState] = useState<WalletProvider>()
+  const walletProvider = useMemo(() => walletProviderState, [walletProviderState])
+  const setWalletProvider = useCallback(setWalletProviderState, [])
+
   const [networkIdState, setNetworkIdState] = useState<number>()
-  const setNetworkId = useCallback((networkId: number) => {
-    setNetworkIdState(networkId)
-  }, [])
+  const networkId = useMemo(() => networkIdState, [networkIdState])
+  const setNetworkId = useCallback(setNetworkIdState, [])
 
   const [networkWarningState, setNetworkWarningState] = useState<UseCardanoWarning>()
-  const setNetworkWarning = useCallback((warning?: UseCardanoWarning) => {
-    setNetworkWarningState(warning)
-  }, [])
+  const networkWarning = useMemo(() => networkWarningState, [networkWarningState])
+  const setNetworkWarning = useCallback(setNetworkWarningState, [])
 
   const [walletApiErrorState, setWalletApiErrorState] = useState<UseCardanoError>()
-  const setWalletApiError = useCallback((error?: UseCardanoError) => {
-    setWalletApiErrorState(error)
-  }, [])
+  const walletApiError = useMemo(() => walletApiErrorState, [walletApiErrorState])
+  const setWalletApiError = useCallback(setWalletApiErrorState, [])
+
+  const [availableProvidersState, setAvailableProvidersState] = useState<string[]>([])
+  const availableProviders = useMemo(() => availableProvidersState, [availableProvidersState])
+  const setAvailableProviders = useCallback(setAvailableProvidersState, [])
 
   const [accountErrorState, setAccountErrorState] = useState<UseCardanoError>()
-  const setAccountError = useCallback((error?: UseCardanoError) => {
-    setAccountErrorState(error)
-  }, [])
+  const accountError = useMemo(() => accountErrorState, [accountErrorState])
+  const setAccountError = useCallback(setAccountErrorState, [])
 
   const [accountWarningState, setAccountWarningState] = useState<UseCardanoWarning>()
-  const setAccountWarning = useCallback((warning?: UseCardanoWarning) => {
-    setAccountWarningState(warning)
-  }, [])
+  const accountWarning = useMemo(() => accountWarningState, [accountWarningState])
+  const setAccountWarning = useCallback(setAccountWarningState, [])
 
-  const [walletProviderLoadingState, setWalletProviderLoadingState] = useState(false)
-  const setWalletProviderLoading = useCallback((loading: boolean) => {
-    setWalletProviderLoadingState(loading)
-  }, [])
+  const [walletApiLoadingState, setWalletApiLoadingState] = useState(false)
+  const walletApiLoading = useMemo(() => walletApiLoadingState, [walletApiLoadingState])
+  const setWalletApiLoading = useCallback(setWalletApiLoadingState, [])
 
   const [toasterIsShowingState, setToasterIsShowing] = useState(false)
+  const toasterIsShowing = useMemo(() => toasterIsShowingState, [toasterIsShowingState])
   const showToaster = useCallback((text?: string, info?: string) => {
     setCount((c) => (c += 1))
     setToasterIsShowing(true)
@@ -95,16 +107,6 @@ const UseCardanoProvider = ({ children }: PropsWithChildren<{}>) => {
 
   const text = useMemo(() => textState, [textState])
   const info = useMemo(() => infoState, [infoState])
-  const networkId = useMemo(() => networkIdState, [networkIdState])
-  const networkWarning = useMemo(() => networkWarningState, [networkWarningState])
-  const walletApiError = useMemo(() => walletApiErrorState, [walletApiErrorState])
-  const accountError = useMemo(() => accountErrorState, [accountErrorState])
-  const accountWarning = useMemo(() => accountWarningState, [accountWarningState])
-  const walletProviderLoading = useMemo(
-    () => walletProviderLoadingState,
-    [walletProviderLoadingState]
-  )
-  const toasterIsShowing = useMemo(() => toasterIsShowingState, [toasterIsShowingState])
 
   return (
     <UseCardanoContext.Provider
@@ -122,8 +124,12 @@ const UseCardanoProvider = ({ children }: PropsWithChildren<{}>) => {
         setAccountError,
         accountWarning,
         setAccountWarning,
-        walletProviderLoading,
-        setWalletProviderLoading,
+        walletApiLoading,
+        setWalletApiLoading,
+        walletProvider,
+        setWalletProvider,
+        availableProviders,
+        setAvailableProviders,
         toasterIsShowing,
         showToaster,
         hideToaster,

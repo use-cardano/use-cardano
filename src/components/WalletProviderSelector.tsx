@@ -1,11 +1,8 @@
+import { supportedWalletProviders as allProviders } from "constants/supported-wallet-providers"
 import { useCardanoContext } from "contexts/use-cardano-context"
 import { WalletProvider } from "hooks/use-cardano"
-import { useWalletProviders } from "hooks/use-wallet-providers"
+import { getInfo, getText } from "lib/get-toaster-texts"
 import { useState } from "react"
-
-interface Props extends Omit<ReturnType<typeof useWalletProviders>, "Selector"> {
-  setCurrent: (walletProvider: WalletProvider) => void
-}
 
 const buttonStyle = {
   display: "flex",
@@ -17,10 +14,27 @@ const buttonStyle = {
   fontSize: "1.25rem",
 }
 
-export const WalletProviderSelector = (providers: Props) => {
+export const WalletProviderSelector = () => {
   const [open, setOpen] = useState(false)
 
-  const { walletProviderLoading } = useCardanoContext()
+  const {
+    availableProviders,
+    walletApiLoading,
+    walletProvider,
+    setWalletApiLoading,
+    setWalletProvider,
+    showToaster,
+  } = useCardanoContext()
+
+  const onWalletProviderChange = (provider: WalletProvider) => {
+    setWalletApiLoading(true)
+    setWalletProvider(provider)
+
+    const text = getText(provider)
+    const info = getInfo(provider)
+
+    showToaster(text, info)
+  }
 
   return (
     <div
@@ -31,12 +45,12 @@ export const WalletProviderSelector = (providers: Props) => {
       }}
     >
       <button
-        disabled={walletProviderLoading}
+        disabled={walletApiLoading}
         style={{
           ...buttonStyle,
           minWidth: 150,
           borderRadius: open ? "4px 4px 0 0" : 4,
-          cursor: walletProviderLoading ? "wait" : "default",
+          cursor: walletApiLoading ? "wait" : "default",
         }}
         onClick={() => setOpen((wasOpen) => !wasOpen)}
       >
@@ -56,7 +70,7 @@ export const WalletProviderSelector = (providers: Props) => {
             width: "100%",
           }}
         >
-          {providers.current ? providers.current : "Select Wallet"}
+          {walletProvider || "Select Wallet"}
         </div>
       </button>
 
@@ -71,9 +85,9 @@ export const WalletProviderSelector = (providers: Props) => {
             width: "100%",
           }}
         >
-          {providers.supported.map((provider, i) => {
-            const installed = providers.available.includes(provider)
-            const isCurrent = provider === providers.current
+          {allProviders.sort().map((provider, i) => {
+            const installed = availableProviders.includes(provider)
+            const isCurrent = provider === walletProvider
 
             return (
               <li key={`use-cardano-provider-select-${provider}`}>
@@ -82,8 +96,8 @@ export const WalletProviderSelector = (providers: Props) => {
                     ...buttonStyle,
                     borderTop: "none",
                     width: "100%",
-                    borderBottom: i === providers.supported.length - 1 ? undefined : "none",
-                    borderRadius: i === providers.supported.length - 1 ? "0 0 4px 4px" : undefined,
+                    borderBottom: i === allProviders.length - 1 ? undefined : "none",
+                    borderRadius: i === allProviders.length - 1 ? "0 0 4px 4px" : undefined,
                     color: installed ? undefined : "#ccc",
                     cursor: installed && !isCurrent ? "pointer" : undefined,
                   }}
@@ -91,7 +105,7 @@ export const WalletProviderSelector = (providers: Props) => {
                   disabled={!installed}
                   onClick={() => {
                     if (!isCurrent) {
-                      providers.setCurrent(provider)
+                      onWalletProviderChange(provider)
                       setOpen(false)
                     }
                   }}

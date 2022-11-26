@@ -17,7 +17,7 @@ const useAccount = (walletApi?: WalletApi) => {
   const [account, setAccount] = useState<Account>({})
   const [loaded, setLoaded] = useState(false)
 
-  const { setAccountError, setAccountWarning, setWalletProviderLoading } = useCardanoContext()
+  const { setAccountError, setAccountWarning, setWalletApiLoading } = useCardanoContext()
 
   const updateAddresses = useCallback(async () => {
     if (!walletApi) {
@@ -55,7 +55,7 @@ const useAccount = (walletApi?: WalletApi) => {
 
       // Note, this isn't the technically correct place to do this
       // but from a UI point of view, it makes sense to do it here
-      setWalletProviderLoading(false)
+      setWalletApiLoading(false)
     }
   }, [walletApi])
 

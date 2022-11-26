@@ -1,5 +1,5 @@
 import styles from "styles/index.module.css"
-import { useCardano } from "use-cardano"
+import { useCardano, WalletProviderSelector } from "use-cardano"
 
 const TransactionExamplePage = () => {
   const cardano = useCardano({
@@ -78,7 +78,9 @@ const TransactionExamplePage = () => {
 
   const header = (
     <div>
-      {cardano.walletProvider.Selector}
+      <div>
+        <WalletProviderSelector />
+      </div>
 
       <br />
 
