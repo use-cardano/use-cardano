@@ -6,7 +6,7 @@
 
 ### Release Timeline
 
-I am aiming for an initial beta (as in a functional and stable solution with a finalized API release before end-of-year 2022. I think this is realistic. Please see [this issue](https://github.com/GGAlanSmithee/use-cardano/issues/7) for what is left to do.
+I am aiming for an initial beta (as in a functional and stable solution with a finalized API) release before end-of-year 2022. I think this is realistic. Please see [this issue](https://github.com/GGAlanSmithee/use-cardano/issues/7) for what is left to do.
 
 ## At a glance
 
