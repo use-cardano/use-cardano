@@ -1,10 +1,13 @@
 import { useCardanoContext } from "contexts/use-cardano-context"
 import { UseCardanoError } from "lib/errors"
+import { getInfo, getText } from "lib/get-toaster-texts"
+import { isNil } from "lodash"
 import { WalletApi } from "lucid-cardano"
 import { useEffect, useState } from "react"
 
 const useWalletApi = () => {
-  const { walletProvider, setWalletApiError, setWalletApiLoading } = useCardanoContext()
+  const { walletProvider, setWalletApiError, setWalletApiLoading, showToaster } =
+    useCardanoContext()
 
   const [walletApi, setWalletApi] = useState<WalletApi>()
 
@@ -35,6 +38,19 @@ const useWalletApi = () => {
         setWalletApi(undefined)
         setWalletApiLoading(false)
 
+        // Note, at least Nami uses a code for different type of errors
+        if (!isNil(e.code)) {
+          switch (e.code) {
+            case -3: // user rejected request to connect wallet
+              setWalletApiError(
+                new UseCardanoError("USER_REJECTED", "Request to connect wallet rejected.")
+              )
+              break
+          }
+
+          return
+        }
+
         if (e instanceof Error) {
           switch (e.message) {
             case "user reject":
@@ -55,6 +71,12 @@ const useWalletApi = () => {
               break
           }
         }
+      })
+      .finally(() => {
+        const text = getText(walletProvider)
+        const info = getInfo(walletProvider)
+
+        showToaster(text, info)
       })
   }, [walletProvider])
 

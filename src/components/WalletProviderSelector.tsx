@@ -1,7 +1,6 @@
 import { supportedWalletProviders as allProviders } from "constants/supported-wallet-providers"
 import { useCardanoContext } from "contexts/use-cardano-context"
 import { WalletProvider } from "hooks/use-cardano"
-import { getInfo, getText } from "lib/get-toaster-texts"
 import { useState } from "react"
 
 const buttonStyle = {
@@ -23,17 +22,11 @@ export const WalletProviderSelector = () => {
     walletProvider,
     setWalletApiLoading,
     setWalletProvider,
-    showToaster,
   } = useCardanoContext()
 
   const onWalletProviderChange = (provider: WalletProvider) => {
     setWalletApiLoading(true)
     setWalletProvider(provider)
-
-    const text = getText(provider)
-    const info = getInfo(provider)
-
-    showToaster(text, info)
   }
 
   return (
