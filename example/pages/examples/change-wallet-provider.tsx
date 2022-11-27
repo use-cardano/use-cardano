@@ -1,4 +1,4 @@
-import { useCardanoConfig } from "pages/config/use-cardano-config"
+import { useCardanoConfig } from "config/use-cardano-config"
 import styles from "styles/index.module.css"
 import {
     supportedWalletProviders, useCardano, useCardanoContext, WalletProviderSelector

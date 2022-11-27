@@ -2,9 +2,9 @@ import { useCardanoContext } from "contexts/use-cardano-context"
 import { useAccount } from "hooks/use-account"
 import { useLucid } from "hooks/use-lucid"
 import { useNetworkId } from "hooks/use-network-id"
-import { useTransaction } from "hooks/use-transaction"
 import { useWalletApi } from "hooks/use-wallet-api"
 import { useWalletProviders } from "hooks/use-wallet-providers"
+import { Lucid } from "lucid-cardano"
 
 // todo, add support for more node providers, when available in lucid
 type NodeProvider = "blockfrost" | "blockfrost-proxy"
@@ -38,7 +38,7 @@ const defaultOptions: DefaultUseCardanoOptions = {
 }
 
 interface UseCardanoState {
-  tx: ReturnType<typeof useTransaction>
+  lucid?: Lucid
 }
 
 const useCardano = (options: UseCardanoOptions = {}): UseCardanoState => {
@@ -52,10 +52,9 @@ const useCardano = (options: UseCardanoOptions = {}): UseCardanoState => {
   useAccount(walletApi)
 
   const lucid = useLucid(node, walletApi)
-  const tx = useTransaction(lucid)
 
   return {
-    tx,
+    lucid,
   }
 }
 

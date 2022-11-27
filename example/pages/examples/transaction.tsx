@@ -1,12 +1,15 @@
-import { useCardanoConfig } from "pages/config/use-cardano-config"
+import { useCardanoConfig } from "config/use-cardano-config"
+import { useTransaction } from "hooks/use-transaction"
 import styles from "styles/index.module.css"
 import { useCardano, useCardanoContext, WalletProviderSelector } from "use-cardano"
 
 const TransactionExamplePage = () => {
-  const { tx } = useCardano(useCardanoConfig)
+  const { lucid } = useCardano(useCardanoConfig)
 
   const { networkId, walletApiError, accountError, networkWarning, accountWarning } =
     useCardanoContext()
+
+  const tx = useTransaction(lucid)
 
   const mainContent = (
     <>

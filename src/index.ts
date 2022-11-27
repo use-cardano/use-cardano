@@ -1,7 +1,6 @@
 export { supportedWalletProviders } from "constants/supported-wallet-providers"
 export type { WalletProvider } from "hooks/use-cardano"
 export { useCardano } from "hooks/use-cardano"
-export { useTransaction } from "hooks/use-transaction"
 export { useCardanoContext, UseCardanoProvider as Provider } from "contexts/use-cardano-context"
 export { WalletProviderToaster as Toaster } from "components/WalletProviderToaster"
 export { WalletProviderSelector } from "components/WalletProviderSelector"
