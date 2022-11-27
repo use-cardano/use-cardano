@@ -1,6 +1,7 @@
 import { WalletProvider } from "hooks/use-cardano"
 import { UseCardanoError } from "lib/errors"
 import { UseCardanoWarning } from "lib/warnings"
+import { Lucid } from "lucid-cardano"
 import { createContext, PropsWithChildren, useCallback, useContext, useMemo, useState } from "react"
 
 interface Account {
@@ -12,6 +13,8 @@ interface UseCardanoContextState {
   text?: string
   info?: string
   count: number
+  lucid?: Lucid
+  setLucid: (lucid?: Lucid) => void
   networkId?: number
   setNetworkId: (networkId: number) => void
   networkWarning?: UseCardanoWarning
@@ -43,6 +46,8 @@ const defaultContextState: UseCardanoContextState = {
   text: "",
   info: "",
   count: 0,
+  lucid: undefined,
+  setLucid: noop,
   networkId: undefined,
   setNetworkId: noop,
   networkWarning: undefined,
@@ -77,6 +82,10 @@ const UseCardanoProvider = ({ children }: PropsWithChildren<{}>) => {
   const [count, setCount] = useState(0)
   const [textState, setText] = useState<string>()
   const [infoState, setInfo] = useState<string>()
+
+  const [lucidState, setLucidState] = useState<Lucid>()
+  const lucid = useMemo(() => lucidState, [lucidState])
+  const setLucid = useCallback(setLucidState, [setLucidState])
 
   const [accountState, setAccountState] = useState<Account>(defaultContextState.account)
   const account = useMemo(() => accountState, [accountState])
@@ -140,6 +149,8 @@ const UseCardanoProvider = ({ children }: PropsWithChildren<{}>) => {
         text,
         info,
         count,
+        lucid,
+        setLucid,
         networkId,
         setNetworkId,
         networkWarning,

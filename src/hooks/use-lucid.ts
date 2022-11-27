@@ -1,15 +1,12 @@
 import { useCardanoContext } from "contexts/use-cardano-context"
+import { UseCardanoNodeOptions } from "hooks/use-cardano"
 import { getProvider } from "lib/get-provider"
 import { isNil } from "lodash"
 import { Lucid, WalletApi } from "lucid-cardano"
-import { useEffect, useState } from "react"
-
-import { UseCardanoNodeOptions } from "./use-cardano"
+import { useEffect } from "react"
 
 export const useLucid = (node: UseCardanoNodeOptions, walletApi?: WalletApi) => {
-  const [lucid, setLucid] = useState<Lucid>()
-
-  const { networkId } = useCardanoContext()
+  const { lucid, setLucid, networkId } = useCardanoContext()
 
   useEffect(() => {
     ;(async () => {
