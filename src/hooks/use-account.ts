@@ -4,20 +4,13 @@ import { hexArrayToAddress } from "lib/hex-array-to-address"
 import { noLiveAccountChangeWarning } from "lib/warnings"
 import { isNil } from "lodash"
 import { WalletApi } from "lucid-cardano"
-import { useCallback, useEffect, useRef, useState } from "react"
-
-interface Account {
-  address?: string | null
-  rewardAddress?: string | null
-}
+import { useCallback, useEffect, useRef } from "react"
 
 const useAccount = (walletApi?: WalletApi) => {
   const loadedTimeout = useRef<NodeJS.Timeout>()
 
-  const [account, setAccount] = useState<Account>({})
-  const [loaded, setLoaded] = useState(false)
-
-  const { setAccountError, setAccountWarning, setWalletApiLoading } = useCardanoContext()
+  const { setAccount, setAccountLoaded, setAccountError, setAccountWarning, setWalletApiLoading } =
+    useCardanoContext()
 
   const updateAddresses = useCallback(async () => {
     if (!walletApi) {
@@ -51,7 +44,7 @@ const useAccount = (walletApi?: WalletApi) => {
 
       if (e instanceof Error) setAccountError(new UseCardanoError("UNKNOWN", e.message))
     } finally {
-      setLoaded(true)
+      setAccountLoaded(true)
 
       // Note, this isn't the technically correct place to do this
       // but from a UI point of view, it makes sense to do it here
@@ -63,7 +56,7 @@ const useAccount = (walletApi?: WalletApi) => {
     if (loadedTimeout.current) clearTimeout(loadedTimeout.current)
 
     // only set loaded if the provider change actually takes time
-    loadedTimeout.current = setTimeout(() => setLoaded(false), 250)
+    loadedTimeout.current = setTimeout(() => setAccountLoaded(false), 250)
 
     updateAddresses().then(() => {
       // cancel loaded timeout if the provider change was quick enough
@@ -87,11 +80,6 @@ const useAccount = (walletApi?: WalletApi) => {
       }
     }
   }, [walletApi, updateAddresses])
-
-  return {
-    loaded,
-    ...account,
-  }
 }
 
 export { useAccount }

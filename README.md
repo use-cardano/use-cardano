@@ -12,6 +12,10 @@
 
 While the library largely builds on `cardano-lucid` for core functionality, I went with the more generic name `use-cardano` to signify that I intend to expand beyond the core concepts with QoL utility functions, hooks and components. The purpose of this package is to make it as easy as possible to get started building Cardano dApps with React, and I hope this will lower the bar of entry into Cardano dApps development.
 
+### Usage of React.context
+
+The library heavily relies on [React Context](https://reactjs.org/docs/context.html). This makes it very easy to access the state of the library from anywhere in the component tree. However, it also means that there is a possible performance cost, as context updates are potentially expensive. I have tried to mitigate this by using `useMemo` and `useCallback` to memoize the context values and setters, but I am not sure if this is enough, since this is still to be proven in a real world case. I don't forsee this being an issue, since the states should only update rarely, as the user interacts with the wallet provider, but if you experience performance related issues, please let me know.
+
 ## Docs
 
 A stand-alone documentation page is coming soon (tm).
@@ -25,6 +29,30 @@ A stand-alone documentation page is coming soon (tm).
 1. Use the hook
 
 _I am looking to add support for more providers besides blockfrost as lucid-cardano does the same._
+
+### Minimal usage
+
+```tsx
+import { useCardano, useCardanoContext, SelectWalletProvider } from 'use-cardano'
+
+const App = () => {
+  useCardano()
+
+  const { account } = useCardanoContext()
+
+  return (
+    <div>
+      <SelectWalletProvider />
+
+      <div>
+        Connected Address: {account.address}
+      </div>
+    </div>
+  )
+}
+```
+
+At a first glance, it might seems weird that `useCardano` and `useCardanoContext` are separated, but this nicely separates initialization from usage. This is especially useful when you want to use the context in a deeply nested child component, avoiding prop drilling.
 
 ## Examples
 

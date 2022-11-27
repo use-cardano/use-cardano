@@ -1,16 +1,11 @@
+import { useCardanoConfig } from "pages/config/use-cardano-config"
 import styles from "styles/index.module.css"
-import { useCardano, WalletProviderSelector } from "use-cardano"
+import { useCardano, useCardanoContext, WalletProviderSelector } from "use-cardano"
 
 const ChangeNetworkExamplePage = () => {
-  const cardano = useCardano({
-    defaultWalletProvider: "eternl",
-    node: {
-      provider: "blockfrost-proxy",
-      proxyUrl: "/api/blockfrost",
-    },
-  })
+  useCardano(useCardanoConfig)
 
-  const { networkId, networkWarning: warning } = cardano.context
+  const { networkId, networkWarning: warning } = useCardanoContext()
 
   return (
     <div className={styles.container}>

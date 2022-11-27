@@ -1,19 +1,12 @@
+import { useCardanoConfig } from "pages/config/use-cardano-config"
 import styles from "styles/index.module.css"
-import { useCardano, WalletProviderSelector } from "use-cardano"
+import { useCardano, useCardanoContext, WalletProviderSelector } from "use-cardano"
 
 const TransactionExamplePage = () => {
-  const cardano = useCardano({
-    defaultWalletProvider: "nami",
-    node: {
-      provider: "blockfrost-proxy",
-      proxyUrl: "/api/blockfrost",
-    },
-  })
+  const { tx } = useCardano(useCardanoConfig)
 
-  const {
-    tx,
-    context: { networkId, walletApiError, accountError, networkWarning, accountWarning },
-  } = cardano
+  const { networkId, walletApiError, accountError, networkWarning, accountWarning } =
+    useCardanoContext()
 
   const mainContent = (
     <>

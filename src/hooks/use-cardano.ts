@@ -1,4 +1,4 @@
-import { useCardanoContext, UseCardanoContextState } from "contexts/use-cardano-context"
+import { useCardanoContext } from "contexts/use-cardano-context"
 import { useAccount } from "hooks/use-account"
 import { useLucid } from "hooks/use-lucid"
 import { useNetworkId } from "hooks/use-network-id"
@@ -38,29 +38,24 @@ const defaultOptions: DefaultUseCardanoOptions = {
 }
 
 interface UseCardanoState {
-  account: ReturnType<typeof useAccount>
   tx: ReturnType<typeof useTransaction>
-  context: UseCardanoContextState
 }
 
 const useCardano = (options: UseCardanoOptions = {}): UseCardanoState => {
   const { defaultWalletProvider, node } = { ...defaultOptions, ...options }
-
-  const context = useCardanoContext()
 
   useWalletProviders(defaultWalletProvider)
 
   const { walletApi } = useWalletApi()
 
   useNetworkId(walletApi)
-  const account = useAccount(walletApi)
+  useAccount(walletApi)
+
   const lucid = useLucid(node, walletApi)
   const tx = useTransaction(lucid)
 
   return {
-    account,
     tx,
-    context,
   }
 }
 

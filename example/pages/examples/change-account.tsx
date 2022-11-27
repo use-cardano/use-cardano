@@ -1,19 +1,14 @@
+import { useCardanoConfig } from "pages/config/use-cardano-config"
 import styles from "styles/index.module.css"
-import { useCardano, WalletProviderSelector } from "use-cardano"
+import { useCardano, useCardanoContext, WalletProviderSelector } from "use-cardano"
 
 const ChangeAccountExamplePage = () => {
-  const cardano = useCardano({
-    defaultWalletProvider: "nami",
-    node: {
-      provider: "blockfrost-proxy",
-      proxyUrl: "/api/blockfrost",
-    },
-  })
+  useCardano(useCardanoConfig)
 
-  const { accountWarning: warning } = cardano.context
+  const { accountWarning: warning, account, accountLoaded } = useCardanoContext()
 
   const loadingContent = (address?: string | null) => (
-    <>{cardano.account.loaded ? <>{address || <br />}</> : <>Loading ...</>}</>
+    <>{accountLoaded ? <>{address || <br />}</> : <>Loading ...</>}</>
   )
 
   return (
@@ -40,7 +35,7 @@ const ChangeAccountExamplePage = () => {
         <b>Current address</b>
       </div>
 
-      <div>{loadingContent(cardano.account.address)}</div>
+      <div>{loadingContent(account.address)}</div>
 
       <br />
 
@@ -48,7 +43,7 @@ const ChangeAccountExamplePage = () => {
         <b>Current reward address</b>
       </div>
 
-      <div>{loadingContent(cardano.account.rewardAddress)}</div>
+      <div>{loadingContent(account.rewardAddress)}</div>
     </div>
   )
 }
