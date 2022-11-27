@@ -16,6 +16,10 @@ While the library largely builds on `cardano-lucid` for core functionality, I we
 
 The library heavily relies on [React Context](https://reactjs.org/docs/context.html). This makes it very easy to access the state of the library from anywhere in the component tree. However, it also means that there is a possible performance cost, as context updates are potentially expensive. I have tried to mitigate this by using `useMemo` and `useCallback` to memoize the context values and setters, but I am not sure if this is enough, since this is still to be proven in a real world case. I don't forsee this being an issue, since the states should only update rarely, as the user interacts with the wallet provider, but if you experience performance related issues, please let me know.
 
+## Release Timeline
+
+I am aiming for an initial beta (as in a functional and stable solution with a finalized API release before end-of-year 2022. I think this is realistic. Please see [this issue](https://github.com/GGAlanSmithee/use-cardano/issues/7) for what is left to do.
+
 ## Docs
 
 A stand-alone documentation page is coming soon (tm).
