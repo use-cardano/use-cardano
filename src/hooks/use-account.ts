@@ -1,5 +1,5 @@
 import { useCardanoContext } from "contexts/use-cardano-context"
-import { UseCardanoError } from "lib/errors"
+import { invalidWalletError, unknownError } from "lib/errors"
 import { hexArrayToAddress } from "lib/hex-array-to-address"
 import { noLiveAccountChangeWarning } from "lib/warnings"
 import { isNil } from "lodash"
@@ -15,7 +15,6 @@ const useAccount = (walletApi?: WalletApi) => {
   const updateAddresses = useCallback(async () => {
     if (!walletApi) {
       setAccount({})
-
       return
     }
 
@@ -26,13 +25,7 @@ const useAccount = (walletApi?: WalletApi) => {
         walletApi.getRewardAddresses().then(hexArrayToAddress),
       ])
 
-      if (!address && !unusedAddress)
-        setAccountError(
-          new UseCardanoError(
-            "INVALID_WALLET",
-            "No addresses found in wallet. This is an unexpected error, please check your wallet."
-          )
-        )
+      if (!address && !unusedAddress) setAccountError(invalidWalletError)
       else setAccountError(undefined)
 
       setAccount({
@@ -42,7 +35,7 @@ const useAccount = (walletApi?: WalletApi) => {
     } catch (e) {
       if (process.env.NODE_ENV === "development") console.error(e)
 
-      if (e instanceof Error) setAccountError(new UseCardanoError("UNKNOWN", e.message))
+      if (e instanceof Error) setAccountError(unknownError(e))
     } finally {
       setAccountLoaded(true)
 

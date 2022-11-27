@@ -1,5 +1,5 @@
 import { useCardanoContext } from "contexts/use-cardano-context"
-import { UseCardanoError } from "lib/errors"
+import { noAccountSetError, noDappError, unknownError, userRejectedError } from "lib/errors"
 import { getInfo, getText } from "lib/get-toaster-texts"
 import { isNil } from "lodash"
 import { WalletApi } from "lucid-cardano"
@@ -16,13 +16,7 @@ const useWalletApi = () => {
     if (!walletProvider) return
 
     if (!window.cardano[walletProvider]) {
-      setWalletApiError(
-        new UseCardanoError(
-          "NO_DAPP_CONNECTOR",
-          `Install the ${walletProvider} wallet provider to connect your wallet.`
-        )
-      )
-
+      setWalletApiError(noDappError(walletProvider))
       return
     }
 
@@ -42,9 +36,7 @@ const useWalletApi = () => {
         if (!isNil(e.code)) {
           switch (e.code) {
             case -3: // user rejected request to connect wallet
-              setWalletApiError(
-                new UseCardanoError("USER_REJECTED", "Request to connect wallet rejected.")
-              )
+              setWalletApiError(userRejectedError)
               break
           }
 
@@ -54,20 +46,13 @@ const useWalletApi = () => {
         if (e instanceof Error) {
           switch (e.message) {
             case "user reject":
-              setWalletApiError(
-                new UseCardanoError("USER_REJECTED", "Request to connect wallet rejected.")
-              )
+              setWalletApiError(userRejectedError)
               break
             case "no account set":
-              setWalletApiError(
-                new UseCardanoError(
-                  "NO_ACCOUNT_SET",
-                  `Make sure you have an account, and that it's connected in ${walletProvider}, then refresh the page.`
-                )
-              )
+              setWalletApiError(noAccountSetError(walletProvider))
               break
             default:
-              setWalletApiError(new UseCardanoError("UNKNOWN", e.message))
+              setWalletApiError(unknownError(e))
               break
           }
         }
