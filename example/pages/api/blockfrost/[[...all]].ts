@@ -1,5 +1,5 @@
-import { NextApiHandler } from 'next';
-import httpProxyMiddleware from 'next-http-proxy-middleware';
+import { NextApiHandler } from "next"
+import httpProxyMiddleware from "next-http-proxy-middleware"
 
 const getTarget = (url?: string) => {
   if (url?.startsWith("/api/blockfrost/0")) return "https://cardano-testnet.blockfrost.io/api/v0"

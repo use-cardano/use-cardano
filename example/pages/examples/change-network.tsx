@@ -1,9 +1,9 @@
-import { useCardanoConfig } from "config/use-cardano-config"
+import { baseConfig } from "config/use-cardano-config"
 import styles from "styles/index.module.css"
 import { useCardano, useCardanoContext, WalletProviderSelector } from "use-cardano"
 
 const ChangeNetworkExamplePage = () => {
-  useCardano(useCardanoConfig)
+  useCardano(baseConfig)
 
   const { networkId, networkWarning: warning } = useCardanoContext()
 

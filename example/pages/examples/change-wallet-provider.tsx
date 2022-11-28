@@ -1,11 +1,11 @@
-import { useCardanoConfig } from "config/use-cardano-config"
+import { baseConfig } from "config/use-cardano-config"
 import styles from "styles/index.module.css"
 import {
     supportedWalletProviders, useCardano, useCardanoContext, WalletProviderSelector
 } from "use-cardano"
 
 const WalletProviderSelectExamplePage = () => {
-  useCardano(useCardanoConfig)
+  useCardano(baseConfig)
 
   const { walletProvider, availableProviders } = useCardanoContext()
 

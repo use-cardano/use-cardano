@@ -40,7 +40,7 @@ _I am looking to add support for more providers besides blockfrost as lucid-card
 import { useCardano, useCardanoContext, SelectWalletProvider } from 'use-cardano'
 
 const App = () => {
-  useCardano()
+  useCardano(config)
 
   const { account } = useCardanoContext()
 
