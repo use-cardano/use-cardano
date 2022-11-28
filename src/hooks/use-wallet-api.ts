@@ -5,8 +5,14 @@ import { isNil } from "lodash"
 import { useEffect } from "react"
 
 const useWalletApi = () => {
-  const { walletProvider, setWalletApiError, setWalletApiLoading, showToaster, setWalletApi } =
-    useCardanoContext()
+  const {
+    walletProvider,
+    setWalletApiError,
+    setWalletApiLoading,
+    showToaster,
+    setWalletApi,
+    setWalletProvider,
+  } = useCardanoContext()
 
   useEffect(() => {
     if (!window.cardano) return
@@ -27,6 +33,7 @@ const useWalletApi = () => {
       })
       .catch((e) => {
         setWalletApi(undefined)
+        setWalletProvider(undefined)
         setWalletApiLoading(false)
 
         // Note, at least Nami uses a code for different type of errors
