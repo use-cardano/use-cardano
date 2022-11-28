@@ -1,6 +1,7 @@
 import { supportedWalletProviders as allProviders } from "constants/supported-wallet-providers"
 import { useCardanoContext } from "contexts/use-cardano-context"
 import { WalletProvider } from "hooks/use-cardano"
+import { shortAddress } from "lib/short-address"
 import { useState } from "react"
 
 const buttonStyle = {
@@ -17,6 +18,7 @@ export const WalletProviderSelector = () => {
   const [open, setOpen] = useState(false)
 
   const {
+    account,
     availableProviders,
     walletApiLoading,
     walletProvider,
@@ -63,7 +65,7 @@ export const WalletProviderSelector = () => {
             width: "100%",
           }}
         >
-          {walletProvider || "Select Wallet"}
+          {shortAddress(account.address) || walletProvider || "Select Wallet"}
         </div>
       </button>
 
