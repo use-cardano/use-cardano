@@ -74,6 +74,8 @@ New to Open Source development, or the Cardano dApps eco system? I know it can b
 
 ### Running the project in development mode
 
+_OBS! It's probably possible to use either npm or yarn instead of pnpm, but I recommend using pnpm since it handles linking between the library project and the examples project properly, as well as being very performant._
+
 1. Clone the repository
 1. Install pnpm: `npm i -g pnpm` (this is recommended over npm or yarn because it handles dependency linking better)
 1. Install example dependencies: `cd example && pnpm i && cd ..`
