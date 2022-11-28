@@ -1,10 +1,11 @@
 import { useCardanoContext } from "contexts/use-cardano-context"
 import { noAccountSetError, noDappError, unknownError, userRejectedError } from "lib/errors"
 import { getInfo, getText } from "lib/get-toaster-texts"
+import { setStoredWalletProvider } from "lib/local-storage"
 import { isNil } from "lodash"
 import { useEffect } from "react"
 
-const useWalletApi = () => {
+const useWalletApi = (autoReconnect?: boolean) => {
   const {
     walletProvider,
     setWalletApiError,
@@ -34,6 +35,7 @@ const useWalletApi = () => {
       .catch((e) => {
         setWalletApi(undefined)
         setWalletProvider(undefined)
+        if (autoReconnect) setStoredWalletProvider(undefined)
         setWalletApiLoading(false)
 
         // Note, at least Nami uses a code for different type of errors

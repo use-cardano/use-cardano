@@ -15,10 +15,14 @@ export type UseCardanoNodeOptions = {
 }
 
 type UseCardanoOptions = {
+  autoConnectTo?: WalletProvider
+  autoReconnect?: boolean
   node?: UseCardanoNodeOptions
 }
 
 type DefaultUseCardanoOptions = {
+  autoConnectTo: undefined
+  autoReconnect: true
   node: {
     provider: "blockfrost"
     proxyUrl: undefined
@@ -27,6 +31,8 @@ type DefaultUseCardanoOptions = {
 }
 
 const defaultOptions: DefaultUseCardanoOptions = {
+  autoConnectTo: undefined,
+  autoReconnect: true,
   node: {
     provider: "blockfrost",
     proxyUrl: undefined,
@@ -35,10 +41,10 @@ const defaultOptions: DefaultUseCardanoOptions = {
 }
 
 const useCardano = (options: UseCardanoOptions = {}) => {
-  const { node } = { ...defaultOptions, ...options }
+  const { node, autoConnectTo, autoReconnect } = { ...defaultOptions, ...options }
 
-  useWalletProviders()
-  useWalletApi()
+  useWalletProviders(autoConnectTo, autoReconnect)
+  useWalletApi(autoReconnect)
   useNetworkId()
   useAccount()
   useLucid(node)

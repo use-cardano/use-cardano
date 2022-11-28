@@ -1,4 +1,4 @@
-export const useCardanoConfig = {
+export const baseConfig = {
   node: {
     provider: "blockfrost-proxy",
     proxyUrl: "/api/blockfrost",

@@ -20,6 +20,30 @@ const Index = () => {
         <li>
           <Link href="/examples/transaction">Transaction</Link>
         </li>
+
+        <li>
+          <Link href="/examples/configuration/auto-connect-to-nami">
+            Configuration / Auto Connect to Nami
+          </Link>
+        </li>
+
+        <li>
+          <Link href="/examples/configuration/auto-connect-to-eternl">
+            Configuration / Auto Connect to Eternl
+          </Link>
+        </li>
+
+        <li>
+          <Link href="/examples/configuration/auto-reconnect">
+            Configuration / Auto Reconnect
+          </Link>
+        </li>
+        
+        <li>
+          <Link href="/examples/configuration/auto-connect-and-reconnect">
+            Configuration / Auto Connect and Reconnect
+          </Link>
+        </li>
       </ul>
     </div>
   )
