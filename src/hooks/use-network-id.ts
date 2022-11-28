@@ -1,11 +1,10 @@
 import { useCardanoContext } from "contexts/use-cardano-context"
 import { noLiveNetworkChangeWarning } from "lib/warnings"
 import { isNil } from "lodash"
-import { WalletApi } from "lucid-cardano"
 import { useEffect } from "react"
 
-const useNetworkId = (walletApi?: WalletApi) => {
-  const { setNetworkId, setNetworkWarning } = useCardanoContext()
+const useNetworkId = () => {
+  const { setNetworkId, setNetworkWarning, walletApi } = useCardanoContext()
 
   const onNetworkChange = (newNetworkId: unknown) => {
     if (typeof newNetworkId === "number") setNetworkId(newNetworkId)

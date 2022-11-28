@@ -39,12 +39,10 @@ const useCardano = (options: UseCardanoOptions = {}) => {
   const { defaultWalletProvider, node } = { ...defaultOptions, ...options }
 
   useWalletProviders(defaultWalletProvider)
-
-  const { walletApi } = useWalletApi()
-
-  useNetworkId(walletApi)
-  useAccount(walletApi)
-  useLucid(node, walletApi)
+  useWalletApi()
+  useNetworkId()
+  useAccount()
+  useLucid(node)
 }
 
 export type { WalletProvider }

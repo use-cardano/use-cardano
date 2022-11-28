@@ -2,14 +2,11 @@ import { useCardanoContext } from "contexts/use-cardano-context"
 import { noAccountSetError, noDappError, unknownError, userRejectedError } from "lib/errors"
 import { getInfo, getText } from "lib/get-toaster-texts"
 import { isNil } from "lodash"
-import { WalletApi } from "lucid-cardano"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 
 const useWalletApi = () => {
-  const { walletProvider, setWalletApiError, setWalletApiLoading, showToaster } =
+  const { walletProvider, setWalletApiError, setWalletApiLoading, showToaster, setWalletApi } =
     useCardanoContext()
-
-  const [walletApi, setWalletApi] = useState<WalletApi>()
 
   useEffect(() => {
     if (!window.cardano) return
@@ -64,8 +61,6 @@ const useWalletApi = () => {
         showToaster(text, info)
       })
   }, [walletProvider])
-
-  return { walletApi }
 }
 
 export { useWalletApi }

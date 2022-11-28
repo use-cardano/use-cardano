@@ -3,14 +3,19 @@ import { invalidWalletError, unknownError } from "lib/errors"
 import { hexArrayToAddress } from "lib/hex-array-to-address"
 import { noLiveAccountChangeWarning } from "lib/warnings"
 import { isNil } from "lodash"
-import { WalletApi } from "lucid-cardano"
 import { useCallback, useEffect, useRef } from "react"
 
-const useAccount = (walletApi?: WalletApi) => {
+const useAccount = () => {
   const loadedTimeout = useRef<NodeJS.Timeout>()
 
-  const { setAccount, setAccountLoaded, setAccountError, setAccountWarning, setWalletApiLoading } =
-    useCardanoContext()
+  const {
+    walletApi,
+    setAccount,
+    setAccountLoaded,
+    setAccountError,
+    setAccountWarning,
+    setWalletApiLoading,
+  } = useCardanoContext()
 
   const updateAddresses = useCallback(async () => {
     if (!walletApi) {

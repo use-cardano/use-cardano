@@ -1,7 +1,7 @@
 import { WalletProvider } from "hooks/use-cardano"
 import { UseCardanoError } from "lib/errors"
 import { UseCardanoWarning } from "lib/warnings"
-import { Lucid } from "lucid-cardano"
+import { Lucid, WalletApi } from "lucid-cardano"
 import { createContext, PropsWithChildren, useCallback, useContext, useMemo, useState } from "react"
 
 interface Account {
@@ -13,6 +13,8 @@ interface UseCardanoContextState {
   text?: string
   info?: string
   count: number
+  walletApi?: WalletApi
+  setWalletApi: (walletApi?: WalletApi) => void
   lucid?: Lucid
   setLucid: (lucid?: Lucid) => void
   networkId?: number
@@ -32,7 +34,7 @@ interface UseCardanoContextState {
   walletApiLoading: boolean
   setWalletApiLoading: (loading: boolean) => void
   walletProvider?: WalletProvider
-  setWalletProvider: (walletProvider: WalletProvider) => void
+  setWalletProvider: (walletProvider?: WalletProvider) => void
   availableProviders: string[]
   setAvailableProviders: (availableProviders: string[]) => void
   toasterIsShowing: boolean
@@ -48,6 +50,8 @@ const defaultContextState: UseCardanoContextState = {
   count: 0,
   lucid: undefined,
   setLucid: noop,
+  walletApi: undefined,
+  setWalletApi: noop,
   networkId: undefined,
   setNetworkId: noop,
   networkWarning: undefined,
@@ -86,6 +90,10 @@ const UseCardanoProvider = ({ children }: PropsWithChildren<{}>) => {
   const [lucidState, setLucidState] = useState<Lucid>()
   const lucid = useMemo(() => lucidState, [lucidState])
   const setLucid = useCallback(setLucidState, [setLucidState])
+
+  const [walletApiState, setWalletApiState] = useState<WalletApi>()
+  const walletApi = useMemo(() => walletApiState, [walletApiState])
+  const setWalletApi = useCallback(setWalletApiState, [setWalletApiState])
 
   const [accountState, setAccountState] = useState<Account>(defaultContextState.account)
   const account = useMemo(() => accountState, [accountState])
@@ -149,6 +157,8 @@ const UseCardanoProvider = ({ children }: PropsWithChildren<{}>) => {
         text,
         info,
         count,
+        walletApi,
+        setWalletApi,
         lucid,
         setLucid,
         networkId,
