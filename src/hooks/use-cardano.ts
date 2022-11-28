@@ -15,7 +15,6 @@ export type UseCardanoNodeOptions = {
 }
 
 type UseCardanoOptions = {
-  defaultWalletProvider?: WalletProvider
   node?: UseCardanoNodeOptions
 }
 
@@ -36,9 +35,9 @@ const defaultOptions: DefaultUseCardanoOptions = {
 }
 
 const useCardano = (options: UseCardanoOptions = {}) => {
-  const { defaultWalletProvider, node } = { ...defaultOptions, ...options }
+  const { node } = { ...defaultOptions, ...options }
 
-  useWalletProviders(defaultWalletProvider)
+  useWalletProviders()
   useWalletApi()
   useNetworkId()
   useAccount()

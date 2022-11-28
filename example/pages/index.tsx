@@ -18,10 +18,6 @@ const Index = () => {
         </li>
 
         <li>
-          <Link href="/examples/no-default-wallet-provider">No Default Wallet Provider</Link>
-        </li>
-
-        <li>
           <Link href="/examples/transaction">Transaction</Link>
         </li>
       </ul>
