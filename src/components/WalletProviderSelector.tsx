@@ -67,7 +67,7 @@ export const WalletProviderSelector = (autoReconnect?: boolean) => {
             width: "100%",
           }}
         >
-          {shortAddress(account.address) || "Select Wallet"}
+          {walletApiLoading ? "" : shortAddress(account.address) || "Select Wallet"}
         </div>
       </button>
 

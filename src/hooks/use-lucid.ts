@@ -26,6 +26,4 @@ export const useLucid = (node: UseCardanoNodeOptions) => {
 
     // Do we need to un-initialize anything here?
   }, [networkId, walletApi])
-
-  return lucid
 }

@@ -2,7 +2,7 @@ import { WalletProvider } from "hooks/use-cardano"
 import { UseCardanoError } from "lib/errors"
 import { UseCardanoWarning } from "lib/warnings"
 import { Lucid, WalletApi } from "lucid-cardano"
-import { createContext, PropsWithChildren, useCallback, useContext, useMemo, useState } from "react"
+import React from "react"
 
 interface Account {
   address?: string | null
@@ -80,76 +80,41 @@ const defaultContextState: UseCardanoContextState = {
   hideToaster: noop,
 }
 
-const UseCardanoContext = createContext<UseCardanoContextState>(defaultContextState)
+const UseCardanoContext = React.createContext<UseCardanoContextState>(defaultContextState)
 
-const UseCardanoProvider = ({ children }: PropsWithChildren<{}>) => {
+function useState<T>(initialState: T): [T, React.Dispatch<React.SetStateAction<T>>] {
+  const [valState, setValState] = React.useState(initialState)
+  const val = React.useMemo(() => valState, [valState])
+  const setVal = React.useCallback(setValState, [setValState])
+
+  return [val, setVal]
+}
+
+const UseCardanoProvider = ({ children }: React.PropsWithChildren<{}>) => {
   const [count, setCount] = useState(0)
-  const [textState, setText] = useState<string>()
-  const [infoState, setInfo] = useState<string>()
-
-  const [lucidState, setLucidState] = useState<Lucid>()
-  const lucid = useMemo(() => lucidState, [lucidState])
-  const setLucid = useCallback(setLucidState, [setLucidState])
-
-  const [walletApiState, setWalletApiState] = useState<WalletApi>()
-  const walletApi = useMemo(() => walletApiState, [walletApiState])
-  const setWalletApi = useCallback(setWalletApiState, [setWalletApiState])
-
-  const [accountState, setAccountState] = useState<Account>(defaultContextState.account)
-  const account = useMemo(() => accountState, [accountState])
-  const setAccount = useCallback(setAccountState, [setAccountState])
-
-  const [accountLoadedState, setAccountLoadedState] = useState<boolean>(
-    defaultContextState.accountLoaded
-  )
-  const accountLoaded = useMemo(() => accountLoadedState, [accountLoadedState])
-  const setAccountLoaded = useCallback(setAccountLoadedState, [setAccountLoadedState])
-
-  const [walletProviderState, setWalletProviderState] = useState<WalletProvider>()
-  const walletProvider = useMemo(() => walletProviderState, [walletProviderState])
-  const setWalletProvider = useCallback(setWalletProviderState, [])
-
-  const [networkIdState, setNetworkIdState] = useState<number>()
-  const networkId = useMemo(() => networkIdState, [networkIdState])
-  const setNetworkId = useCallback(setNetworkIdState, [])
-
-  const [networkWarningState, setNetworkWarningState] = useState<UseCardanoWarning>()
-  const networkWarning = useMemo(() => networkWarningState, [networkWarningState])
-  const setNetworkWarning = useCallback(setNetworkWarningState, [])
-
-  const [walletApiErrorState, setWalletApiErrorState] = useState<UseCardanoError>()
-  const walletApiError = useMemo(() => walletApiErrorState, [walletApiErrorState])
-  const setWalletApiError = useCallback(setWalletApiErrorState, [])
-
-  const [availableProvidersState, setAvailableProvidersState] = useState<string[]>([])
-  const availableProviders = useMemo(() => availableProvidersState, [availableProvidersState])
-  const setAvailableProviders = useCallback(setAvailableProvidersState, [])
-
-  const [accountErrorState, setAccountErrorState] = useState<UseCardanoError>()
-  const accountError = useMemo(() => accountErrorState, [accountErrorState])
-  const setAccountError = useCallback(setAccountErrorState, [])
-
-  const [accountWarningState, setAccountWarningState] = useState<UseCardanoWarning>()
-  const accountWarning = useMemo(() => accountWarningState, [accountWarningState])
-  const setAccountWarning = useCallback(setAccountWarningState, [])
-
-  const [walletApiLoadingState, setWalletApiLoadingState] = useState(false)
-  const walletApiLoading = useMemo(() => walletApiLoadingState, [walletApiLoadingState])
-  const setWalletApiLoading = useCallback(setWalletApiLoadingState, [])
-
+  const [text, setText] = useState<string | undefined>(undefined)
+  const [info, setInfo] = useState<string | undefined>(undefined)
+  const [lucid, setLucid] = useState<Lucid | undefined>(undefined)
+  const [walletApi, setWalletApi] = useState<WalletApi | undefined>(undefined)
+  const [account, setAccount] = useState(defaultContextState.account)
+  const [accountLoaded, setAccountLoaded] = useState(defaultContextState.accountLoaded)
+  const [walletProvider, setWalletProvider] = useState<WalletProvider | undefined>(undefined)
+  const [networkId, setNetworkId] = useState<number | undefined>(undefined)
+  const [networkWarning, setNetworkWarning] = useState<UseCardanoWarning | undefined>(undefined)
+  const [walletApiError, setWalletApiError] = useState<UseCardanoError | undefined>(undefined)
+  const [availableProviders, setAvailableProviders] = useState<string[]>([])
+  const [accountError, setAccountError] = useState<UseCardanoError | undefined>(undefined)
+  const [accountWarning, setAccountWarning] = useState<UseCardanoWarning | undefined>(undefined)
+  const [walletApiLoading, setWalletApiLoading] = useState(false)
   const [toasterIsShowingState, setToasterIsShowing] = useState(false)
-  const toasterIsShowing = useMemo(() => toasterIsShowingState, [toasterIsShowingState])
-  const showToaster = useCallback((text?: string, info?: string) => {
+  const toasterIsShowing = React.useMemo(() => toasterIsShowingState, [toasterIsShowingState])
+  const hideToaster = React.useCallback(() => setToasterIsShowing(false), [])
+  const showToaster = React.useCallback((text?: string, info?: string) => {
     setCount((c) => (c += 1))
     setToasterIsShowing(true)
     if (text) setText(text)
     if (info) setInfo(info)
   }, [])
-
-  const hideToaster = useCallback(() => setToasterIsShowing(false), [])
-
-  const text = useMemo(() => textState, [textState])
-  const info = useMemo(() => infoState, [infoState])
 
   return (
     <UseCardanoContext.Provider
@@ -192,7 +157,7 @@ const UseCardanoProvider = ({ children }: PropsWithChildren<{}>) => {
 }
 
 const useCardanoContext = () => {
-  const context = useContext(UseCardanoContext)
+  const context = React.useContext(UseCardanoContext)
 
   if (context === undefined)
     throw new Error("wrap your application in <UseCardanoProvider> to use useCardano components")
