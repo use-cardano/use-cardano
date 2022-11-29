@@ -3,10 +3,14 @@ import { useLucid } from "hooks/use-lucid"
 import { useNetworkId } from "hooks/use-network-id"
 import { useWalletApi } from "hooks/use-wallet-api"
 import { useWalletProviders } from "hooks/use-wallet-providers"
+import { useMemo } from "react"
+import { toNetworkId } from "utils/network-dictionary"
 
 // todo, add support for more node providers, when available in lucid
 type NodeProvider = "blockfrost" | "blockfrost-proxy"
 type WalletProvider = "nami" | "eternl" | "gero" | "flint"
+
+export type AllowedNetworks = ("mainnet" | "testnet")[]
 
 export type UseCardanoNodeOptions = {
   provider?: NodeProvider
@@ -17,12 +21,14 @@ export type UseCardanoNodeOptions = {
 type UseCardanoOptions = {
   autoConnectTo?: WalletProvider
   autoReconnect?: boolean
+  allowedNetworks?: AllowedNetworks
   node?: UseCardanoNodeOptions
 }
 
 type DefaultUseCardanoOptions = {
   autoConnectTo: undefined
   autoReconnect: true
+  allowedNetworks: ["mainnet"]
   node: {
     provider: "blockfrost"
     proxyUrl: undefined
@@ -33,6 +39,7 @@ type DefaultUseCardanoOptions = {
 const defaultOptions: DefaultUseCardanoOptions = {
   autoConnectTo: undefined,
   autoReconnect: true,
+  allowedNetworks: ["mainnet"],
   node: {
     provider: "blockfrost",
     proxyUrl: undefined,
@@ -41,13 +48,20 @@ const defaultOptions: DefaultUseCardanoOptions = {
 }
 
 const useCardano = (options: UseCardanoOptions = {}) => {
-  const { node, autoConnectTo, autoReconnect } = { ...defaultOptions, ...options }
+  const {
+    node,
+    autoConnectTo,
+    autoReconnect,
+    allowedNetworks: allowedNetworkNames,
+  } = useMemo(() => ({ ...defaultOptions, ...options }), [options])
+
+  const allowedNetworks = useMemo(() => allowedNetworkNames.map(toNetworkId), [allowedNetworkNames])
 
   useWalletProviders(autoConnectTo, autoReconnect)
   useWalletApi(autoReconnect)
-  useNetworkId()
+  useNetworkId(allowedNetworks)
   useAccount()
-  useLucid(node)
+  useLucid(allowedNetworks, node)
 }
 
 export type { WalletProvider }

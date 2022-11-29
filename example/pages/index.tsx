@@ -44,6 +44,24 @@ const Index = () => {
             Configuration / Auto Connect and Reconnect
           </Link>
         </li>
+        
+        <li>
+          <Link href="/examples/configuration/only-mainnet">
+            Configuration / Only Mainnet
+          </Link>
+        </li>
+                
+        <li>
+          <Link href="/examples/configuration/only-testnet">
+            Configuration / Only Testnet
+          </Link>
+        </li>
+                
+        <li>
+          <Link href="/examples/configuration/mainnet-and-testnet">
+            Configuration / Mainnet and Testnet
+          </Link>
+        </li>
       </ul>
     </div>
   )

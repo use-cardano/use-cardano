@@ -1,15 +1,27 @@
 import { useCardanoContext } from "contexts/use-cardano-context"
+import { disallowedNetworkError } from "lib/errors"
 import { noLiveNetworkChangeWarning } from "lib/warnings"
 import { isNil } from "lodash"
-import { useEffect } from "react"
+import { useCallback, useEffect } from "react"
 
-const useNetworkId = () => {
-  const { setNetworkId, setNetworkWarning, walletApi } = useCardanoContext()
+const useNetworkId = (allowedNetworks: number[]) => {
+  const { setNetworkId, setNetworkWarning, setNetworkError, walletApi, showToaster } =
+    useCardanoContext()
 
-  const onNetworkChange = (newNetworkId: unknown) => {
-    if (typeof newNetworkId === "number") setNetworkId(newNetworkId)
-    else if (typeof newNetworkId === "string") setNetworkId(parseInt(newNetworkId))
-  }
+  const onNetworkChange = useCallback(
+    (id: unknown) => {
+      const networkId = id === "string" ? parseInt(id) : (id as number)
+
+      // NOTE: We don't want to unset network id, since that would have cascading effects
+      if (!allowedNetworks.includes(networkId))
+        setNetworkError(disallowedNetworkError(allowedNetworks, networkId))
+      else setNetworkError(undefined)
+
+      setNetworkId(networkId)
+      showToaster()
+    },
+    [allowedNetworks]
+  )
 
   useEffect(() => {
     if (!walletApi) return

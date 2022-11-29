@@ -10,6 +10,7 @@ interface Account {
 }
 
 interface UseCardanoContextState {
+  isValid?: boolean
   text?: string
   info?: string
   count: number
@@ -21,6 +22,8 @@ interface UseCardanoContextState {
   setNetworkId: (networkId: number) => void
   networkWarning?: UseCardanoWarning
   setNetworkWarning: (warning?: UseCardanoWarning) => void
+  networkError?: UseCardanoError
+  setNetworkError: (error?: UseCardanoError) => void
   walletApiError?: UseCardanoError
   setWalletApiError: (error?: UseCardanoError) => void
   account: Account
@@ -45,6 +48,7 @@ interface UseCardanoContextState {
 const noop = (..._: any[]) => {}
 
 const defaultContextState: UseCardanoContextState = {
+  isValid: undefined,
   text: "",
   info: "",
   count: 0,
@@ -56,6 +60,8 @@ const defaultContextState: UseCardanoContextState = {
   setNetworkId: noop,
   networkWarning: undefined,
   setNetworkWarning: noop,
+  networkError: undefined,
+  setNetworkError: noop,
   walletApiError: undefined,
   setWalletApiError: noop,
   account: {
@@ -101,6 +107,7 @@ const UseCardanoProvider = ({ children }: React.PropsWithChildren<{}>) => {
   const [walletProvider, setWalletProvider] = useState<WalletProvider | undefined>(undefined)
   const [networkId, setNetworkId] = useState<number | undefined>(undefined)
   const [networkWarning, setNetworkWarning] = useState<UseCardanoWarning | undefined>(undefined)
+  const [networkError, setNetworkError] = useState<UseCardanoError | undefined>(undefined)
   const [walletApiError, setWalletApiError] = useState<UseCardanoError | undefined>(undefined)
   const [availableProviders, setAvailableProviders] = useState<string[]>([])
   const [accountError, setAccountError] = useState<UseCardanoError | undefined>(undefined)
@@ -116,9 +123,13 @@ const UseCardanoProvider = ({ children }: React.PropsWithChildren<{}>) => {
     if (info) setInfo(info)
   }, [])
 
+  // todo, what else could make this invalid?
+  const isValid = React.useMemo(() => lucid !== undefined, [lucid])
+
   return (
     <UseCardanoContext.Provider
       value={{
+        isValid,
         text,
         info,
         count,
@@ -130,6 +141,8 @@ const UseCardanoProvider = ({ children }: React.PropsWithChildren<{}>) => {
         setNetworkId,
         networkWarning,
         setNetworkWarning,
+        networkError,
+        setNetworkError,
         walletApiError,
         setWalletApiError,
         accountError,

@@ -29,7 +29,7 @@ const useWalletApi = (autoReconnect?: boolean) => {
     window.cardano[walletProvider]
       .enable()
       .then((api) => {
-        setWalletApiError()
+        setWalletApiError(undefined)
         setWalletApi(api)
       })
       .catch((e) => {

@@ -11,6 +11,7 @@ export const WalletProviderToaster = () => {
     showToaster,
     walletApiError,
     accountError,
+    networkError,
   } = useCardanoContext()
 
   const [isManuallyOpen, setIsManuallyOpen] = useState(false)
@@ -117,7 +118,7 @@ export const WalletProviderToaster = () => {
           </div>
 
           <div>
-            {walletApiError || accountError ? (
+            {walletApiError || accountError || networkError ? (
               <div style={{ color: "red" }}>
                 <div>Unable to connect wallet</div>
 
@@ -130,6 +131,12 @@ export const WalletProviderToaster = () => {
                 {accountError && (
                   <small>
                     <i>{accountError.message}</i>
+                  </small>
+                )}
+
+                {networkError && (
+                  <small>
+                    <i>{networkError.message}</i>
                   </small>
                 )}
               </div>

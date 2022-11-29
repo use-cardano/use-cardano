@@ -5,15 +5,20 @@ import { isNil } from "lodash"
 import { Lucid } from "lucid-cardano"
 import { useEffect } from "react"
 
-export const useLucid = (node: UseCardanoNodeOptions) => {
-  const { lucid, setLucid, networkId, walletApi } = useCardanoContext()
+export const useLucid = (allowedNetworks: number[], node: UseCardanoNodeOptions) => {
+  const { lucid, setLucid, networkId, walletApiLoading, walletApi } = useCardanoContext()
 
   useEffect(() => {
     ;(async () => {
-      if (isNil(networkId) || isNil(walletApi)) return
+      if (walletApiLoading || isNil(networkId) || isNil(walletApi)) return
 
       const provider = getProvider({ ...node, networkId })
       const network = networkId === 0 ? "Testnet" : "Mainnet"
+
+      if (!allowedNetworks.includes(networkId)) {
+        setLucid(undefined)
+        return
+      }
 
       const updatedLucid = await (isNil(lucid)
         ? Lucid.new(provider, network)
@@ -25,5 +30,5 @@ export const useLucid = (node: UseCardanoNodeOptions) => {
     })()
 
     // Do we need to un-initialize anything here?
-  }, [networkId, walletApi])
+  }, [networkId, walletApiLoading, walletApi])
 }
