@@ -26,7 +26,7 @@ export const WalletProviderToaster = () => {
     openTimeout.current = setTimeout(() => {
       hideToaster()
       setIsManuallyOpen(false)
-    }, 4000)
+    }, 5000)
 
     return () => {
       if (openTimeout.current) clearTimeout(openTimeout.current)
@@ -36,6 +36,7 @@ export const WalletProviderToaster = () => {
   return (
     <>
       <div
+        className="use-cardano-wallet-provider-toaster-container"
         style={{
           userSelect: "none",
           zIndex: 1000,

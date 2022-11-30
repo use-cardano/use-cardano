@@ -3,7 +3,7 @@ import { useCardanoContext } from "contexts/use-cardano-context"
 import { WalletProvider } from "hooks/use-cardano"
 import { setStoredWalletProvider } from "lib/local-storage"
 import { shortAddress } from "lib/short-address"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 
 const buttonStyle = {
   display: "flex",

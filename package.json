@@ -25,6 +25,7 @@
     "@types/node": "^18.11.9",
     "@types/react": "^18.0.24",
     "concurrently": "^7.5.0",
+    "fs-extra": "^11.1.0",
     "open": "^8.4.0",
     "open-cli": "^7.1.0",
     "rollup": "^3.2.5",
