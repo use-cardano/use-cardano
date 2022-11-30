@@ -6,9 +6,7 @@ const AutoConnectExamplePage = () => {
   useCardano({ ...baseConfig, autoConnectTo: "nami", autoReconnect: true })
 
   return (
-    <div className={styles.container}>
-      <h1>Auto Connect and Reconnect Example</h1>
-
+    <>
       <div>
         In this example, as you refresh you page, it should attempt to reconnect to the last
         selected wallet. It should also automatically attempt to connect to Nami on your first
@@ -17,16 +15,17 @@ const AutoConnectExamplePage = () => {
 
       <br />
 
-      <WalletProviderSelector />
+      <div>
+        <WalletProviderSelector />
+      </div>
 
-      <br />
       <br />
 
       <div className={styles.info}>
         Other examples can affect the behavior of this example. Clear local storage, key{" "}
         <b>use-cardano/reconnect-to</b>, to reset the example.
       </div>
-    </div>
+    </>
   )
 }
 

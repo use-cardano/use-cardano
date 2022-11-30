@@ -134,15 +134,13 @@ const TransactionExamplePage = () => {
   )
 
   return (
-    <div className={styles.container}>
-      <h1 className={styles.title}>Cardano Lucid Blockfrost Proxy API Example</h1>
-
+    <>
       {header}
 
       <br />
 
       {mainContent}
-    </div>
+    </>
   )
 }
 

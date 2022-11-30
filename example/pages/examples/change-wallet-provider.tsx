@@ -1,8 +1,6 @@
 import { baseConfig } from "config/use-cardano-config"
 import styles from "styles/index.module.css"
-import {
-    supportedWalletProviders, useCardano, useCardanoContext, WalletProviderSelector
-} from "use-cardano"
+import { constants, useCardano, useCardanoContext, WalletProviderSelector } from "use-cardano"
 
 const WalletProviderSelectExamplePage = () => {
   useCardano(baseConfig)
@@ -16,7 +14,7 @@ const WalletProviderSelectExamplePage = () => {
         marginTop: 50,
       }}
     >
-      <div className={styles.container}>
+      <>
         <div>
           <WalletProviderSelector />
         </div>
@@ -31,8 +29,11 @@ const WalletProviderSelectExamplePage = () => {
 
         <br />
 
-        <div>Wallet extensions supported by use-cardano: {supportedWalletProviders.join(", ")}</div>
-      </div>
+        <div>
+          Wallet extensions supported by use-cardano:{" "}
+          {constants.supportedWalletProviders.join(", ")}
+        </div>
+      </>
     </div>
   )
 }

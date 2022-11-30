@@ -12,9 +12,7 @@ const ChangeAccountExamplePage = () => {
   )
 
   return (
-    <div className={styles.container}>
-      <h1>Change Account example</h1>
-
+    <>
       <div>
         <WalletProviderSelector />
       </div>
@@ -44,7 +42,7 @@ const ChangeAccountExamplePage = () => {
       </div>
 
       <div>{loadingContent(account.rewardAddress)}</div>
-    </div>
+    </>
   )
 }
 

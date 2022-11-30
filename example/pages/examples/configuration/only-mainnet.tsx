@@ -11,9 +11,7 @@ const OnlyMainnetExamplePage = () => {
   const { networkId, isValid } = useCardanoContext()
 
   return (
-    <div className={styles.container}>
-      <h1>Only Mainnet Allowed</h1>
-
+    <>
       <div>
         <WalletProviderSelector />
       </div>
@@ -32,7 +30,7 @@ const OnlyMainnetExamplePage = () => {
         <pre style={{ display: "inline" }}>use-cardano</pre> is valid and can be used:{" "}
         <b>{isValid ? "yes" : "no"}</b>
       </div>
-    </div>
+    </>
   )
 }
 
