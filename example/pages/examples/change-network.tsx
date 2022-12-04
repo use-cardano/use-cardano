@@ -1,13 +1,11 @@
 import { baseConfig } from "config/use-cardano-config"
 import styles from "styles/index.module.css"
-import { constants, useCardano, useCardanoContext, WalletProviderSelector } from "use-cardano"
+import { useCardano, useCardanoContext, WalletProviderSelector } from "use-cardano"
 
 const ChangeNetworkExamplePage = () => {
-  useCardano({ ...baseConfig, autoConnectTo: undefined, autoReconnect: false })
+  useCardano(baseConfig)
 
   const { networkId, networkWarning: warning } = useCardanoContext()
-
-  const { availableProviders, setWalletProvider } = useCardanoContext()
 
   return (
     <>
@@ -16,19 +14,6 @@ const ChangeNetworkExamplePage = () => {
       </div>
 
       <br />
-
-      <div>
-        {availableProviders.map((n: string) => (
-          <div key={n}>
-            <button onClick={() => setWalletProvider(n)}>{n}</button>
-          </div>
-        ))}
-      </div>
-
-      <div>
-        Providers: {constants.supportedWalletProviders.join(", ")} Hej{" "}
-        {availableProviders.join(", ")}
-      </div>
 
       <div>
         Change network in your wallet provider extension and see the addresses updating here.

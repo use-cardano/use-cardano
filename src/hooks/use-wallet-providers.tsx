@@ -1,8 +1,19 @@
 import { useCardanoContext } from "contexts/use-cardano-context"
 import { WalletProvider } from "hooks/use-cardano"
+import { filterAvailableProviders } from "lib/filter-available-providers"
 import { getInfo, getText } from "lib/get-toaster-texts"
 import { getStoredWalletProvider, setStoredWalletProvider } from "lib/local-storage"
+import { isNil, uniqBy } from "lodash"
+import { WalletApi } from "lucid-cardano"
 import { useEffect } from "react"
+
+export interface AvailableProvider {
+  name: string
+  icon: string
+  version: string
+  enable(): Promise<WalletApi>
+  isEnabled(): Promise<boolean>
+}
 
 const useWalletProviders = (autoConnectTo?: WalletProvider, autoReconnect?: boolean) => {
   const { showToaster, setWalletProvider, setAvailableProviders } = useCardanoContext()
@@ -14,8 +25,11 @@ const useWalletProviders = (autoConnectTo?: WalletProvider, autoReconnect?: bool
       if (typeof window === "undefined") return
       if (!window.cardano) return
 
-      const providers = Object.keys(window.cardano).filter(
-        (key) => !(window.cardano[key] instanceof Function) && key !== "_events"
+      const providers = uniqBy(
+        Object.keys(window.cardano)
+          .map((key) => window.cardano[key])
+          .filter(filterAvailableProviders),
+        "name"
       )
 
       setAvailableProviders(providers)
@@ -25,20 +39,22 @@ const useWalletProviders = (autoConnectTo?: WalletProvider, autoReconnect?: bool
         : autoConnectTo
 
       // prompt the user to connect to a wallet provider at first visit
-      if (providerToConnectTo && providers.includes(providerToConnectTo)) {
+      if (providers.some((p) => p.name.toLowerCase() === providerToConnectTo)) {
         const connectedProvider = providers.find(
-          (w): w is WalletProvider => w === providerToConnectTo
+          (p) => p.name.toLowerCase() === providerToConnectTo
         )
 
-        if (connectedProvider) {
-          setWalletProvider(connectedProvider)
-          if (autoReconnect) setStoredWalletProvider(connectedProvider)
+        if (!connectedProvider) return
 
-          const text = getText(connectedProvider)
-          const info = getInfo(connectedProvider)
+        const provider = connectedProvider.name.toLowerCase() as WalletProvider
 
-          showToaster(text, info)
-        }
+        setWalletProvider(provider)
+        if (autoReconnect) setStoredWalletProvider(provider)
+
+        const text = getText(provider)
+        const info = getInfo(provider)
+
+        showToaster(text, info)
       }
     }, 10)
 

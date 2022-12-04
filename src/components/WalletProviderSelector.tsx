@@ -83,7 +83,7 @@ export const WalletProviderSelector = (autoReconnect?: boolean) => {
           }}
         >
           {allProviders.sort().map((provider, i) => {
-            const installed = availableProviders.includes(provider)
+            const installed = availableProviders.some((p) => p.name.toLowerCase() === provider)
             const isCurrent = provider === walletProvider
 
             return (

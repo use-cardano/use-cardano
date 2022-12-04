@@ -1,6 +1,6 @@
 import { useCardanoContext } from "contexts/use-cardano-context"
 import { UseCardanoNodeOptions } from "hooks/use-cardano"
-import { getProvider } from "lib/get-provider"
+import { getNodeProvider } from "lib/get-node-provider"
 import { isNil } from "lodash"
 import { Lucid } from "lucid-cardano"
 import { useEffect } from "react"
@@ -12,7 +12,7 @@ export const useLucid = (allowedNetworks: number[], node: UseCardanoNodeOptions)
     ;(async () => {
       if (walletApiLoading || isNil(networkId) || isNil(walletApi)) return
 
-      const provider = getProvider({ ...node, networkId })
+      const provider = getNodeProvider({ ...node, networkId })
       const network = networkId === 0 ? "Testnet" : "Mainnet"
 
       if (!allowedNetworks.includes(networkId)) {

@@ -1,4 +1,5 @@
 import { WalletProvider } from "hooks/use-cardano"
+import { AvailableProvider } from "hooks/use-wallet-providers"
 import { UseCardanoError } from "lib/errors"
 import { UseCardanoWarning } from "lib/warnings"
 import { Lucid, WalletApi } from "lucid-cardano"
@@ -38,8 +39,8 @@ interface UseCardanoContextState {
   setWalletApiLoading: (loading: boolean) => void
   walletProvider?: WalletProvider
   setWalletProvider: (walletProvider?: WalletProvider) => void
-  availableProviders: string[]
-  setAvailableProviders: (availableProviders: string[]) => void
+  availableProviders: AvailableProvider[]
+  setAvailableProviders: (availableProviders: AvailableProvider[]) => void
   toasterIsShowing: boolean
   showToaster: (text?: string, info?: string) => void
   hideToaster: () => void
@@ -109,7 +110,7 @@ const UseCardanoProvider = ({ children }: React.PropsWithChildren<{}>) => {
   const [networkWarning, setNetworkWarning] = useState<UseCardanoWarning | undefined>(undefined)
   const [networkError, setNetworkError] = useState<UseCardanoError | undefined>(undefined)
   const [walletApiError, setWalletApiError] = useState<UseCardanoError | undefined>(undefined)
-  const [availableProviders, setAvailableProviders] = useState<string[]>([])
+  const [availableProviders, setAvailableProviders] = useState<AvailableProvider[]>([])
   const [accountError, setAccountError] = useState<UseCardanoError | undefined>(undefined)
   const [accountWarning, setAccountWarning] = useState<UseCardanoWarning | undefined>(undefined)
   const [walletApiLoading, setWalletApiLoading] = useState(false)

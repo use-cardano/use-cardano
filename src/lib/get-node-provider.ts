@@ -1,7 +1,7 @@
 import { UseCardanoNodeOptions } from "hooks/use-cardano"
 import { Blockfrost } from "lucid-cardano"
 
-const getProvider = ({
+const getNodeProvider = ({
   networkId,
   provider,
   projectId,
@@ -21,4 +21,4 @@ const getProvider = ({
   throw new Error(`Unknown provider: ${provider}`)
 }
 
-export { getProvider }
+export { getNodeProvider }
