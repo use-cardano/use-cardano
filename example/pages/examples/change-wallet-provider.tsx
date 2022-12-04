@@ -1,5 +1,4 @@
 import { baseConfig } from "config/use-cardano-config"
-import styles from "styles/index.module.css"
 import {
     AvailableProvider, constants, useCardano, useCardanoContext, WalletProviderSelector
 } from "use-cardano"
@@ -29,7 +28,7 @@ const WalletProviderSelectExamplePage = () => {
 
         <div>
           Installed wallet extensions:{" "}
-          {availableProviders.map((p: AvailableProvider) => p.name.toLowerCase()).join(", ")}
+          {availableProviders.map((p: AvailableProvider) => p.name).join(", ")}
         </div>
 
         <br />

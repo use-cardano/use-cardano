@@ -8,6 +8,7 @@ import { WalletApi } from "lucid-cardano"
 import { useEffect } from "react"
 
 export interface AvailableProvider {
+  key: WalletProvider
   name: string
   icon: string
   version: string
@@ -25,12 +26,12 @@ const useWalletProviders = (autoConnectTo?: WalletProvider, autoReconnect?: bool
       if (typeof window === "undefined") return
       if (!window.cardano) return
 
-      const providers = uniqBy(
-        Object.keys(window.cardano)
-          .map((key) => window.cardano[key])
-          .filter(filterAvailableProviders),
-        "name"
-      )
+      const providers = Object.keys(window.cardano)
+        .map((key) => ({
+          key,
+          ...window.cardano[key],
+        }))
+        .filter(filterAvailableProviders)
 
       setAvailableProviders(providers)
 
@@ -39,20 +40,16 @@ const useWalletProviders = (autoConnectTo?: WalletProvider, autoReconnect?: bool
         : autoConnectTo
 
       // prompt the user to connect to a wallet provider at first visit
-      if (providers.some((p) => p.name.toLowerCase() === providerToConnectTo)) {
-        const connectedProvider = providers.find(
-          (p) => p.name.toLowerCase() === providerToConnectTo
-        )
+      if (providers.some((p) => p.key === providerToConnectTo)) {
+        const connectedProvider = providers.find((p) => p.key === providerToConnectTo)
 
         if (!connectedProvider) return
 
-        const provider = connectedProvider.name.toLowerCase() as WalletProvider
+        setWalletProvider(connectedProvider.key)
+        if (autoReconnect) setStoredWalletProvider(connectedProvider.key)
 
-        setWalletProvider(provider)
-        if (autoReconnect) setStoredWalletProvider(provider)
-
-        const text = getText(provider)
-        const info = getInfo(provider)
+        const text = getText(connectedProvider.key)
+        const info = getInfo(connectedProvider.key)
 
         showToaster(text, info)
       }

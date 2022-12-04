@@ -4,7 +4,7 @@ import styles from "styles/index.module.css"
 import { useCardano, useCardanoContext, WalletProviderSelector } from "use-cardano"
 
 const TransactionExamplePage = () => {
-  useCardano(baseConfig)
+  useCardano({ ...baseConfig, allowedNetworks: ["testnet", "mainnet"] })
 
   const { lucid, networkId, walletApiError, accountError, networkWarning, accountWarning } =
     useCardanoContext()
