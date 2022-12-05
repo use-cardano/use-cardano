@@ -1,3 +1,4 @@
+import "use-cardano/styles/use-cardano.css"
 import "styles/styles.css"
 
 import styles from "styles/index.module.css"

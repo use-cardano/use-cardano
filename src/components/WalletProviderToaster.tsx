@@ -33,38 +33,20 @@ export const WalletProviderToaster = () => {
     }
   }, [count, isManuallyOpen, toasterIsShowing])
 
+  const notificationClassNames = ["use-cardano-wallet-provider-toaster-notification-container"]
+
+  if (count === 0 || toasterIsShowing)
+    notificationClassNames.push("use-cardano-wallet-provider-toaster-notification-container-open")
+
+  const toasterClassNames = ["use-cardano-wallet-provider-toaster-container"]
+
+  if (toasterIsShowing) toasterClassNames.push("use-cardano-wallet-provider-toaster-container-open")
+
   return (
     <>
-      <div
-        className="use-cardano-wallet-provider-toaster-container"
-        style={{
-          userSelect: "none",
-          zIndex: 1000,
-          fontFamily: '"Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif',
-          fontSize: "1.1rem",
-          position: "fixed",
-          background: "white",
-          borderRadius: "50%",
-          boxShadow: "0px 0px 8px rgba(0, 0, 0, 0.25)",
-          top: "2rem",
-          right: "2rem",
-          opacity: count === 0 || toasterIsShowing ? 0 : 1,
-          transition: "opacity 0.2s ease-in-out",
-          transitionDelay: toasterIsShowing ? "0s" : "0.2s",
-          width: "2rem",
-          height: "2rem",
-          textAlign: "center",
-        }}
-      >
+      <div className={notificationClassNames.join(" ")}>
         <div
-          style={{
-            display: "flex",
-            height: "100%",
-            width: "100%",
-            alignItems: "center",
-            justifyContent: "center",
-            cursor: "pointer",
-          }}
+          className="use-cardano-wallet-provider-toaster-notification-content"
           onClick={() => {
             showToaster()
             setIsManuallyOpen(true)
@@ -74,53 +56,17 @@ export const WalletProviderToaster = () => {
         </div>
       </div>
 
-      <div
-        style={{
-          userSelect: "none",
-          zIndex: 1000,
-          fontFamily: '"Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif',
-          fontSize: "1.1rem",
-          position: "fixed",
-          background: "white",
-          borderRadius: "8px",
-          boxShadow: "0px 0px 8px rgba(0, 0, 0, 0.25)",
-          top: "2rem",
-          right: toasterIsShowing ? "2rem" : "-500px",
-          transition: "right 0.2s ease-in-out",
-          width: 400,
-          textAlign: "left",
-        }}
-        onMouseLeave={() => setIsManuallyOpen(false)}
-      >
-        <div
-          style={{
-            height: "calc(100% - 2px)",
-            padding: "1rem 2rem",
-          }}
-        >
-          <div
-            style={{
-              position: "absolute",
-              top: 5,
-              right: 5,
-            }}
-          >
-            <button
-              style={{
-                background: "none",
-                border: "none",
-                outline: "none",
-                cursor: "pointer",
-              }}
-              onClick={hideToaster}
-            >
+      <div className={toasterClassNames.join(" ")} onMouseLeave={() => setIsManuallyOpen(false)}>
+        <div className="use-cardano-wallet-provider-toaster-content">
+          <div className="use-cardano-wallet-provider-toaster-close-wrapper">
+            <button className="use-cardano-wallet-provider-toaster-close" onClick={hideToaster}>
               ✖
             </button>
           </div>
 
           <div>
             {walletApiError || accountError || networkError ? (
-              <div style={{ color: "red" }}>
+              <div className="use-cardano-wallet-provider-toaster-warning">
                 <div>Unable to connect wallet</div>
 
                 {walletApiError && (
