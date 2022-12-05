@@ -72,3 +72,81 @@
 .use-cardano-wallet-provider-toaster-warning {
   color: #ff0000;
 }
+
+.use-cardano-wallet-provider-selector-container {
+  user-select: none;
+  display: inline-block;
+  position: relative;
+}
+
+.use-cardano-wallet-provider-selector-opener {
+  display: flex;
+  padding: 5px 10px;
+  outline: none;
+  border: 0.15rem solid #555;
+  background-color: white;
+  color: #222;
+  font-size: 1.25rem;
+  min-width: 150px;
+  border-radius: 4px;
+  cursor: default;
+}
+
+.use-cardano-wallet-provider-selector-opener-open {
+  border-radius: 4px 4px 0 0;
+}
+
+.use-cardano-wallet-provider-selector-opener-loading {
+  cursor: wait;
+}
+
+.use-cardano-wallet-provider-selector-chevron {
+  transform: rotate(-180deg);
+  transition: transform 0.2s;
+  margin-right: 10px;
+}
+
+.use-cardano-wallet-provider-selector-chevron-open {
+  transform: rotate(0deg);
+}
+
+.use-cardano-wallet-provider-selector-opener-text {
+  text-align: center;
+  width: 100%;
+}
+
+.use-cardano-wallet-provider-selector-opener-list {
+  list-style: none;
+  position: absolute;
+  left: 0;
+  top: 5px;
+  padding: 0;
+  width: 100%;
+}
+
+.use-cardano-wallet-provider-selector-opener-list-item {
+  display: flex;
+  padding: 5px 10px;
+  outline: none;
+  border: 0.15rem solid #555;
+  background-color: white;
+  color: #222;
+  font-size: 1.25rem;
+  border-top: none;
+  width: 100%;
+  border-radius: none;
+  border-bottom: none;
+}
+
+.use-cardano-wallet-provider-selector-opener-list-item-last {
+  border-radius: 0 0 4px 4px;
+  border-bottom: 0.15rem solid #555;
+}
+
+.use-cardano-wallet-provider-selector-opener-list-item-available {
+  cursor: pointer;
+}
+
+.use-cardano-wallet-provider-selector-opener-list-item-not-installed {
+  color: #ccc;
+}

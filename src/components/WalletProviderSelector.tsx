@@ -5,16 +5,6 @@ import { setStoredWalletProvider } from "lib/local-storage"
 import { shortAddress } from "lib/short-address"
 import { useState } from "react"
 
-const buttonStyle = {
-  display: "flex",
-  padding: "5px 10px",
-  outline: "none",
-  border: "0.15rem solid #555",
-  backgroundColor: "white",
-  color: "#222",
-  fontSize: "1.25rem",
-}
-
 export const WalletProviderSelector = (autoReconnect?: boolean) => {
   const [open, setOpen] = useState(false)
 
@@ -33,71 +23,50 @@ export const WalletProviderSelector = (autoReconnect?: boolean) => {
     if (autoReconnect) setStoredWalletProvider(provider)
   }
 
+  const openerClasses = ["use-cardano-wallet-provider-selector-opener"]
+
+  if (open) openerClasses.push("use-cardano-wallet-provider-selector-opener-open")
+  if (walletApiLoading) openerClasses.push("use-cardano-wallet-provider-selector-opener-loading")
+
+  const chevronClasses = ["use-cardano-wallet-provider-selector-chevron"]
+
+  if (open) chevronClasses.push("use-cardano-wallet-provider-selector-chevron-open")
+
   return (
-    <div
-      style={{
-        userSelect: "none",
-        display: "inline-block",
-        position: "relative",
-      }}
-    >
+    <div className="use-cardano-wallet-provider-selector-container">
       <button
         disabled={walletApiLoading}
-        style={{
-          ...buttonStyle,
-          minWidth: 150,
-          borderRadius: open ? "4px 4px 0 0" : 4,
-          cursor: walletApiLoading ? "wait" : "default",
-        }}
+        className={openerClasses.join(" ")}
         onClick={() => setOpen((wasOpen) => !wasOpen)}
       >
-        <div
-          style={{
-            transform: open ? "rotate(0deg)" : "rotate(-180deg)",
-            transition: "transform 0.2s",
-            marginRight: 10,
-          }}
-        >
-          ▼
-        </div>
+        <div className={chevronClasses.join(" ")}>▼</div>
 
-        <div
-          style={{
-            textAlign: "center",
-            width: "100%",
-          }}
-        >
+        <div className="use-cardano-wallet-provider-selector-opener-text">
           {walletApiLoading ? "" : shortAddress(account.address) || "Select Wallet"}
         </div>
       </button>
 
       {open && (
-        <ul
-          style={{
-            listStyle: "none",
-            position: "absolute",
-            left: 0,
-            top: 5,
-            padding: 0,
-            width: "100%",
-          }}
-        >
+        <ul className="use-cardano-wallet-provider-selector-opener-list">
           {allProviders.sort().map((provider, i) => {
             const installed = availableProviders.some((p) => p.key === provider)
             const isCurrent = provider === walletProvider
 
+            const classes = ["use-cardano-wallet-provider-selector-opener-list-item"]
+
+            if (installed && !isCurrent)
+              classes.push("use-cardano-wallet-provider-selector-opener-list-item-available")
+
+            if (!installed)
+              classes.push("use-cardano-wallet-provider-selector-opener-list-item-not-installed")
+
+            if (i === allProviders.length - 1)
+              classes.push("use-cardano-wallet-provider-selector-opener-list-item-last")
+
             return (
               <li key={`use-cardano-provider-select-${provider}`}>
                 <button
-                  style={{
-                    ...buttonStyle,
-                    borderTop: "none",
-                    width: "100%",
-                    borderBottom: i === allProviders.length - 1 ? undefined : "none",
-                    borderRadius: i === allProviders.length - 1 ? "0 0 4px 4px" : undefined,
-                    color: installed ? undefined : "#ccc",
-                    cursor: installed && !isCurrent ? "pointer" : undefined,
-                  }}
+                  className={classes.join(" ")}
                   title={installed ? undefined : `${provider} extension is not installed`}
                   disabled={!installed}
                   onClick={() => {
