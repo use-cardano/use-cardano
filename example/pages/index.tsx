@@ -54,6 +54,10 @@ const Index = () => {
           Configuration / Mainnet and Testnet
         </Link>
       </li>
+
+      <li>
+        <Link href="/examples/theming/custom-styles">Theming / Custom Styles</Link>
+      </li>
     </ul>
   )
 }
