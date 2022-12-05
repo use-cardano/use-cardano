@@ -27,8 +27,7 @@ const OnlyTestnetExamplePage = () => {
       <br />
 
       <div>
-        <pre style={{ display: "inline" }}>use-cardano</pre> is valid and can be used:{" "}
-        <b>{isValid ? "yes" : "no"}</b>
+        use-cardano is valid and can be used: <b>{isValid ? "yes" : "no"}</b>
       </div>
     </>
   )

@@ -58,6 +58,12 @@ const Index = () => {
       <li>
         <Link href="/examples/theming/custom-styles">Theming / Custom Styles</Link>
       </li>
+
+      <li>
+        <Link href="/examples/customization/custom-wallet-provider-selector">
+          Customization / Custom Wallet Provider Selector
+        </Link>
+      </li>
     </ul>
   )
 }

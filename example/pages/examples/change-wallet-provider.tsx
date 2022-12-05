@@ -9,36 +9,28 @@ const WalletProviderSelectExamplePage = () => {
   const { walletProvider, availableProviders } = useCardanoContext()
 
   return (
-    <div
-      style={{
-        marginLeft: 50,
-        marginTop: 50,
-      }}
-    >
-      <>
-        <div>
-          <WalletProviderSelector />
-        </div>
+    <>
+      <div>
+        <WalletProviderSelector />
+      </div>
 
-        <br />
+      <br />
 
-        <div>Selected wallet: {walletProvider}</div>
+      <div>Selected wallet: {walletProvider}</div>
 
-        <br />
+      <br />
 
-        <div>
-          Installed wallet extensions:{" "}
-          {availableProviders.map((p: AvailableProvider) => p.name).join(", ")}
-        </div>
+      <div>
+        Installed wallet extensions:{" "}
+        {availableProviders.map((p: AvailableProvider) => p.name).join(", ")}
+      </div>
 
-        <br />
+      <br />
 
-        <div>
-          Wallet extensions supported by use-cardano:{" "}
-          {constants.supportedWalletProviders.join(", ")}
-        </div>
-      </>
-    </div>
+      <div>
+        Wallet extensions supported by use-cardano: {constants.supportedWalletProviders.join(", ")}
+      </div>
+    </>
   )
 }
 

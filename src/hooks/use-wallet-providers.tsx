@@ -3,7 +3,6 @@ import { WalletProvider } from "hooks/use-cardano"
 import { filterAvailableProviders } from "lib/filter-available-providers"
 import { getInfo, getText } from "lib/get-toaster-texts"
 import { getStoredWalletProvider, setStoredWalletProvider } from "lib/local-storage"
-import { isNil, uniqBy } from "lodash"
 import { WalletApi } from "lucid-cardano"
 import { useEffect } from "react"
 
