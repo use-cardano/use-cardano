@@ -22,7 +22,7 @@ export default function App({ Component, pageProps, router }: AppProps) {
 
   const backLink = isAnExample ? (
     <div>
-      <Link href="/">Home</Link>
+      <Link href="/">Back to examples</Link>
     </div>
   ) : null
 
