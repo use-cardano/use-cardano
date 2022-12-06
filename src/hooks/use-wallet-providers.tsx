@@ -4,7 +4,7 @@ import { filterAvailableProviders } from "lib/filter-available-providers"
 import { getInfo, getText } from "lib/get-toaster-texts"
 import { getStoredWalletProvider, setStoredWalletProvider } from "lib/local-storage"
 import { WalletApi } from "lucid-cardano"
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 
 export interface AvailableProvider {
   key: WalletProvider
@@ -15,15 +15,24 @@ export interface AvailableProvider {
   isEnabled(): Promise<boolean>
 }
 
+type Interval = ReturnType<typeof setInterval>
+
 const useWalletProviders = (autoConnectTo?: WalletProvider, autoReconnect?: boolean) => {
+  const interval = useRef<Interval>()
+
   const { showToaster, setWalletProvider, setAvailableProviders } = useCardanoContext()
 
   useEffect(() => {
+    if (interval.current) clearInterval(interval.current)
+
     // give the browser a chance to load the extension and for it to inject itself into the window object
-    const timeout = setTimeout(() => {
+    interval.current = setInterval(() => {
       // local storage is not available in SSR
       if (typeof window === "undefined") return
       if (!window.cardano) return
+
+      // clear the interval once the extension is injected
+      clearInterval(interval.current)
 
       const providers = Object.keys(window.cardano)
         .map((key) => ({
@@ -52,10 +61,10 @@ const useWalletProviders = (autoConnectTo?: WalletProvider, autoReconnect?: bool
 
         showToaster(text, info)
       }
-    }, 10)
+    }, 1)
 
     return () => {
-      clearTimeout(timeout)
+      if (interval.current) clearInterval(interval.current)
     }
   }, [])
 }
