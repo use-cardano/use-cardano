@@ -8,7 +8,7 @@ import { toNetworkId } from "utils/network-dictionary"
 
 // todo, add support for more node providers, when available in lucid
 type NodeProvider = "blockfrost" | "blockfrost-proxy"
-type WalletProvider = "nami" | "eternl" | "gero" | "flint"
+type WalletProvider = "nami" | "eternl" | "gerowallet" | "flint"
 
 export type AllowedNetworks = ("mainnet" | "testnet")[]
 
