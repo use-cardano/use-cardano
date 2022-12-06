@@ -8,7 +8,7 @@
     "build": "rollup -c",
     "dev:package": "rollup -c -w &",
     "dev:example": "cd example && pnpm run dev",
-    "dev": "concurrently \"pnpm run dev:package\" \"pnpm run dev:example &\" \"open-cli http://localhost:3000\""
+    "dev": "concurrently \"pnpm run dev:package\" \"pnpm run dev:example &\" \"node scripts/open.js\""
   },
   "keywords": [],
   "author": "Jesper Tullberg",
@@ -26,8 +26,8 @@
     "@types/react": "^18.0.24",
     "concurrently": "^7.5.0",
     "fs-extra": "^11.1.0",
+    "localtunnel": "^2.0.2",
     "open": "^8.4.0",
-    "open-cli": "^7.1.0",
     "rollup": "^3.2.5",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "tslib": "^2.4.1",

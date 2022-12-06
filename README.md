@@ -1,6 +1,6 @@
 # USE CARDANO
 
-## Unreleased 
+## Unreleased
 
 **OBS!! This project is unreleased. Feel free to use it, but be aware that it is to be considered as an alpha version. Things can break, the APIs will change etc.**
 
@@ -37,7 +37,7 @@ _I am looking to add support for more providers besides blockfrost as lucid-card
 ### Minimal usage
 
 ```tsx
-import { useCardano, useCardanoContext, SelectWalletProvider } from 'use-cardano'
+import { useCardano, useCardanoContext, SelectWalletProvider } from "use-cardano"
 
 const App = () => {
   useCardano(config)
@@ -48,9 +48,7 @@ const App = () => {
     <div>
       <SelectWalletProvider />
 
-      <div>
-        Connected Address: {account.address}
-      </div>
+      <div>Connected Address: {account.address}</div>
     </div>
   )
 }
@@ -82,6 +80,10 @@ _OBS! It's probably possible to use either npm or yarn instead of pnpm, but I re
 1. Link the library run time dependencies: `pnpm link ./example/node_modules/react ./example/node_modules/lucid-cardano`
 1. Install library dependencies: `pnpm i`
 1. Run the library in watch mode, and launch the example app: `pnpm run dev`
+
+#### Reverse Proxy
+
+Some wallet providers (gerowallet) will not inject itself in the CIP-0030 web bridge if the page is not served over https. To get around this, the site is served over a reverse proxy using [localtunnel](https://www.npmjs.com/package/localtunnel) in development mode. The proxied site will launch automatically in your default browser, and you will be informed that it's being proxied and prompted to continue.
 
 ### Example app
 
