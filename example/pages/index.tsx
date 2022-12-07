@@ -29,6 +29,12 @@ const Index = () => {
       </li>
 
       <li className={styles.item}>
+        <Link className={styles.link} href="/examples/manual-toaster-operations">
+          Manual Toaster Operations
+        </Link>
+      </li>
+
+      <li className={styles.item}>
         <Link className={styles.link} href="/examples/configuration/auto-connect-to-nami">
           Configuration / Auto Connect to Nami
         </Link>

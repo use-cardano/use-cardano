@@ -2,7 +2,7 @@ import "use-cardano/styles/use-cardano.css"
 import "styles/styles.css"
 
 import Link from "next/link"
-import styles from "styles/index.module.css"
+import styles from "styles/example.module.css"
 import { UseCardanoProvider, WalletProviderToaster } from "use-cardano"
 
 import type { AppProps } from "next/app"

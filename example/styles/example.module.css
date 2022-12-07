@@ -32,7 +32,6 @@
   border: 1px solid #777;
   border-radius: 4px;
   outline: none;
-
 }
 
 .input[type="text"] {
@@ -51,4 +50,20 @@
 
 .title {
   padding-bottom: 2rem;
+}
+
+.manualToasterButton {
+  border: 2px solid #222;
+  color: #222;
+  font-size: large;
+  text-transform: uppercase;
+  background: white;
+  cursor: pointer;
+  padding: 0.7rem;
+  border-radius: 4px;
+  transition: background 0.25s ease-in-out;
+}
+
+.manualToasterButton:hover {
+  background: #eee;
 }
