@@ -83,7 +83,10 @@ _OBS! It's probably possible to use either npm or yarn instead of pnpm, but I re
 
 #### Reverse Proxy
 
-Some wallet providers (gerowallet) will not inject itself in the CIP-0030 web bridge if the page is not served over https. To get around this, the site is served over a reverse proxy using [localtunnel](https://www.npmjs.com/package/localtunnel) in development mode. The proxied site will launch automatically in your default browser, and you will be informed that it's being proxied and prompted to continue.
+When running the project locally, the examples site will be served on localhost:3000.
+
+Some wallet providers (gerowallet) will not inject itself in the CIP-0030 web bridge if the page is not served over https. To get around this, the site is also served over a reverse proxy using [localtunnel](https://www.npmjs.com/package/localtunnel) in development mode. The proxied site will launch automatically in your default browser, and you will be informed that it's being proxied and prompted to continue.
+
 
 ### Example app
 

@@ -90,6 +90,12 @@ const Index = () => {
           Customization / Custom Wallet Provider Selector
         </Link>
       </li>
+
+      <li className={styles.item}>
+        <Link className={styles.link} href="/examples/lucid/simple-mint">
+          Lucid / Simple Mint
+        </Link>
+      </li>
     </ul>
   )
 }

@@ -22,7 +22,7 @@ const ManualToasterOperationsExamplePage = () => {
       <br />
 
       <div>
-        <button onClick={hideToaster} className={styles.manualToasterButton}>
+        <button onClick={hideToaster} className={styles.button}>
           Manually hide toaster
         </button>
       </div>
@@ -36,7 +36,7 @@ const ManualToasterOperationsExamplePage = () => {
       <br />
 
       <div>
-        <button onClick={() => showToaster()} className={styles.manualToasterButton}>
+        <button onClick={() => showToaster()} className={styles.button}>
           Manually show toaster
         </button>
       </div>
