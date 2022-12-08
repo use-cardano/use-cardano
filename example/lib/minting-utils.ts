@@ -2,19 +2,19 @@ import { Lucid, MintingPolicy, PolicyId, TxHash, Unit, utf8ToHex } from "lucid-c
 
 interface Options {
   lucid: Lucid
-  mintingPolicy: MintingPolicy
-  policyId: string
+  address: string
   name: string
 }
+
+// fully qualified asset name, hex encoded policy id + name
+const getUnit = (policyId: PolicyId, name: string): Unit => policyId + utf8ToHex(name)
 
 const getMintingPolicy = (lucid: Lucid, address: string) => {
   const { paymentCredential } = lucid.utils.getAddressDetails(address)
 
   const mintingPolicy: MintingPolicy = lucid.utils.nativeScriptFromJson({
     type: "all",
-    scripts: [
-      { type: "sig", keyHash: paymentCredential?.hash! },
-    ],
+    scripts: [{ type: "sig", keyHash: paymentCredential?.hash! }],
   })
 
   return mintingPolicy
@@ -26,8 +26,10 @@ const getPolicyId = (lucid: Lucid, mintingPolicy: MintingPolicy) => {
   return policyId
 }
 
-const mintNFT = async ({ lucid, mintingPolicy, policyId, name }: Options): Promise<TxHash> => {
-  const unit: Unit = policyId + utf8ToHex(name)
+export const mintNFT = async ({ lucid, address, name }: Options): Promise<TxHash> => {
+  const mintingPolicy = getMintingPolicy(lucid, address)
+  const policyId = getPolicyId(lucid, mintingPolicy)
+  const unit = getUnit(policyId, name)
 
   const tx = await lucid
     .newTx()
@@ -43,13 +45,10 @@ const mintNFT = async ({ lucid, mintingPolicy, policyId, name }: Options): Promi
   return txHash
 }
 
-const burnNFT = async ({ lucid, mintingPolicy, policyId, name }: Options): Promise<TxHash> => {
-  const unit: Unit = policyId + utf8ToHex(name)
-
-  console.log("mintingPolicy", mintingPolicy)
-  console.log("policyId", policyId)
-  console.log("name", name)
-  console.log("unit", unit)
+export const burnNFT = async ({ lucid, address, name }: Options): Promise<TxHash> => {
+  const mintingPolicy = getMintingPolicy(lucid, address)
+  const policyId = getPolicyId(lucid, mintingPolicy)
+  const unit = getUnit(policyId, name)
 
   const tx = await lucid
     .newTx()
@@ -63,11 +62,4 @@ const burnNFT = async ({ lucid, mintingPolicy, policyId, name }: Options): Promi
   const txHash = await signedTx.submit()
 
   return txHash
-}
-
-export const mintingUtils = {
-  getMintingPolicy,
-  getPolicyId,
-  mintNFT,
-  burnNFT,
 }

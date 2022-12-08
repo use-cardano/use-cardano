@@ -1,57 +1,41 @@
 import { baseConfig } from "config/use-cardano-config"
-import { mintingUtils } from "lib/minting-utils"
-import { Script } from "lucid-cardano"
-import { useCallback, useEffect, useMemo, useState } from "react"
+import * as mintingUtils from "lib/minting-utils"
+import { useCallback, useMemo, useState } from "react"
 import styles from "styles/example.module.css"
 import { useCardano, useCardanoContext, WalletProviderSelector } from "use-cardano"
 
-const MintExamplePage = () => {
+const LucidSimpleMintExamplePage = () => {
   useCardano({ ...baseConfig, allowedNetworks: ["testnet"] })
 
   const { lucid, account } = useCardanoContext()
 
-  const [mintingPolicy, setMintingPolicy] = useState<Script>()
-  const [policyId, setPolicyId] = useState<string>()
   const [name, setName] = useState("")
-
-  useEffect(() => {
-    if (!lucid || !account?.address) return
-
-    const newMintingPolicy = mintingUtils.getMintingPolicy(lucid, account.address)
-    const newPolicyId = mintingUtils.getPolicyId(lucid, newMintingPolicy)
-
-    setMintingPolicy(newMintingPolicy)
-    setPolicyId(newPolicyId)
-  }, [lucid, account?.address])
 
   const mintNFT = useCallback(async () => {
     try {
-      if (!lucid || !mintingPolicy || !policyId || !name) return
+      if (!lucid || !account?.address || !name) return
 
-      const nft = await mintingUtils.mintNFT({ lucid, mintingPolicy, policyId, name })
+      const nft = await mintingUtils.mintNFT({ lucid, address: account.address, name })
 
       console.log("minted NFT", nft)
     } catch (e) {
       console.error(e)
     }
-  }, [lucid, mintingPolicy, policyId, name])
+  }, [lucid, account?.address, name])
 
   const burnNFT = useCallback(async () => {
     try {
-      if (!lucid || !mintingPolicy || !policyId || !name) return
+      if (!lucid || !account?.address || !name) return
 
-      const nft = await mintingUtils.burnNFT({ lucid, mintingPolicy, policyId, name })
+      const nft = await mintingUtils.burnNFT({ lucid, address: account?.address, name })
 
       console.log("burned NFT", nft)
     } catch (e) {
       console.error(e)
     }
-  }, [lucid, mintingPolicy, policyId, name])
+  }, [lucid, account?.address, name])
 
-  const canMint = useMemo(
-    () => lucid && mintingPolicy && policyId && name,
-    [lucid, mintingPolicy, policyId, name]
-  )
+  const canMint = useMemo(() => lucid && account?.address && name, [lucid, account?.address, name])
 
   return (
     <>
@@ -93,4 +77,4 @@ const MintExamplePage = () => {
   )
 }
 
-export default MintExamplePage
+export default LucidSimpleMintExamplePage
