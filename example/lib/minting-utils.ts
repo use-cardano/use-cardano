@@ -14,10 +14,6 @@ const getMintingPolicy = (lucid: Lucid, address: string) => {
     type: "all",
     scripts: [
       { type: "sig", keyHash: paymentCredential?.hash! },
-      {
-        type: "before",
-        slot: lucid.utils.unixTimeToSlot(Date.now() + 1000000),
-      },
     ],
   })
 
@@ -54,7 +50,7 @@ const burnNFT = async ({ lucid, mintingPolicy, policyId, name }: Options): Promi
   console.log("policyId", policyId)
   console.log("name", name)
   console.log("unit", unit)
-  
+
   const tx = await lucid
     .newTx()
     .mintAssets({ [unit]: -1n })
