@@ -18,25 +18,44 @@
 }
 
 .label {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   text-transform: lowercase;
   display: block;
   width: 200px;
 }
 
-.input,
 .button {
-  font-size: 1rem;
-  margin-bottom: 0.5rem;
-  padding: 0.5rem;
-  border: 1px solid #777;
+  border: 2px solid #222;
+  color: #222;
+  font-size: large;
+  text-transform: uppercase;
+  background: white;
+  padding: 0.7rem;
   border-radius: 4px;
-  outline: none;
-
+  transition: background 0.25s ease-in-out;
 }
 
-.input[type="text"] {
-  width: 100%;
+.button:disabled {
+  background: #eee;
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+.button:not(:disabled):hover {
+  background: #eee;
+  cursor: pointer;
+}
+
+.input,
+.button {
+  outline: none;
+}
+
+.input {
+  width: 200px;
+  padding: 0.5rem;
+  border-radius: 4px;
+  font-size: large;
 }
 
 .button {

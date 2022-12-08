@@ -1,6 +1,6 @@
 import { baseConfig } from "config/use-cardano-config"
 import { useTransaction } from "hooks/use-transaction"
-import styles from "styles/index.module.css"
+import styles from "styles/example.module.css"
 import { useCardano, useCardanoContext, WalletProviderSelector } from "use-cardano"
 
 const TransactionExamplePage = () => {
