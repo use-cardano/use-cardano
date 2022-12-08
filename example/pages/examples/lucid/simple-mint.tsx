@@ -1,35 +1,56 @@
 import { baseConfig } from "config/use-cardano-config"
 import * as mintingUtils from "lib/minting-utils"
-import { useCallback, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import styles from "styles/example.module.css"
 import { useCardano, useCardanoContext, WalletProviderSelector } from "use-cardano"
+
+let timeout: ReturnType<typeof setTimeout>
 
 const LucidSimpleMintExamplePage = () => {
   useCardano({ ...baseConfig, allowedNetworks: ["testnet"] })
 
   const { lucid, account } = useCardanoContext()
 
+  const [transaction, setTransaction] = useState<string>()
   const [name, setName] = useState("")
 
+  useEffect(() => {
+    if (!transaction) return
+
+    if (timeout) clearTimeout(timeout)
+
+    timeout = setTimeout(() => {
+      setTransaction(undefined)
+    }, 10000)
+
+    return () => {
+      if (timeout) clearTimeout(timeout)
+    }
+  }, [transaction])
+
   const mintNFT = useCallback(async () => {
+    setTransaction(undefined)
+
     try {
       if (!lucid || !account?.address || !name) return
 
-      const nft = await mintingUtils.mintNFT({ lucid, address: account.address, name })
+      const nftTx = await mintingUtils.mintNFT({ lucid, address: account.address, name })
 
-      console.log("minted NFT", nft)
+      setTransaction(nftTx)
     } catch (e) {
       console.error(e)
     }
   }, [lucid, account?.address, name])
 
   const burnNFT = useCallback(async () => {
+    setTransaction(undefined)
+
     try {
       if (!lucid || !account?.address || !name) return
 
-      const nft = await mintingUtils.burnNFT({ lucid, address: account?.address, name })
+      const nftTx = await mintingUtils.burnNFT({ lucid, address: account?.address, name })
 
-      console.log("burned NFT", nft)
+      setTransaction(nftTx)
     } catch (e) {
       console.error(e)
     }
@@ -41,6 +62,14 @@ const LucidSimpleMintExamplePage = () => {
     <>
       <div>
         <WalletProviderSelector />
+      </div>
+
+      <br />
+
+      <div>
+        This example shows how to mint and burn NFTs using Lucid. This example uses a simple minting
+        policy, which is that it is unique to the signer. If you change account, the policy id will
+        change.
       </div>
 
       <br />
@@ -73,6 +102,16 @@ const LucidSimpleMintExamplePage = () => {
           Burn NFT
         </button>
       </div>
+
+      {transaction && (
+        <>
+          <br />
+
+          <div>
+            <small className={styles.info}>Transaction submitted: {transaction}</small>
+          </div>
+        </>
+      )}
     </>
   )
 }
