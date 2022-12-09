@@ -96,6 +96,12 @@ const Index = () => {
           Lucid / Simple Mint
         </Link>
       </li>
+
+      <li className={styles.item}>
+        <Link className={styles.link} href="/examples/lucid/always-succeed">
+          Lucid / Always Succeed
+        </Link>
+      </li>
     </ul>
   )
 }
