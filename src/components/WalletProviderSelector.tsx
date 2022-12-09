@@ -1,12 +1,13 @@
 import { supportedWalletProviders as allProviders } from "constants/supported-wallet-providers"
 import { useCardanoContext } from "contexts/use-cardano-context"
 import { WalletProvider } from "hooks/use-cardano"
+import { useOutsideClick } from "hooks/use-outside-click"
 import { setStoredWalletProvider } from "lib/local-storage"
 import { shortAddress } from "lib/short-address"
 import { useState } from "react"
 
 export const WalletProviderSelector = (autoReconnect?: boolean) => {
-  const [open, setOpen] = useState(false)
+  const { ref, open, setOpen } = useOutsideClick()
 
   const {
     account,
@@ -33,7 +34,7 @@ export const WalletProviderSelector = (autoReconnect?: boolean) => {
   if (open) chevronClasses.push("use-cardano-wallet-provider-selector-chevron-open")
 
   return (
-    <div className="use-cardano-wallet-provider-selector-container">
+    <div ref={ref} className="use-cardano-wallet-provider-selector-container">
       <button
         disabled={walletApiLoading}
         className={openerClasses.join(" ")}
