@@ -104,6 +104,12 @@ const Index = () => {
       </li>
 
       <li className={styles.item}>
+        <Link className={styles.link} href="/examples/lucid/matching-numbers">
+          Lucid / Matching Numbers
+        </Link>
+      </li>
+
+      <li className={styles.item}>
         <Link className={styles.link} href="/examples/lucid/simple-mint">
           Lucid / Simple Mint
         </Link>
