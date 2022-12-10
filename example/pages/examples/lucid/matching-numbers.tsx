@@ -33,7 +33,6 @@ const LucidMatchingNumbersExamplePage = () => {
   // Continuously fetch locked data
   useEffect(() => {
     if (!lucid) return
-    if (lockedData) return
 
     if (!lockedData) utils.getLockedData(lucid).then(setLockedData)
 
@@ -99,14 +98,11 @@ const LucidMatchingNumbersExamplePage = () => {
         will override the previously locked number.
       </div>
 
-      {lockedData?.datum && (
+      {!isNil(lockedData?.assets["lovelace"]) && (
         <>
           <br />
 
-          <div>
-            Locked {(lockedData.assets["lovelace"] as BigInt).toString()} lovelace at key{" "}
-            {lockedData.datum}
-          </div>
+          <div>{(lockedData?.assets["lovelace"] as BigInt).toString()} lovelace locked</div>
         </>
       )}
 
