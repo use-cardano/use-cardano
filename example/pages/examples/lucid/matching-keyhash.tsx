@@ -77,7 +77,9 @@ const LucidMatchingKeyhashExamplePage = () => {
       <br />
 
       <div>
-        This is a port of the Lucid &quot;Matching Keyhash&quot; example. It also showcases{" "}
+        This is a port of the Lucid &quot;Matching Keyhash&quot; example. It works the same as the
+        &quot;Always Succeed&quot; example, but with the difference that it&apos;s only the account
+        that locks lovelace that is able to redeem it. It also showcases{" "}
         <a target="_blank" rel="noreferrer" href="https://github.com/Hyperion-BT/Helios">
           Helios
         </a>
