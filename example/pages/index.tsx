@@ -92,14 +92,20 @@ const Index = () => {
       </li>
 
       <li className={styles.item}>
-        <Link className={styles.link} href="/examples/lucid/simple-mint">
-          Lucid / Simple Mint
+        <Link className={styles.link} href="/examples/lucid/always-succeed">
+          Lucid / Always Succeed
         </Link>
       </li>
 
       <li className={styles.item}>
-        <Link className={styles.link} href="/examples/lucid/always-succeed">
-          Lucid / Always Succeed
+        <Link className={styles.link} href="/examples/lucid/matching-keyhash">
+          Lucid / Matching Keyhash
+        </Link>
+      </li>
+
+      <li className={styles.item}>
+        <Link className={styles.link} href="/examples/lucid/simple-mint">
+          Lucid / Simple Mint
         </Link>
       </li>
     </ul>

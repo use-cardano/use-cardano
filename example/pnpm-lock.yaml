@@ -1,6 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@hyperionbt/helios': ^0.9.4
   '@types/react': 18.0.24
   '@types/react-dom': 18.0.8
   eslint: 8.26.0
@@ -14,6 +15,7 @@ specifiers:
   use-cardano: link:..
 
 dependencies:
+  '@hyperionbt/helios': 0.9.4
   '@types/react': 18.0.24
   '@types/react-dom': 18.0.8
   eslint: 8.26.0
@@ -78,6 +80,10 @@ packages:
 
   /@humanwhocodes/object-schema/1.2.1:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
+    dev: false
+
+  /@hyperionbt/helios/0.9.4:
+    resolution: {integrity: sha512-pCkbKkua9/y5WgAR5h0ZkRrRM29hbg+kn6OztaOM8cNnM3kZ4JqsiAhby9Mj4mpfYNTE9pL2F56lS0GMe6Jsfg==}
     dev: false
 
   /@next/env/13.0.2:

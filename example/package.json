@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@hyperionbt/helios": "^0.9.4",
     "@types/react": "18.0.24",
     "@types/react-dom": "18.0.8",
     "eslint": "8.26.0",

@@ -1,22 +1,20 @@
 import { baseConfig } from "config/use-cardano-config"
-import * as utils from "lib/always-succeed-utils"
+import * as utils from "lib/matching-keyhash-utils"
+import Head from "next/head"
 import { useCallback, useState } from "react"
 import styles from "styles/example.module.css"
 import { useCardano, useCardanoContext, WalletProviderSelector } from "use-cardano"
 
 /*
-  AlwaysSucceeds Example
-  Lock a UTxO with some ADA
-  UTxO can be unlocked by anyone
-  Showcasing PlutusV2
-  Contract:
-  validate :: () -> () -> ScriptContext -> Bool
-  validate _ _ _ = True
+  MatchingPubKeyHash Example
+  Lock a UTxO with a PubKeyHash
+  UTxO can be unlocked by providing the same PubKeyHash in the redeemer
+  Showcasing Helios; Link: https://github.com/Hyperion-BT/Helios
 
-  See underlying code in lib/always-succeed-utils.ts
+  See underlying code in lib/matching-keyhash-utils.ts
  */
 
-const LucidAlwaysSucceedExamplePage = () => {
+const LucidMatchingKeyhashExamplePage = () => {
   useCardano({ ...baseConfig, allowedNetworks: ["testnet"] })
 
   const [lovelace, setLovelace] = useState(0)
@@ -64,6 +62,14 @@ const LucidAlwaysSucceedExamplePage = () => {
 
   return (
     <>
+      <Head>
+        <script
+          type="module"
+          async
+          src="https://raw.githubusercontent.com/Hyperion-BT/Helios/v0.4.0/helios.js"
+        ></script>
+      </Head>
+
       <div>
         <WalletProviderSelector />
       </div>
@@ -71,8 +77,11 @@ const LucidAlwaysSucceedExamplePage = () => {
       <br />
 
       <div>
-        This is a port of the Lucid &quot;Always Succeed&quot; example. It also an example of how to
-        use the use-cardano toaster to display custom messages.
+        This is a port of the Lucid &quot;Matching Keyhash&quot; example. It also showcases{" "}
+        <a target="_blank" rel="noreferrer" href="https://github.com/Hyperion-BT/Helios">
+          Helios
+        </a>
+        .
       </div>
 
       <br />
@@ -124,4 +133,4 @@ const LucidAlwaysSucceedExamplePage = () => {
   )
 }
 
-export default LucidAlwaysSucceedExamplePage
+export default LucidMatchingKeyhashExamplePage

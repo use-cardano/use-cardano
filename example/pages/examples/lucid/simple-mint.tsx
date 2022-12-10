@@ -67,9 +67,9 @@ const LucidSimpleMintExamplePage = () => {
       <br />
 
       <div>
-        This example shows how to mint and burn NFTs using Lucid. This example uses a simple minting
-        policy, which is that it is unique to the signer. If you change account, the policy id will
-        change.
+        This is a port of the Lucid &quot;Simple Mint&quot; example. It shows how to mint and burn
+        NFTs using Lucid. This example uses a simple minting policy, which is that it is unique to
+        the signer. If you change account, the policy id will change.
       </div>
 
       <br />
