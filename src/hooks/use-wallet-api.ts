@@ -47,10 +47,10 @@ const useWalletApi = (autoReconnect?: boolean) => {
         if (autoReconnect) setStoredWalletProvider(undefined)
         setWalletApiLoading(false)
 
-        // Note, at least Nami uses a code for different type of errors
         if (!isNil(e.code)) {
           switch (e.code) {
-            case -3: // user rejected request to connect wallet
+            case -2: // user rejected request to connect wallet (Flint)
+            case -3: // user rejected request to connect wallet (Nami)
               setWalletApiError(userRejectedError)
               break
           }
