@@ -1,5 +1,5 @@
 import { baseConfig } from "config/use-cardano-config"
-import * as mintingUtils from "lib/minting-utils"
+import * as utils from "lib/simple-mint-utils"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import styles from "styles/example.module.css"
 import { useCardano, useCardanoContext, WalletProviderSelector } from "use-cardano"
@@ -33,7 +33,7 @@ const LucidSimpleMintExamplePage = () => {
     try {
       if (!lucid || !account?.address || !name) return
 
-      const nftTx = await mintingUtils.mintNFT({ lucid, address: account.address, name })
+      const nftTx = await utils.mintNFT({ lucid, address: account.address, name })
 
       setTransaction(nftTx)
     } catch (e) {
@@ -47,7 +47,7 @@ const LucidSimpleMintExamplePage = () => {
     try {
       if (!lucid || !account?.address || !name) return
 
-      const nftTx = await mintingUtils.burnNFT({ lucid, address: account?.address, name })
+      const nftTx = await utils.burnNFT({ lucid, address: account?.address, name })
 
       setTransaction(nftTx)
     } catch (e) {
