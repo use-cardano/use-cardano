@@ -1,6 +1,6 @@
 import { baseConfig } from "config/use-cardano-config"
 import * as utils from "lib/always-succeed-utils"
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useState } from "react"
 import styles from "styles/example.module.css"
 import { useCardano, useCardanoContext, WalletProviderSelector } from "use-cardano"
 
@@ -16,69 +16,51 @@ import { useCardano, useCardanoContext, WalletProviderSelector } from "use-carda
   See underlying code in lib/always-succeed-utils.ts
  */
 
-let timeout: ReturnType<typeof setTimeout>
-
 const LucidAlwaysSucceedExamplePage = () => {
   useCardano({ ...baseConfig, allowedNetworks: ["testnet"] })
 
   const [lovelace, setLovelace] = useState(0)
-  const [feedback, setFeedback] = useState<string>()
-  const [error, setError] = useState<string>()
   const [isLocking, setIsLocking] = useState(false)
   const [isRedeeming, setIsRedeeming] = useState(false)
 
-  const { lucid } = useCardanoContext()
-
-  useEffect(() => {
-    if (!feedback) return
-
-    timeout = setTimeout(() => {
-      setFeedback(undefined)
-    }, 5000)
-
-    return () => clearTimeout(timeout)
-  }, [feedback])
+  const { lucid, showToaster, hideToaster } = useCardanoContext()
 
   const lockUtxo = useCallback(
     async (value: number) => {
       if (!lucid) return
       if (isLocking || isRedeeming) return
 
-      setError(undefined)
       setIsLocking(true)
 
       try {
         const tx = await utils.lockUtxo(lucid, BigInt(value))
 
-        setFeedback(`Locked ${value} lovelace in tx ${tx}`)
+        showToaster("Locked UTXO", `Locked ${value} lovelace in tx ${tx}`)
       } catch (e) {
-        setFeedback(undefined)
-        if (e instanceof Error) setError(e.message)
+        if (e instanceof Error) showToaster("Could not lock UTXO", e.message)
       } finally {
         setIsLocking(false)
       }
     },
-    [lucid, isLocking, isRedeeming]
+    [lucid, isLocking, isRedeeming, showToaster]
   )
 
   const redeemUtxo = useCallback(async () => {
     if (!lucid) return
     if (isLocking || isRedeeming) return
 
-    setError(undefined)
     setIsRedeeming(true)
 
     try {
       const tx = await utils.redeemUtxo(lucid)
 
-      setFeedback(`Redeemed all available lovelace in tx ${tx}`)
+      showToaster("Redeemed UTXO", `Redeemed all available lovelace in tx ${tx}`)
     } catch (e) {
-      setFeedback(undefined)
-      if (e instanceof Error) setError(e.message)
+      if (e instanceof Error) showToaster("Could not redeem UTXO", e.message)
     } finally {
       setIsRedeeming(false)
     }
-  }, [lucid, isLocking, isRedeeming])
+  }, [lucid, isLocking, isRedeeming, showToaster])
 
   return (
     <>
@@ -88,7 +70,10 @@ const LucidAlwaysSucceedExamplePage = () => {
 
       <br />
 
-      <div>This is a port of the Lucid example Always Succeed.</div>
+      <div>
+        This is a port of the Lucid Always Succeed example. It also an example of how to use the
+        use-cardano toaster to display custom messages.
+      </div>
 
       <br />
 
@@ -103,8 +88,6 @@ const LucidAlwaysSucceedExamplePage = () => {
             name="amount"
             value={lovelace}
             onChange={(e) => {
-              if (error) setError(undefined)
-
               setLovelace(Number(e.target.value))
             }}
           />
@@ -117,7 +100,10 @@ const LucidAlwaysSucceedExamplePage = () => {
         <button
           disabled={!lucid || isLocking || lovelace <= 0}
           className={styles.button}
-          onClick={() => lockUtxo(lovelace)}
+          onClick={() => {
+            hideToaster()
+            lockUtxo(lovelace)
+          }}
         >
           Lock Utxo
         </button>
@@ -134,26 +120,6 @@ const LucidAlwaysSucceedExamplePage = () => {
 
         {isRedeeming && <span className={styles.loading}> Redeeming...</span>}
       </div>
-
-      {feedback && (
-        <>
-          <br />
-
-          <div>
-            <small className={styles.info}>{feedback}</small>
-          </div>
-        </>
-      )}
-
-      {error && (
-        <>
-          <br />
-
-          <div className={styles.warning}>
-            <small className={styles.info}>{error}</small>
-          </div>
-        </>
-      )}
     </>
   )
 }

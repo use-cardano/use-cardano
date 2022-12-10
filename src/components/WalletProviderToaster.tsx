@@ -26,7 +26,7 @@ export const WalletProviderToaster = () => {
     openTimeout.current = setTimeout(() => {
       hideToaster()
       setIsManuallyOpen(false)
-    }, 5000)
+    }, 6000)
 
     return () => {
       if (openTimeout.current) clearTimeout(openTimeout.current)
@@ -69,23 +69,31 @@ export const WalletProviderToaster = () => {
               <div className="use-cardano-wallet-provider-toaster-warning">
                 <div>Unable to connect wallet</div>
 
-                {walletApiError && (
-                  <small>
-                    <i>{walletApiError.message}</i>
-                  </small>
-                )}
+                <ul className="use-cardano-wallet-provider-toaster-warning-list">
+                  {walletApiError && (
+                    <li>
+                      <small>
+                        <i>{walletApiError.message}</i>
+                      </small>
+                    </li>
+                  )}
 
-                {accountError && (
-                  <small>
-                    <i>{accountError.message}</i>
-                  </small>
-                )}
+                  {accountError && (
+                    <li>
+                      <small>
+                        <i>{accountError.message}</i>
+                      </small>
+                    </li>
+                  )}
 
-                {networkError && (
-                  <small>
-                    <i>{networkError.message}</i>
-                  </small>
-                )}
+                  {networkError && (
+                    <li>
+                      <small>
+                        <i>{networkError.message}</i>
+                      </small>
+                    </li>
+                  )}
+                </ul>
               </div>
             ) : (
               <>

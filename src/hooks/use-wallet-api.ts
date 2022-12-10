@@ -8,11 +8,15 @@ import { useEffect } from "react"
 const useWalletApi = (autoReconnect?: boolean) => {
   const {
     walletProvider,
-    setWalletApiError,
     setWalletApiLoading,
     showToaster,
     setWalletApi,
     setWalletProvider,
+    setWalletApiError,
+    setNetworkWarning,
+    setAccountWarning,
+    setNetworkError,
+    setAccountError,
   } = useCardanoContext()
 
   useEffect(() => {
@@ -29,6 +33,11 @@ const useWalletApi = (autoReconnect?: boolean) => {
     window.cardano[walletProvider]
       .enable()
       .then((api) => {
+        // Note, reset all errors and warnings when wallet is changed
+        setNetworkWarning(undefined)
+        setAccountWarning(undefined)
+        setNetworkError(undefined)
+        setAccountError(undefined)
         setWalletApiError(undefined)
         setWalletApi(api)
       })
