@@ -1,44 +1,29 @@
 import { baseConfig } from "config/use-cardano-config"
 import * as utils from "lib/parameterized-script-utils"
+import { isObject } from "lodash"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import styles from "styles/example.module.css"
 import { useCardano, useCardanoContext, WalletProviderSelector } from "use-cardano"
 
-let timeout: ReturnType<typeof setTimeout>
+const isError = (e: any): e is { message: string } =>
+  e instanceof Error || (isObject(e) && typeof (e as any)?.message === "string")
 
 const ParameterizedScriptExamplePage = () => {
   useCardano({ ...baseConfig, allowedNetworks: ["testnet"] })
+  const { lucid, showToaster, hideToaster } = useCardanoContext()
 
-  const { lucid } = useCardanoContext()
-
-  const [transaction, setTransaction] = useState<string>()
   const [name, setName] = useState("")
 
-  useEffect(() => {
-    if (!transaction) return
-
-    if (timeout) clearTimeout(timeout)
-
-    timeout = setTimeout(() => {
-      setTransaction(undefined)
-    }, 10000)
-
-    return () => {
-      if (timeout) clearTimeout(timeout)
-    }
-  }, [transaction])
-
   const mintNFT = useCallback(async () => {
-    setTransaction(undefined)
-
     try {
       if (!lucid || !name) return
 
       const nftTx = await utils.mint(lucid, name)
 
-      setTransaction(nftTx)
+      showToaster("Minted NFT", `Transaction: ${nftTx}`)
     } catch (e) {
-      console.error(e)
+      if (isError(e)) showToaster("Could not mint NFT", e.message)
+      else showToaster("Could not mint NFT", (e as any).toString())
     }
   }, [lucid, name])
 
@@ -67,7 +52,10 @@ const ParameterizedScriptExamplePage = () => {
             type="text"
             placeholder="name"
             value={name}
-            onChange={(e) => setName(e.target.value.toString())}
+            onChange={(e) => {
+              hideToaster()
+              setName(e.target.value.toString())
+            }}
           />
         </label>
       </div>
@@ -79,16 +67,6 @@ const ParameterizedScriptExamplePage = () => {
           Mint NFT
         </button>
       </div>
-
-      {transaction && (
-        <>
-          <br />
-
-          <div>
-            <small className={styles.info}>Transaction submitted: {transaction}</small>
-          </div>
-        </>
-      )}
     </>
   )
 }
