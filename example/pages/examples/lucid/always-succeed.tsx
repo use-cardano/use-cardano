@@ -18,12 +18,11 @@ import { useCardano, useCardanoContext, WalletProviderSelector } from "use-carda
 
 const LucidAlwaysSucceedExamplePage = () => {
   useCardano({ ...baseConfig, allowedNetworks: ["testnet"] })
+  const { lucid, showToaster, hideToaster } = useCardanoContext()
 
   const [lovelace, setLovelace] = useState(0)
   const [isLocking, setIsLocking] = useState(false)
   const [isRedeeming, setIsRedeeming] = useState(false)
-
-  const { lucid, showToaster, hideToaster } = useCardanoContext()
 
   const lockUtxo = useCallback(
     async (value: number) => {

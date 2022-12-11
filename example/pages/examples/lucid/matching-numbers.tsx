@@ -21,14 +21,13 @@ let interval: ReturnType<typeof setInterval>
 
 const LucidMatchingNumbersExamplePage = () => {
   useCardano({ ...baseConfig, allowedNetworks: ["testnet"] })
+  const { lucid, showToaster, hideToaster } = useCardanoContext()
 
   const [lockedData, setLockedData] = useState<UTxO>()
   const [number, setNumber] = useState(1) // "Dictionary" key / number
   const [lovelace, setLovelace] = useState(0)
   const [isLocking, setIsLocking] = useState(false)
   const [isRedeeming, setIsRedeeming] = useState(false)
-
-  const { lucid, showToaster, hideToaster } = useCardanoContext()
 
   // Continuously fetch locked data
   useEffect(() => {

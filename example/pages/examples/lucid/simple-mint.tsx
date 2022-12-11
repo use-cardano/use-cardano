@@ -8,7 +8,6 @@ let timeout: ReturnType<typeof setTimeout>
 
 const LucidSimpleMintExamplePage = () => {
   useCardano({ ...baseConfig, allowedNetworks: ["testnet"] })
-
   const { lucid, account } = useCardanoContext()
 
   const [transaction, setTransaction] = useState<string>()
