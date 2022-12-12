@@ -1,5 +1,5 @@
 import {
-    applyParamsToScript, Lucid, MintingPolicy, PolicyId, TxHash, Unit, utf8ToHex
+    applyParamsToScript, Data, Lucid, MintingPolicy, PolicyId, TxHash, Unit, utf8ToHex
 } from "lucid-cardano"
 
 const mintingPolicy: MintingPolicy = {
@@ -10,20 +10,14 @@ const mintingPolicy: MintingPolicy = {
   ),
 }
 
-const getPolicyId = (lucid: Lucid) => {
-  const policyId: PolicyId = lucid.utils.mintingPolicyToId(mintingPolicy)
-
-  return policyId
-}
-
 export const mint = async (lucid: Lucid, name: string): Promise<TxHash> => {
-  const policyId = getPolicyId(lucid)
+  const policyId: PolicyId = lucid.utils.mintingPolicyToId(mintingPolicy)
 
   const unit: Unit = policyId + utf8ToHex(name)
 
   const tx = await lucid
     .newTx()
-    .mintAssets({ [unit]: 1n })
+    .mintAssets({ [unit]: 1n }, Data.empty())
     .attachMintingPolicy(mintingPolicy)
     .complete()
 
