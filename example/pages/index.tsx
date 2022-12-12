@@ -116,6 +116,12 @@ const Index = () => {
       </li>
 
       <li className={styles.item}>
+        <Link className={styles.link} href="/examples/lucid/parameterized-script">
+          Lucid / Parameterized Script
+        </Link>
+      </li>
+
+      <li className={styles.item}>
         <Link className={styles.link} href="/examples/lucid/sign-message">
           Lucid / Sign Message
         </Link>
