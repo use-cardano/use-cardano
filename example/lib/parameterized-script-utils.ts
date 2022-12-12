@@ -10,7 +10,7 @@ const mintingPolicy: MintingPolicy = {
   ),
 }
 
-export const mint = async (lucid: Lucid, name: string): Promise<TxHash> => {
+export const mintNFT = async (lucid: Lucid, name: string): Promise<TxHash> => {
   const policyId: PolicyId = lucid.utils.mintingPolicyToId(mintingPolicy)
 
   const unit: Unit = policyId + utf8ToHex(name)

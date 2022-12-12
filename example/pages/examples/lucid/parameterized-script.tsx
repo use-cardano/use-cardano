@@ -10,7 +10,7 @@ const isError = (e: any): e is { message: string } =>
 
 const ParameterizedScriptExamplePage = () => {
   useCardano({ ...baseConfig, allowedNetworks: ["testnet"] })
-  const { lucid, showToaster, hideToaster } = useCardanoContext()
+  const { lucid, showToaster } = useCardanoContext()
 
   const [name, setName] = useState("")
 
@@ -18,14 +18,14 @@ const ParameterizedScriptExamplePage = () => {
     try {
       if (!lucid || !name) return
 
-      const nftTx = await utils.mint(lucid, name)
+      const nftTx = await utils.mintNFT(lucid, name)
 
       showToaster("Minted NFT", `Transaction: ${nftTx}`)
     } catch (e) {
       if (isError(e)) showToaster("Could not mint NFT", e.message)
       else showToaster("Could not mint NFT", (e as any).toString())
     }
-  }, [lucid, name])
+  }, [lucid, showToaster, name])
 
   const canMint = useMemo(() => lucid && name, [lucid, name])
 
@@ -52,10 +52,7 @@ const ParameterizedScriptExamplePage = () => {
             type="text"
             placeholder="name"
             value={name}
-            onChange={(e) => {
-              hideToaster()
-              setName(e.target.value.toString())
-            }}
+            onChange={(e) => setName(e.target.value.toString())}
           />
         </label>
       </div>

@@ -1,59 +1,44 @@
 import { baseConfig } from "config/use-cardano-config"
 import * as utils from "lib/simple-mint-utils"
-import { useCallback, useEffect, useMemo, useState } from "react"
+import { isObject } from "lodash"
+import { useCallback, useMemo, useState } from "react"
 import styles from "styles/example.module.css"
 import { useCardano, useCardanoContext, WalletProviderSelector } from "use-cardano"
 
-let timeout: ReturnType<typeof setTimeout>
+const isError = (e: any): e is { message: string } =>
+  e instanceof Error || (isObject(e) && typeof (e as any)?.message === "string")
 
 const LucidSimpleMintExamplePage = () => {
   useCardano({ ...baseConfig, allowedNetworks: ["testnet"] })
-  const { lucid, account } = useCardanoContext()
+  const { lucid, account, showToaster } = useCardanoContext()
 
-  const [transaction, setTransaction] = useState<string>()
   const [name, setName] = useState("")
 
-  useEffect(() => {
-    if (!transaction) return
-
-    if (timeout) clearTimeout(timeout)
-
-    timeout = setTimeout(() => {
-      setTransaction(undefined)
-    }, 10000)
-
-    return () => {
-      if (timeout) clearTimeout(timeout)
-    }
-  }, [transaction])
-
   const mintNFT = useCallback(async () => {
-    setTransaction(undefined)
-
     try {
       if (!lucid || !account?.address || !name) return
 
       const nftTx = await utils.mintNFT({ lucid, address: account.address, name })
 
-      setTransaction(nftTx)
+      showToaster("Minted NFT", `Transaction: ${nftTx}`)
     } catch (e) {
-      console.error(e)
+      if (isError(e)) showToaster("Could not mint NFT", e.message)
+      else showToaster("Could not mint NFT", (e as any).toString())
     }
-  }, [lucid, account?.address, name])
+  }, [lucid, account?.address, showToaster, name])
 
   const burnNFT = useCallback(async () => {
-    setTransaction(undefined)
-
     try {
       if (!lucid || !account?.address || !name) return
 
       const nftTx = await utils.burnNFT({ lucid, address: account?.address, name })
 
-      setTransaction(nftTx)
+      showToaster("Burned NFT", `Transaction: ${nftTx}`)
     } catch (e) {
-      console.error(e)
+      if (isError(e)) showToaster("Could not mint NFT", e.message)
+      else showToaster("Could not mint NFT", (e as any).toString())
     }
-  }, [lucid, account?.address, name])
+  }, [lucid, account?.address, showToaster, name])
 
   const canMint = useMemo(() => lucid && account?.address && name, [lucid, account?.address, name])
 
@@ -101,16 +86,6 @@ const LucidSimpleMintExamplePage = () => {
           Burn NFT
         </button>
       </div>
-
-      {transaction && (
-        <>
-          <br />
-
-          <div>
-            <small className={styles.info}>Transaction submitted: {transaction}</small>
-          </div>
-        </>
-      )}
     </>
   )
 }
