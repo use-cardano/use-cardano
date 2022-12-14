@@ -8,8 +8,8 @@
   "scripts": {
     "build": "rollup -c",
     "dev:package": "rollup -c -w &",
-    "dev:example": "cd example && pnpm run dev",
-    "dev": "concurrently \"pnpm run dev:package\" \"pnpm run dev:example &\" \"open-cli http://localhost:3000\" \"node scripts/open.js\""
+    "dev:example": "cd example && pnpm run dev -p 4200",
+    "dev": "concurrently \"pnpm run dev:package\" \"pnpm run dev:example &\" \"open-cli http://localhost:4200\" \"node scripts/open.js\""
   },
   "keywords": [],
   "author": "Jesper Tullberg",
