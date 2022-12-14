@@ -17,12 +17,12 @@ const RegisterPoolExamplePage = () => {
   const [isSigning, setIsSigning] = useState(false)
 
   const signMessage = useCallback(async () => {
-    if (!lucid || !address) return
+    if (!lucid || !address || !message) return
 
     setIsSigning(true)
 
     try {
-      const payload = utf8ToHex("Hello from Lucid!")
+      const payload = utf8ToHex(message)
 
       const signedMessage = await lucid.newMessage(address, payload).sign()
       const hasSigned: boolean = lucid.verifyMessage(address, payload, signedMessage)
