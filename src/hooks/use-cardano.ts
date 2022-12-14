@@ -4,26 +4,8 @@ import { useNetworkId } from "hooks/use-network-id"
 import { useWalletApi } from "hooks/use-wallet-api"
 import { useWalletProviders } from "hooks/use-wallet-providers"
 import { useMemo } from "react"
+import { UseCardanoOptions } from "use-cardano"
 import { toNetworkId } from "utils/network-dictionary"
-
-// todo, add support for more node providers, when available in lucid
-type NodeProvider = "blockfrost" | "blockfrost-proxy"
-type WalletProvider = "nami" | "eternl" | "gerowallet" | "flint"
-
-export type AllowedNetworks = ("mainnet" | "testnet")[]
-
-export type UseCardanoNodeOptions = {
-  provider?: NodeProvider
-  proxyUrl?: string
-  projectId?: string
-}
-
-type UseCardanoOptions = {
-  autoConnectTo?: WalletProvider
-  autoReconnect?: boolean
-  allowedNetworks?: AllowedNetworks
-  node?: UseCardanoNodeOptions
-}
 
 type DefaultUseCardanoOptions = {
   autoConnectTo: undefined
@@ -47,7 +29,7 @@ const defaultOptions: DefaultUseCardanoOptions = {
   },
 }
 
-const useCardano = (options: UseCardanoOptions = {}) => {
+export const useCardano = (options: UseCardanoOptions = {}) => {
   const {
     node,
     autoConnectTo,
@@ -63,6 +45,3 @@ const useCardano = (options: UseCardanoOptions = {}) => {
   useAccount()
   useLucid(allowedNetworks, node)
 }
-
-export type { WalletProvider }
-export { useCardano }

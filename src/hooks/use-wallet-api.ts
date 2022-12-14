@@ -5,7 +5,7 @@ import { setStoredWalletProvider } from "lib/local-storage"
 import { isNil } from "lodash"
 import { useEffect } from "react"
 
-const useWalletApi = (autoReconnect?: boolean) => {
+export const useWalletApi = (autoReconnect?: boolean) => {
   const {
     walletProvider,
     setWalletApiLoading,
@@ -80,5 +80,3 @@ const useWalletApi = (autoReconnect?: boolean) => {
       })
   }, [walletProvider])
 }
-
-export { useWalletApi }

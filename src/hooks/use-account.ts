@@ -5,7 +5,7 @@ import { noLiveAccountChangeWarning } from "lib/warnings"
 import { isNil } from "lodash"
 import { useCallback, useEffect, useRef } from "react"
 
-const useAccount = () => {
+export const useAccount = () => {
   const loadedTimeout = useRef<NodeJS.Timeout>()
 
   const {
@@ -79,5 +79,3 @@ const useAccount = () => {
     }
   }, [walletApi, updateAddresses])
 }
-
-export { useAccount }

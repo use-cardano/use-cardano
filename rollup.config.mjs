@@ -26,7 +26,6 @@ const copyCss = () => ({
  */
 export default {
   input: "src/index.ts",
-
   output: [
     {
       file: packageJson.module,
@@ -41,6 +40,7 @@ export default {
     commonjs(),
     copyCss(),
     typescript({
+      noEmit: true,
       exclude: ["node_modules/**", "example/**"],
     }),
   ],

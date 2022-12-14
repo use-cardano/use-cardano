@@ -1,50 +1,9 @@
-import { WalletProvider } from "hooks/use-cardano"
-import { AvailableProvider } from "hooks/use-wallet-providers"
 import { UseCardanoError } from "lib/errors"
-import { UseCardanoWarning } from "lib/warnings"
 import { Lucid, WalletApi } from "lucid-cardano"
 import React from "react"
-
-interface Account {
-  address?: string | null
-  rewardAddress?: string | null
-}
-
-interface UseCardanoContextState {
-  isValid?: boolean
-  text?: string
-  info?: string
-  count: number
-  walletApi?: WalletApi
-  setWalletApi: (walletApi?: WalletApi) => void
-  lucid?: Lucid
-  setLucid: (lucid?: Lucid) => void
-  networkId?: number
-  setNetworkId: (networkId: number) => void
-  networkWarning?: UseCardanoWarning
-  setNetworkWarning: (warning?: UseCardanoWarning) => void
-  networkError?: UseCardanoError
-  setNetworkError: (error?: UseCardanoError) => void
-  walletApiError?: UseCardanoError
-  setWalletApiError: (error?: UseCardanoError) => void
-  account: Account
-  setAccount: (account: Account) => void
-  accountLoaded: boolean
-  setAccountLoaded: (loaded: boolean) => void
-  accountError?: UseCardanoError
-  setAccountError: (error?: UseCardanoError) => void
-  accountWarning?: UseCardanoWarning
-  setAccountWarning: (warning?: UseCardanoWarning) => void
-  walletApiLoading: boolean
-  setWalletApiLoading: (loading: boolean) => void
-  walletProvider?: WalletProvider
-  setWalletProvider: (walletProvider?: WalletProvider) => void
-  availableProviders: AvailableProvider[]
-  setAvailableProviders: (availableProviders: AvailableProvider[]) => void
-  toasterIsShowing: boolean
-  showToaster: (text?: string, info?: string) => void
-  hideToaster: () => void
-}
+import {
+    AvailableProvider, UseCardanoContextState, UseCardanoWarning, WalletProvider
+} from "use-cardano"
 
 const noop = (..._: any[]) => {}
 
@@ -97,7 +56,7 @@ function useState<T>(initialState: T): [T, React.Dispatch<React.SetStateAction<T
   return [val, setVal]
 }
 
-const UseCardanoProvider = ({ children }: React.PropsWithChildren<{}>) => {
+export const UseCardanoProvider = ({ children }: React.PropsWithChildren<{}>) => {
   const [count, setCount] = useState(0)
   const [text, setText] = useState<string | undefined>(undefined)
   const [info, setInfo] = useState<string | undefined>(undefined)
@@ -170,7 +129,7 @@ const UseCardanoProvider = ({ children }: React.PropsWithChildren<{}>) => {
   )
 }
 
-const useCardanoContext = () => {
+export const useCardanoContext = () => {
   const context = React.useContext(UseCardanoContext)
 
   if (context === undefined)
@@ -178,6 +137,3 @@ const useCardanoContext = () => {
 
   return context
 }
-
-export type { UseCardanoContextState }
-export { UseCardanoProvider, useCardanoContext }

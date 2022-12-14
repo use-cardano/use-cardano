@@ -1,4 +1,4 @@
-import { WalletProvider } from "hooks/use-cardano"
+import { WalletProvider } from "use-cardano"
 
 export const getText = (provider: WalletProvider) => `Connected to ${provider}`
 

@@ -1,4 +1,4 @@
-import { WalletProvider } from "hooks/use-cardano"
+import { WalletProvider } from "use-cardano"
 
 const key = "use-cardano/reconnect-to"
 

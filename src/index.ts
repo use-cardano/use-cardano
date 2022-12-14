@@ -1,5 +1,3 @@
-export type { AvailableProvider } from "hooks/use-wallet-providers"
-export type { WalletProvider } from "hooks/use-cardano"
 export { useCardano } from "hooks/use-cardano"
 export { useCardanoContext, UseCardanoProvider } from "contexts/use-cardano-context"
 export { WalletProviderToaster } from "components/WalletProviderToaster"

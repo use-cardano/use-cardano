@@ -1,5 +1,5 @@
 import { baseConfig } from "config/use-cardano-config"
-import styles from "styles/example.module.css"
+import { isNil } from "lodash"
 import { useCardano, useCardanoContext, utility, WalletProviderSelector } from "use-cardano"
 
 const OnlyMainnetExamplePage = () => {
@@ -20,9 +20,13 @@ const OnlyMainnetExamplePage = () => {
 
       <div>Try switching provider and network</div>
 
-      <br />
+      {!isNil(networkId) && (
+        <>
+          <br />
 
-      <div>Connected to {utility.toNetworkName(networkId)}</div>
+          <div>Connected to {utility.toNetworkName(networkId)}</div>
+        </>
+      )}
 
       <br />
 

@@ -1,19 +1,9 @@
 import { useCardanoContext } from "contexts/use-cardano-context"
-import { WalletProvider } from "hooks/use-cardano"
 import { filterAvailableProviders } from "lib/filter-available-providers"
 import { getInfo, getText } from "lib/get-toaster-texts"
 import { getStoredWalletProvider, setStoredWalletProvider } from "lib/local-storage"
-import { WalletApi } from "lucid-cardano"
 import { useEffect, useRef } from "react"
-
-export interface AvailableProvider {
-  key: WalletProvider
-  name: string
-  icon: string
-  version: string
-  enable(): Promise<WalletApi>
-  isEnabled(): Promise<boolean>
-}
+import { WalletProvider } from "use-cardano"
 
 type Interval = ReturnType<typeof setInterval>
 

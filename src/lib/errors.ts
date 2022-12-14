@@ -1,13 +1,5 @@
-import { WalletProvider } from "hooks/use-cardano"
+import { USE_CARDANO_ERROR, WalletProvider } from "use-cardano"
 import { toNetworkName } from "utils/network-dictionary"
-
-export type USE_CARDANO_ERROR =
-  | "USER_REJECTED"
-  | "NO_ACCOUNT_SET"
-  | "NO_DAPP_CONNECTOR"
-  | "INVALID_WALLET"
-  | "INVALID_NETWORK"
-  | "UNKNOWN"
 
 export class UseCardanoError extends Error {
   type?: USE_CARDANO_ERROR
