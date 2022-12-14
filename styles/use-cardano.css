@@ -99,6 +99,11 @@
   cursor: default;
 }
 
+.use-cardano-wallet-provider-selector-opener-warning {
+  border-color: red;
+  color: red;
+}
+
 .use-cardano-wallet-provider-selector-opener-open {
   border-radius: 4px 4px 0 0;
 }
@@ -145,9 +150,17 @@
   border-bottom: none;
 }
 
+.use-cardano-wallet-provider-selector-opener-list-item-warning {
+  border-color: red;
+}
+
 .use-cardano-wallet-provider-selector-opener-list-item-last {
   border-radius: 0 0 4px 4px;
   border-bottom: 0.15rem solid #555;
+}
+
+.use-cardano-wallet-provider-selector-opener-list-item-last-warning {
+  border-color: red;
 }
 
 .use-cardano-wallet-provider-selector-opener-list-item-available {

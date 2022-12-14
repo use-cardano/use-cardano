@@ -2,7 +2,10 @@ import { supportedWalletProviders as allProviders } from "constants/supported-wa
 import { useCardanoContext } from "contexts/use-cardano-context"
 import { useOutsideClick } from "hooks/use-outside-click"
 import { shortAddress } from "lib/short-address"
+import { isNil } from "lodash"
+import { useCallback, useMemo } from "react"
 import { WalletProvider } from "use-cardano"
+import { toNetworkName } from "utils/network-dictionary"
 
 export const WalletProviderSelector = () => {
   const { ref, open, setOpen } = useOutsideClick()
@@ -14,17 +17,27 @@ export const WalletProviderSelector = () => {
     walletProvider,
     setWalletApiLoading,
     setWalletProvider,
+    walletApiError,
+    accountError,
+    networkError,
+    networkId,
   } = useCardanoContext()
 
-  const onWalletProviderChange = (provider: WalletProvider) => {
+  const onWalletProviderChange = useCallback((provider: WalletProvider) => {
     setWalletApiLoading(true)
     setWalletProvider(provider)
-  }
+  }, [])
+
+  const isValid = useMemo(
+    () => isNil(walletApiError) && isNil(accountError) && isNil(networkError),
+    [walletApiError, accountError, networkError]
+  )
 
   const openerClasses = ["use-cardano-wallet-provider-selector-opener"]
 
   if (open) openerClasses.push("use-cardano-wallet-provider-selector-opener-open")
   if (walletApiLoading) openerClasses.push("use-cardano-wallet-provider-selector-opener-loading")
+  else if (!isValid) openerClasses.push("use-cardano-wallet-provider-selector-opener-warning")
 
   const chevronClasses = ["use-cardano-wallet-provider-selector-chevron"]
 
@@ -40,7 +53,15 @@ export const WalletProviderSelector = () => {
         <div className={chevronClasses.join(" ")}>▼</div>
 
         <div className="use-cardano-wallet-provider-selector-opener-text">
-          {walletApiLoading ? "" : shortAddress(account.address) || "Select Wallet"}
+          {walletApiLoading
+            ? ""
+            : isValid
+            ? shortAddress(account.address) || "Select Wallet"
+            : isNil(walletProvider)
+            ? "Select Wallet"
+            : isNil(networkId)
+            ? walletProvider
+            : `${walletProvider} (${toNetworkName(networkId)})`}
         </div>
       </button>
 
@@ -52,6 +73,9 @@ export const WalletProviderSelector = () => {
 
             const classes = ["use-cardano-wallet-provider-selector-opener-list-item"]
 
+            if (!isValid)
+              classes.push("use-cardano-wallet-provider-selector-opener-list-item-warning")
+
             if (installed && !isCurrent)
               classes.push("use-cardano-wallet-provider-selector-opener-list-item-available")
 
@@ -60,6 +84,9 @@ export const WalletProviderSelector = () => {
 
             if (i === allProviders.length - 1)
               classes.push("use-cardano-wallet-provider-selector-opener-list-item-last")
+
+            if (!isValid)
+              classes.push("use-cardano-wallet-provider-selector-opener-list-item-last-warning")
 
             return (
               <li key={`use-cardano-provider-select-${provider}`}>
