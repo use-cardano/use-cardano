@@ -100,7 +100,7 @@ declare module "use-cardano" {
 
   export const WalletProviderToaster: () => JSX.Element
 
-  export const WalletProviderSelector: () => JSX.Element
+  export const WalletSelector: () => JSX.Element
 
   export const utility: {
     toNetworkId: (network: string) => number

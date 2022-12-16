@@ -1,5 +1,5 @@
 export { useCardano, CardanoProvider } from "contexts/use-cardano-context"
 export { WalletProviderToaster } from "components/WalletProviderToaster"
-export { WalletProviderSelector } from "components/WalletProviderSelector"
+export { WalletSelector } from "components/WalletSelector"
 export * as utility from "utils/network-dictionary"
 export * as constants from "constants/supported-wallet-providers"

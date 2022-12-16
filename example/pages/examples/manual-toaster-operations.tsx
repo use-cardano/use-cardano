@@ -1,7 +1,7 @@
 import { ExampleWrapper } from "components/ExampleWrapper"
 import { baseConfig } from "config/use-cardano-config"
 import styles from "styles/example.module.css"
-import { useCardano, WalletProviderSelector } from "use-cardano"
+import { useCardano, WalletSelector } from "use-cardano"
 
 const ManualToasterOperationsExample = () => {
   const { hideToaster, showToaster } = useCardano()
@@ -9,7 +9,7 @@ const ManualToasterOperationsExample = () => {
   return (
     <>
       <div>
-        <WalletProviderSelector />
+        <WalletSelector />
       </div>
 
       <br />
@@ -48,7 +48,5 @@ const ManualToasterOperationsExamplePage = () => (
     <ManualToasterOperationsExample />
   </ExampleWrapper>
 )
-
-
 
 export default ManualToasterOperationsExamplePage

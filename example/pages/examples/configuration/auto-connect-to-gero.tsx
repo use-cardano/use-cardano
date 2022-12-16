@@ -1,7 +1,7 @@
 import { ExampleWrapper } from "components/ExampleWrapper"
 import { baseConfig } from "config/use-cardano-config"
 import styles from "styles/example.module.css"
-import { WalletProviderSelector } from "use-cardano"
+import { WalletSelector } from "use-cardano"
 
 const AutoConnectToGeroExample = () => (
   <>
@@ -13,7 +13,7 @@ const AutoConnectToGeroExample = () => (
     <br />
 
     <div>
-      <WalletProviderSelector />
+      <WalletSelector />
     </div>
 
     <br />

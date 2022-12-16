@@ -1,6 +1,6 @@
 import { ExampleWrapper } from "components/ExampleWrapper"
 import { baseConfig } from "config/use-cardano-config"
-import { useCardano, WalletProviderSelector } from "use-cardano"
+import { useCardano, WalletSelector } from "use-cardano"
 
 const SimpleExample = () => {
   const { account } = useCardano()
@@ -8,7 +8,7 @@ const SimpleExample = () => {
   return (
     <div>
       <div>
-        <WalletProviderSelector />
+        <WalletSelector />
       </div>
 
       <br />

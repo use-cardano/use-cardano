@@ -4,7 +4,7 @@ import * as utils from "lib/matching-keyhash-utils"
 import Head from "next/head"
 import { useCallback, useState } from "react"
 import styles from "styles/example.module.css"
-import { useCardano, WalletProviderSelector } from "use-cardano"
+import { useCardano, WalletSelector } from "use-cardano"
 
 /*
   MatchingPubKeyHash Example
@@ -70,7 +70,7 @@ const MatchingKeyhashExample = () => {
       </Head>
 
       <div>
-        <WalletProviderSelector />
+        <WalletSelector />
       </div>
 
       <br />

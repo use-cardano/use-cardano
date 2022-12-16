@@ -7,7 +7,7 @@ import { useCallback, useMemo } from "react"
 import { WalletProvider } from "use-cardano"
 import { toNetworkName } from "utils/network-dictionary"
 
-export const WalletProviderSelector = () => {
+export const WalletSelector = () => {
   const { ref, open, setOpen } = useOutsideClick()
 
   const {
