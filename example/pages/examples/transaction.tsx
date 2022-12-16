@@ -1,11 +1,10 @@
+import { ExampleWrapper } from "components/ExampleWrapper"
 import { baseConfig } from "config/use-cardano-config"
 import { useTransaction } from "hooks/use-transaction"
 import styles from "styles/example.module.css"
-import { useCardano, useCardanoContext, WalletProviderSelector } from "use-cardano"
+import { useCardanoContext, WalletProviderSelector } from "use-cardano"
 
-const TransactionExamplePage = () => {
-  useCardano({ ...baseConfig, allowedNetworks: ["testnet", "mainnet"] })
-
+const TransactionExample = () => {
   const { lucid, networkId, walletApiError, accountError, networkWarning, accountWarning } =
     useCardanoContext()
 
@@ -143,5 +142,11 @@ const TransactionExamplePage = () => {
     </>
   )
 }
+
+const TransactionExamplePage = () => (
+  <ExampleWrapper options={{ ...baseConfig, allowedNetworks: ["testnet", "mainnet"] }}>
+    <TransactionExample />
+  </ExampleWrapper>
+)
 
 export default TransactionExamplePage

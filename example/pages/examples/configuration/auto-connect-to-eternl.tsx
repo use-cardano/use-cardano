@@ -1,31 +1,34 @@
+import { ExampleWrapper } from "components/ExampleWrapper"
 import { baseConfig } from "config/use-cardano-config"
 import styles from "styles/example.module.css"
-import { useCardano, WalletProviderSelector } from "use-cardano"
+import { WalletProviderSelector } from "use-cardano"
 
-const AutoConnectToEternlExamplePage = () => {
-  useCardano({ ...baseConfig, autoConnectTo: "eternl", autoReconnect: false })
+const AutoConnectToEternlExample = () => (
+  <>
+    <div>
+      In this example, as you refresh you page, it should automatically attempt to connect to
+      Eternl. It should not reconnect to the last selected wallet.
+    </div>
 
-  return (
-    <>
-      <div>
-        In this example, as you refresh you page, it should automatically attempt to connect to
-        Eternl. It should not reconnect to the last selected wallet.
-      </div>
+    <br />
 
-      <br />
+    <div>
+      <WalletProviderSelector />
+    </div>
 
-      <div>
-        <WalletProviderSelector />
-      </div>
+    <br />
 
-      <br />
+    <div className={styles.info}>
+      Other examples can affect the behavior of this example. Clear local storage, key{" "}
+      <b>use-cardano/reconnect-to</b>, to reset the example.
+    </div>
+  </>
+)
 
-      <div className={styles.info}>
-        Other examples can affect the behavior of this example. Clear local storage, key{" "}
-        <b>use-cardano/reconnect-to</b>, to reset the example.
-      </div>
-    </>
-  )
-}
+const AutoConnectToEternlExamplePage = () => (
+  <ExampleWrapper options={{ ...baseConfig, autoConnectTo: "eternl", autoReconnect: false }}>
+    <AutoConnectToEternlExample />
+  </ExampleWrapper>
+)
 
 export default AutoConnectToEternlExamplePage

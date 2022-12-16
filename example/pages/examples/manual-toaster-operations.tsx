@@ -1,10 +1,9 @@
+import { ExampleWrapper } from "components/ExampleWrapper"
 import { baseConfig } from "config/use-cardano-config"
 import styles from "styles/example.module.css"
-import { useCardano, useCardanoContext, WalletProviderSelector } from "use-cardano"
+import { useCardanoContext, WalletProviderSelector } from "use-cardano"
 
-const ManualToasterOperationsExamplePage = () => {
-  useCardano({ ...baseConfig, allowedNetworks: ["mainnet", "testnet"] })
-
+const ManualToasterOperationsExample = () => {
   const { hideToaster, showToaster } = useCardanoContext()
 
   return (
@@ -43,5 +42,13 @@ const ManualToasterOperationsExamplePage = () => {
     </>
   )
 }
+
+const ManualToasterOperationsExamplePage = () => (
+  <ExampleWrapper options={{ ...baseConfig, allowedNetworks: ["testnet", "mainnet"] }}>
+    <ManualToasterOperationsExample />
+  </ExampleWrapper>
+)
+
+
 
 export default ManualToasterOperationsExamplePage

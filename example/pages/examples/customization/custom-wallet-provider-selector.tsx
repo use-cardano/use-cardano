@@ -1,9 +1,8 @@
+import { ExampleWrapper } from "components/ExampleWrapper"
 import { baseConfig } from "config/use-cardano-config"
-import { AvailableProvider, useCardano, useCardanoContext } from "use-cardano"
+import { AvailableProvider, useCardanoContext } from "use-cardano"
 
-const CustomWalletProviderSelectorExamplePage = () => {
-  useCardano(baseConfig)
-
+const CustomWalletProviderSelectorExample = () => {
   const { availableProviders, setWalletProvider } = useCardanoContext()
 
   return (
@@ -34,5 +33,11 @@ const CustomWalletProviderSelectorExamplePage = () => {
     </>
   )
 }
+
+const CustomWalletProviderSelectorExamplePage = () => (
+  <ExampleWrapper options={baseConfig}>
+    <CustomWalletProviderSelectorExample />
+  </ExampleWrapper>
+)
 
 export default CustomWalletProviderSelectorExamplePage

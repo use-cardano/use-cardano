@@ -1,8 +1,8 @@
 declare module "use-cardano" {
-import { Lucid, WalletApi } from "lucid-cardano"
-import React from "react"
+  import { Lucid, WalletApi } from "lucid-cardano"
+  import React from "react"
 
-    // todo, add support for more node providers, when available in lucid
+  // todo, add support for more node providers, when available in lucid
   export type NodeProvider = "blockfrost" | "blockfrost-proxy"
   export type WalletProvider = "nami" | "eternl" | "gerowallet" | "flint"
 
@@ -90,11 +90,13 @@ import React from "react"
     hideToaster: () => void
   }
 
-  export const UseCardanoProvider: ({ children }: React.PropsWithChildren<{}>) => JSX.Element
+  interface Props {
+    options: UseCardanoOptions
+  }
+
+  export const CardanoProvider: (props: React.PropsWithChildren<Props>) => JSX.Element
 
   export const useCardanoContext: () => UseCardanoContextState
-
-  export const useCardano: (options?: UseCardanoOptions) => void
 
   export const WalletProviderToaster: () => JSX.Element
 

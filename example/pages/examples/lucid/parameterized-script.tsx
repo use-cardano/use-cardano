@@ -1,15 +1,15 @@
+import { ExampleWrapper } from "components/ExampleWrapper"
 import { baseConfig } from "config/use-cardano-config"
 import * as utils from "lib/parameterized-script-utils"
 import { isObject } from "lodash"
-import { useCallback, useEffect, useMemo, useState } from "react"
+import { useCallback, useMemo, useState } from "react"
 import styles from "styles/example.module.css"
-import { useCardano, useCardanoContext, WalletProviderSelector } from "use-cardano"
+import { useCardanoContext, WalletProviderSelector } from "use-cardano"
 
 const isError = (e: any): e is { message: string } =>
   e instanceof Error || (isObject(e) && typeof (e as any)?.message === "string")
 
-const ParameterizedScriptExamplePage = () => {
-  useCardano({ ...baseConfig, allowedNetworks: ["testnet"] })
+const ParameterizedScriptExample = () => {
   const { lucid, showToaster } = useCardanoContext()
 
   const [name, setName] = useState("")
@@ -68,4 +68,10 @@ const ParameterizedScriptExamplePage = () => {
   )
 }
 
-export default ParameterizedScriptExamplePage
+const LucidParameterizedScriptExamplePage = () => (
+  <ExampleWrapper options={{ ...baseConfig, allowedNetworks: ["testnet"] }}>
+    <ParameterizedScriptExample />
+  </ExampleWrapper>
+)
+
+export default LucidParameterizedScriptExamplePage

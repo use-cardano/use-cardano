@@ -1,8 +1,9 @@
+import { ExampleWrapper } from "components/ExampleWrapper"
 import { baseConfig } from "config/use-cardano-config"
 import * as utils from "lib/always-succeed-utils"
 import { useCallback, useState } from "react"
 import styles from "styles/example.module.css"
-import { useCardano, useCardanoContext, WalletProviderSelector } from "use-cardano"
+import { useCardanoContext, WalletProviderSelector } from "use-cardano"
 
 /*
   AlwaysSucceeds Example
@@ -16,8 +17,7 @@ import { useCardano, useCardanoContext, WalletProviderSelector } from "use-carda
   See underlying code in lib/always-succeed-utils.ts
  */
 
-const LucidAlwaysSucceedExamplePage = () => {
-  useCardano({ ...baseConfig, allowedNetworks: ["testnet"] })
+const AlwaysSucceedExample = () => {
   const { lucid, showToaster, hideToaster } = useCardanoContext()
 
   const [lovelace, setLovelace] = useState(0)
@@ -122,5 +122,11 @@ const LucidAlwaysSucceedExamplePage = () => {
     </>
   )
 }
+
+const LucidAlwaysSucceedExamplePage = () => (
+  <ExampleWrapper options={{ ...baseConfig, allowedNetworks: ["testnet"] }}>
+    <AlwaysSucceedExample />
+  </ExampleWrapper>
+)
 
 export default LucidAlwaysSucceedExamplePage

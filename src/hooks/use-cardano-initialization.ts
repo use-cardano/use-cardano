@@ -29,7 +29,7 @@ const defaultOptions: DefaultUseCardanoOptions = {
   },
 }
 
-export const useCardano = (options: UseCardanoOptions = {}) => {
+export const useCardanoInitialization = (options: UseCardanoOptions = {}) => {
   const {
     node,
     autoConnectTo,

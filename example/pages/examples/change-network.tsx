@@ -1,10 +1,9 @@
+import { ExampleWrapper } from "components/ExampleWrapper"
 import { baseConfig } from "config/use-cardano-config"
 import styles from "styles/example.module.css"
-import { useCardano, useCardanoContext, WalletProviderSelector } from "use-cardano"
+import { useCardanoContext, WalletProviderSelector } from "use-cardano"
 
-const ChangeNetworkExamplePage = () => {
-  useCardano(baseConfig)
-
+const ChangeNetworkExample = () => {
   const { networkId, networkWarning: warning } = useCardanoContext()
 
   return (
@@ -35,5 +34,11 @@ const ChangeNetworkExamplePage = () => {
     </>
   )
 }
+
+const ChangeNetworkExamplePage = () => (
+  <ExampleWrapper options={baseConfig}>
+    <ChangeNetworkExample />
+  </ExampleWrapper>
+)
 
 export default ChangeNetworkExamplePage

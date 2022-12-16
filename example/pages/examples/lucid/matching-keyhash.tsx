@@ -1,9 +1,10 @@
+import { ExampleWrapper } from "components/ExampleWrapper"
 import { baseConfig } from "config/use-cardano-config"
 import * as utils from "lib/matching-keyhash-utils"
 import Head from "next/head"
 import { useCallback, useState } from "react"
 import styles from "styles/example.module.css"
-import { useCardano, useCardanoContext, WalletProviderSelector } from "use-cardano"
+import { useCardanoContext, WalletProviderSelector } from "use-cardano"
 
 /*
   MatchingPubKeyHash Example
@@ -14,8 +15,7 @@ import { useCardano, useCardanoContext, WalletProviderSelector } from "use-carda
   See underlying code in lib/matching-keyhash-utils.ts
  */
 
-const LucidMatchingKeyhashExamplePage = () => {
-  useCardano({ ...baseConfig, allowedNetworks: ["testnet"] })
+const MatchingKeyhashExample = () => {
   const { lucid, showToaster, hideToaster } = useCardanoContext()
 
   const [lovelace, setLovelace] = useState(0)
@@ -133,5 +133,11 @@ const LucidMatchingKeyhashExamplePage = () => {
     </>
   )
 }
+
+const LucidMatchingKeyhashExamplePage = () => (
+  <ExampleWrapper options={{ ...baseConfig, allowedNetworks: ["testnet"] }}>
+    <MatchingKeyhashExample />
+  </ExampleWrapper>
+)
 
 export default LucidMatchingKeyhashExamplePage

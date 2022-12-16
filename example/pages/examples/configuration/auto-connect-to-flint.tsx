@@ -3,10 +3,10 @@ import { baseConfig } from "config/use-cardano-config"
 import styles from "styles/example.module.css"
 import { WalletProviderSelector } from "use-cardano"
 
-const AutoConnectToNamiExample = () => (
+const AutoConnectToFlintExample = () => (
   <>
     <div>
-      In this example, as you refresh you page, it should automatically attempt to connect to Nami.
+      In this example, as you refresh you page, it should automatically attempt to connect to Flint.
       It should not reconnect to the last selected wallet.
     </div>
 
@@ -25,10 +25,10 @@ const AutoConnectToNamiExample = () => (
   </>
 )
 
-const AutoConnectToNamiExamplePage = () => (
-  <ExampleWrapper options={{ ...baseConfig, autoConnectTo: "nami", autoReconnect: false }}>
-    <AutoConnectToNamiExample />
+const AutoConnectToFlintExamplePage = () => (
+  <ExampleWrapper options={{ ...baseConfig, autoConnectTo: "flint", autoReconnect: false }}>
+    <AutoConnectToFlintExample />
   </ExampleWrapper>
 )
 
-export default AutoConnectToNamiExamplePage
+export default AutoConnectToFlintExamplePage

@@ -1,10 +1,11 @@
+import { ExampleWrapper } from "components/ExampleWrapper"
 import { baseConfig } from "config/use-cardano-config"
 import * as utils from "lib/matching-numbers-utils"
 import { isNil } from "lodash"
 import { UTxO } from "lucid-cardano"
 import { useCallback, useEffect, useState } from "react"
 import styles from "styles/example.module.css"
-import { useCardano, useCardanoContext, WalletProviderSelector } from "use-cardano"
+import { useCardanoContext, WalletProviderSelector } from "use-cardano"
 
 /*
   MatchingNumbers Example
@@ -19,8 +20,7 @@ import { useCardano, useCardanoContext, WalletProviderSelector } from "use-carda
 
 let interval: ReturnType<typeof setInterval>
 
-const LucidMatchingNumbersExamplePage = () => {
-  useCardano({ ...baseConfig, allowedNetworks: ["testnet"] })
+const MatchingNumbersExample = () => {
   const { lucid, showToaster, hideToaster } = useCardanoContext()
 
   const [lockedData, setLockedData] = useState<UTxO>()
@@ -176,5 +176,11 @@ const LucidMatchingNumbersExamplePage = () => {
     </>
   )
 }
+
+const LucidMatchingNumbersExamplePage = () => (
+  <ExampleWrapper options={{ ...baseConfig, allowedNetworks: ["testnet"] }}>
+    <MatchingNumbersExample />
+  </ExampleWrapper>
+)
 
 export default LucidMatchingNumbersExamplePage

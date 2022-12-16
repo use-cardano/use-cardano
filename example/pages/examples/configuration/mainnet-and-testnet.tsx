@@ -1,13 +1,9 @@
+import { ExampleWrapper } from "components/ExampleWrapper"
 import { baseConfig } from "config/use-cardano-config"
 import { isNil } from "lodash"
-import { useCardano, useCardanoContext, utility, WalletProviderSelector } from "use-cardano"
+import { useCardanoContext, utility, WalletProviderSelector } from "use-cardano"
 
-const MainnetAndTestnetExamplePage = () => {
-  useCardano({
-    ...baseConfig,
-    allowedNetworks: ["mainnet", "testnet"],
-  })
-
+const MainnetAndTestnetExample = () => {
   const { networkId, isValid } = useCardanoContext()
 
   return (
@@ -36,5 +32,11 @@ const MainnetAndTestnetExamplePage = () => {
     </>
   )
 }
+
+const MainnetAndTestnetExamplePage = () => (
+  <ExampleWrapper options={{ ...baseConfig, allowedNetworks: ["mainnet", "testnet"] }}>
+    <MainnetAndTestnetExample />
+  </ExampleWrapper>
+)
 
 export default MainnetAndTestnetExamplePage

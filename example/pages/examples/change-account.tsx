@@ -1,10 +1,9 @@
+import { ExampleWrapper } from "components/ExampleWrapper"
 import { baseConfig } from "config/use-cardano-config"
 import styles from "styles/example.module.css"
-import { useCardano, useCardanoContext, WalletProviderSelector } from "use-cardano"
+import { useCardanoContext, WalletProviderSelector } from "use-cardano"
 
-const ChangeAccountExamplePage = () => {
-  useCardano(baseConfig)
-
+const ChangeAccountExample = () => {
   const { accountWarning: warning, account, accountLoaded } = useCardanoContext()
 
   const loadingContent = (address?: string | null) => (
@@ -45,5 +44,11 @@ const ChangeAccountExamplePage = () => {
     </>
   )
 }
+
+const ChangeAccountExamplePage = () => (
+  <ExampleWrapper options={baseConfig}>
+    <ChangeAccountExample />
+  </ExampleWrapper>
+)
 
 export default ChangeAccountExamplePage

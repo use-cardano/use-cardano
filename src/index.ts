@@ -1,5 +1,4 @@
-export { useCardano } from "hooks/use-cardano"
-export { useCardanoContext, UseCardanoProvider } from "contexts/use-cardano-context"
+export { useCardanoContext, CardanoProvider } from "contexts/use-cardano-context"
 export { WalletProviderToaster } from "components/WalletProviderToaster"
 export { WalletProviderSelector } from "components/WalletProviderSelector"
 export * as utility from "utils/network-dictionary"

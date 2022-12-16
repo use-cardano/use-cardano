@@ -1,8 +1,13 @@
+import { useCardanoInitialization } from "hooks/use-cardano-initialization"
 import { UseCardanoError } from "lib/errors"
 import { Lucid, WalletApi } from "lucid-cardano"
 import React from "react"
 import {
-    AvailableProvider, UseCardanoContextState, UseCardanoWarning, WalletProvider
+  AvailableProvider,
+  UseCardanoContextState,
+  UseCardanoOptions,
+  UseCardanoWarning,
+  WalletProvider,
 } from "use-cardano"
 
 const noop = (..._: any[]) => {}
@@ -56,7 +61,17 @@ function useState<T>(initialState: T): [T, React.Dispatch<React.SetStateAction<T
   return [val, setVal]
 }
 
-export const UseCardanoProvider = ({ children }: React.PropsWithChildren<{}>) => {
+interface Props {
+  options: UseCardanoOptions
+}
+
+const Injector = ({ children, options }: React.PropsWithChildren<Props>) => {
+  useCardanoInitialization(options)
+
+  return <>{children}</>
+}
+
+export const CardanoProvider = ({ children, options }: React.PropsWithChildren<Props>) => {
   const [count, setCount] = useState(0)
   const [text, setText] = useState<string | undefined>(undefined)
   const [info, setInfo] = useState<string | undefined>(undefined)
@@ -124,7 +139,7 @@ export const UseCardanoProvider = ({ children }: React.PropsWithChildren<{}>) =>
         hideToaster,
       }}
     >
-      {children}
+      <Injector options={options}>{children}</Injector>
     </UseCardanoContext.Provider>
   )
 }
@@ -133,7 +148,7 @@ export const useCardanoContext = () => {
   const context = React.useContext(UseCardanoContext)
 
   if (context === undefined)
-    throw new Error("wrap your application in <UseCardanoProvider> to use useCardano components")
+    throw new Error("wrap your application in <CardanoProvider> to use useCardano components")
 
   return context
 }

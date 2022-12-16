@@ -1,11 +1,11 @@
+import { ExampleWrapper } from "components/ExampleWrapper"
 import { baseConfig } from "config/use-cardano-config"
 import { utf8ToHex } from "lucid-cardano"
 import { useCallback, useState } from "react"
 import styles from "styles/example.module.css"
-import { useCardano, useCardanoContext, WalletProviderSelector } from "use-cardano"
+import { useCardanoContext, WalletProviderSelector } from "use-cardano"
 
-const RegisterPoolExamplePage = () => {
-  useCardano({ ...baseConfig, allowedNetworks: ["testnet"] })
+const SignMessageExample = () => {
   const {
     lucid,
     showToaster,
@@ -86,4 +86,10 @@ const RegisterPoolExamplePage = () => {
   )
 }
 
-export default RegisterPoolExamplePage
+const LucidSignMessageExamplePage = () => (
+  <ExampleWrapper options={{ ...baseConfig, allowedNetworks: ["testnet"] }}>
+    <SignMessageExample />
+  </ExampleWrapper>
+)
+
+export default LucidSignMessageExamplePage
