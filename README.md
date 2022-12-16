@@ -12,6 +12,9 @@ I am aiming for an initial beta (as in a functional and stable solution with a f
 
 This repository contains the source code for [use-cardano](https://www.npmjs.com/package/use-cardano), a react hook that makes interacting with the Cardano blockchain easy.
 
+
+## Documentation
+
 Visit the [documentation site](https://use-cardano.alangaming.com/) for installation instructions and usage examples.
 
 ## Contributing / Development
