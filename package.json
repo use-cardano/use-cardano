@@ -13,7 +13,7 @@
   },
   "keywords": [],
   "author": "Jesper Tullberg",
-  "license": "ISC",
+  "license": "MIT",
   "peerDependencies": {
     "lucid-cardano": "0.8.1",
     "react": "^18.2.0"
