@@ -1,5 +1,5 @@
 import { ExampleWrapper } from "components/ExampleWrapper"
-import { baseConfig } from "config/use-cardano-config"
+import { options } from "config/use-cardano-options"
 import { utf8ToHex } from "lucid-cardano"
 import { useCallback, useState } from "react"
 import styles from "styles/example.module.css"
@@ -87,7 +87,7 @@ const SignMessageExample = () => {
 }
 
 const LucidSignMessageExamplePage = () => (
-  <ExampleWrapper options={{ ...baseConfig, allowedNetworks: ["testnet"] }}>
+  <ExampleWrapper options={{ ...options, allowedNetworks: ["testnet"] }}>
     <SignMessageExample />
   </ExampleWrapper>
 )

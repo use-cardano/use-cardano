@@ -1,5 +1,5 @@
 import { ExampleWrapper } from "components/ExampleWrapper"
-import { baseConfig } from "config/use-cardano-config"
+import { options } from "config/use-cardano-options"
 import { useTransaction } from "hooks/use-transaction"
 import styles from "styles/example.module.css"
 import { useCardano, CardanoWalletSelector } from "use-cardano"
@@ -144,7 +144,7 @@ const TransactionExample = () => {
 }
 
 const TransactionExamplePage = () => (
-  <ExampleWrapper options={{ ...baseConfig, allowedNetworks: ["testnet", "mainnet"] }}>
+  <ExampleWrapper options={{ ...options, allowedNetworks: ["testnet", "mainnet"] }}>
     <TransactionExample />
   </ExampleWrapper>
 )

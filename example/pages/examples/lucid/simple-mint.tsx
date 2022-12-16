@@ -1,5 +1,5 @@
 import { ExampleWrapper } from "components/ExampleWrapper"
-import { baseConfig } from "config/use-cardano-config"
+import { options } from "config/use-cardano-options"
 import * as utils from "lib/simple-mint-utils"
 import { isObject } from "lodash"
 import { useCallback, useMemo, useState } from "react"
@@ -91,7 +91,7 @@ const LucidSimpleMintExample = () => {
 }
 
 const LucidSimpleMintExamplePage = () => (
-  <ExampleWrapper options={{ ...baseConfig, allowedNetworks: ["testnet"] }}>
+  <ExampleWrapper options={{ ...options, allowedNetworks: ["testnet"] }}>
     <LucidSimpleMintExample />
   </ExampleWrapper>
 )

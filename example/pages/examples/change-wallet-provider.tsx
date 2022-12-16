@@ -1,5 +1,5 @@
 import { ExampleWrapper } from "components/ExampleWrapper"
-import { baseConfig } from "config/use-cardano-config"
+import { options } from "config/use-cardano-options"
 import { AvailableProvider, constants, useCardano, CardanoWalletSelector } from "use-cardano"
 
 const WalletProviderSelectExample = () => {
@@ -32,7 +32,7 @@ const WalletProviderSelectExample = () => {
 }
 
 const WalletProviderSelectExamplePage = () => (
-  <ExampleWrapper options={baseConfig}>
+  <ExampleWrapper options={options}>
     <WalletProviderSelectExample />
   </ExampleWrapper>
 )

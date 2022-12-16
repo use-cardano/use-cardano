@@ -1,5 +1,5 @@
 import { ExampleWrapper } from "components/ExampleWrapper"
-import { baseConfig } from "config/use-cardano-config"
+import { options } from "config/use-cardano-options"
 import styles from "styles/example.module.css"
 import { CardanoWalletSelector } from "use-cardano"
 
@@ -26,7 +26,7 @@ const AutoConnectToGeroExample = () => (
 )
 
 const AutoConnectToGeroExamplePage = () => (
-  <ExampleWrapper options={{ ...baseConfig, autoConnectTo: "gerowallet", autoReconnect: false }}>
+  <ExampleWrapper options={{ ...options, autoConnectTo: "gerowallet", autoReconnect: false }}>
     <AutoConnectToGeroExample />
   </ExampleWrapper>
 )

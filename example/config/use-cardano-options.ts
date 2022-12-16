@@ -1,6 +1,6 @@
 import { UseCardanoOptions } from "use-cardano"
 
-export const baseConfig: UseCardanoOptions = {
+export const options: UseCardanoOptions = {
   node: {
     provider: "blockfrost-proxy",
     proxyUrl: "/api/blockfrost",

@@ -1,5 +1,5 @@
 import { ExampleWrapper } from "components/ExampleWrapper"
-import { baseConfig } from "config/use-cardano-config"
+import { options } from "config/use-cardano-options"
 import { isNil } from "lodash"
 import { useCardano, utility, CardanoWalletSelector } from "use-cardano"
 
@@ -34,7 +34,7 @@ const MainnetAndTestnetExample = () => {
 }
 
 const MainnetAndTestnetExamplePage = () => (
-  <ExampleWrapper options={{ ...baseConfig, allowedNetworks: ["mainnet", "testnet"] }}>
+  <ExampleWrapper options={{ ...options, allowedNetworks: ["mainnet", "testnet"] }}>
     <MainnetAndTestnetExample />
   </ExampleWrapper>
 )

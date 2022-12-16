@@ -1,5 +1,5 @@
 import { ExampleWrapper } from "components/ExampleWrapper"
-import { baseConfig } from "config/use-cardano-config"
+import { options } from "config/use-cardano-options"
 import styles from "styles/example.module.css"
 import { useCardano, CardanoWalletSelector } from "use-cardano"
 
@@ -44,7 +44,7 @@ const ManualToasterOperationsExample = () => {
 }
 
 const ManualToasterOperationsExamplePage = () => (
-  <ExampleWrapper options={{ ...baseConfig, allowedNetworks: ["testnet", "mainnet"] }}>
+  <ExampleWrapper options={{ ...options, allowedNetworks: ["testnet", "mainnet"] }}>
     <ManualToasterOperationsExample />
   </ExampleWrapper>
 )

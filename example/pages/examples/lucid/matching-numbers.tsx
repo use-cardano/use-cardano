@@ -1,5 +1,5 @@
 import { ExampleWrapper } from "components/ExampleWrapper"
-import { baseConfig } from "config/use-cardano-config"
+import { options } from "config/use-cardano-options"
 import * as utils from "lib/matching-numbers-utils"
 import { isNil } from "lodash"
 import { UTxO } from "lucid-cardano"
@@ -178,7 +178,7 @@ const MatchingNumbersExample = () => {
 }
 
 const LucidMatchingNumbersExamplePage = () => (
-  <ExampleWrapper options={{ ...baseConfig, allowedNetworks: ["testnet"] }}>
+  <ExampleWrapper options={{ ...options, allowedNetworks: ["testnet"] }}>
     <MatchingNumbersExample />
   </ExampleWrapper>
 )

@@ -1,5 +1,5 @@
 import { ExampleWrapper } from "components/ExampleWrapper"
-import { baseConfig } from "config/use-cardano-config"
+import { options } from "config/use-cardano-options"
 import styles from "styles/example.module.css"
 import { CardanoWalletSelector } from "use-cardano"
 
@@ -26,7 +26,7 @@ const AutoConnectToNamiExample = () => (
 )
 
 const AutoConnectToNamiExamplePage = () => (
-  <ExampleWrapper options={{ ...baseConfig, autoConnectTo: "nami", autoReconnect: false }}>
+  <ExampleWrapper options={{ ...options, autoConnectTo: "nami", autoReconnect: false }}>
     <AutoConnectToNamiExample />
   </ExampleWrapper>
 )

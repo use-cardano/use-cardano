@@ -1,5 +1,5 @@
 import { ExampleWrapper } from "components/ExampleWrapper"
-import { baseConfig } from "config/use-cardano-config"
+import { options } from "config/use-cardano-options"
 import styles from "styles/example.module.css"
 import { useCardano, CardanoWalletSelector } from "use-cardano"
 
@@ -36,7 +36,7 @@ const ChangeNetworkExample = () => {
 }
 
 const ChangeNetworkExamplePage = () => (
-  <ExampleWrapper options={baseConfig}>
+  <ExampleWrapper options={options}>
     <ChangeNetworkExample />
   </ExampleWrapper>
 )

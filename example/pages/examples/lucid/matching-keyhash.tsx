@@ -1,5 +1,5 @@
 import { ExampleWrapper } from "components/ExampleWrapper"
-import { baseConfig } from "config/use-cardano-config"
+import { options } from "config/use-cardano-options"
 import * as utils from "lib/matching-keyhash-utils"
 import Head from "next/head"
 import { useCallback, useState } from "react"
@@ -135,7 +135,7 @@ const MatchingKeyhashExample = () => {
 }
 
 const LucidMatchingKeyhashExamplePage = () => (
-  <ExampleWrapper options={{ ...baseConfig, allowedNetworks: ["testnet"] }}>
+  <ExampleWrapper options={{ ...options, allowedNetworks: ["testnet"] }}>
     <MatchingKeyhashExample />
   </ExampleWrapper>
 )
