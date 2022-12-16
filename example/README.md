@@ -4,9 +4,9 @@ This is an example of how to use `use-cardano` in a project. This is used as a r
 
 ## Usage
 
-* Install pnpm `npm i -g pnpm`
-* Install dependencies `pnpm i`
-* Run `pnpm run dev`
+- Install pnpm `npm i -g pnpm`
+- Install dependencies `pnpm i`
+- Run `pnpm dev`
 
 ## Example app
 
