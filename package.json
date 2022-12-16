@@ -1,19 +1,34 @@
 {
   "name": "use-cardano",
   "version": "1.0.0",
-  "description": "",
+  "engines": {
+    "node": ">=16.15.0"
+  },
+  "description": "A react context, hook, and set of components that makes interacting with the Cardano blockchain easy",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "src/types/use-cardano.d.ts",
+  "keywords": [
+    "cardano",
+    "dApp",
+    "web3",
+    "react",
+    "typescript",
+    "CIP-0030"
+  ],
+  "author": "Alan Smithee (ggnore.alan.smithee@gmail.com)",
+  "license": "MIT",
+  "homepage": "https://use-cardano.alangaming.com",
+  "repository": "GGAlanSmithee/use-cardano",
+  "bugs": {
+    "url": "https://www.github.com/GGAlanSmithee/use-cardano/issues"
+  },
   "scripts": {
     "build": "rollup -c",
     "dev:package": "rollup -c -w &",
     "dev:example": "cd example && pnpm dev -p 4200",
     "dev": "concurrently \"pnpm dev:package\" \"pnpm dev:example\" \"node scripts/open.js\""
   },
-  "keywords": [],
-  "author": "Jesper Tullberg",
-  "license": "MIT",
   "peerDependencies": {
     "lucid-cardano": "0.8.1",
     "react": "^18.2.0"
