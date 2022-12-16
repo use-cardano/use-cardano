@@ -1,5 +1,7 @@
 import { useCardano } from "contexts/CardanoContext"
-import { useEffect, useRef, useState } from "react"
+import { concatenateClasses } from "lib/concatenate-classes"
+import { isNil } from "lodash"
+import { useEffect, useMemo, useRef, useState } from "react"
 
 export const CardanoToaster = () => {
   const {
@@ -33,43 +35,47 @@ export const CardanoToaster = () => {
     }
   }, [count, isManuallyOpen, toasterIsShowing])
 
-  const notificationClassNames = ["use-cardano-wallet-provider-toaster-notification-container"]
+  const isValid = useMemo(
+    () => isNil(networkError) && isNil(accountError) && isNil(walletApiError),
+    [networkError, accountError, walletApiError]
+  )
 
-  if (count === 0 || toasterIsShowing)
-    notificationClassNames.push("use-cardano-wallet-provider-toaster-notification-container-open")
+  const toasterClassNames = concatenateClasses(
+    "cardano-toaster",
+    toasterIsShowing && "cardano-toaster--open"
+  )
 
-  const toasterClassNames = ["use-cardano-wallet-provider-toaster-container"]
-
-  if (toasterIsShowing) toasterClassNames.push("use-cardano-wallet-provider-toaster-container-open")
+  const notificationClassNames = concatenateClasses(
+    "cardano-notification",
+    (count === 0 || toasterIsShowing) && "cardano-notification--open"
+  )
 
   return (
     <>
-      <div className={notificationClassNames.join(" ")}>
+      <div className={notificationClassNames}>
         <div
-          className="use-cardano-wallet-provider-toaster-notification-content"
+          className="cardano-notification__content"
           onClick={() => {
             showToaster()
             setIsManuallyOpen(true)
           }}
         >
-          1
+          {isValid ? "i" : "!"}
         </div>
       </div>
 
-      <div className={toasterClassNames.join(" ")} onMouseLeave={() => setIsManuallyOpen(false)}>
-        <div className="use-cardano-wallet-provider-toaster-content">
-          <div className="use-cardano-wallet-provider-toaster-close-wrapper">
-            <button className="use-cardano-wallet-provider-toaster-close" onClick={hideToaster}>
-              ✖
-            </button>
-          </div>
+      <div className={toasterClassNames} onMouseLeave={() => setIsManuallyOpen(false)}>
+        <div className="cardano-toaster__content">
+          <button className="cardano-toaster__close-button" onClick={hideToaster}>
+            ✖
+          </button>
 
           <div>
-            {walletApiError || accountError || networkError ? (
-              <div className="use-cardano-wallet-provider-toaster-warning">
-                <div>Unable to connect wallet</div>
+            {!isValid ? (
+              <div>
+                <div>⚠ Unable to connect wallet</div>
 
-                <ul className="use-cardano-wallet-provider-toaster-warning-list">
+                <ul className="cardano-toaster__warning-list">
                   {walletApiError && (
                     <li>
                       <small>

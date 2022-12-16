@@ -1,6 +1,7 @@
 import { supportedWalletProviders as allProviders } from "constants/supported-wallet-providers"
 import { useCardano } from "contexts/CardanoContext"
 import { useOutsideClick } from "hooks/use-outside-click"
+import { concatenateClasses } from "lib/concatenate-classes"
 import { shortAddress } from "lib/short-address"
 import { isNil } from "lodash"
 import { useCallback, useMemo } from "react"
@@ -33,67 +34,59 @@ export const CardanoWalletSelector = () => {
     [walletApiError, accountError, networkError]
   )
 
-  const openerClasses = ["use-cardano-wallet-provider-selector-opener"]
+  const warning = useMemo(
+    () => networkError || walletApiError || accountError,
+    [walletApiError, accountError, networkError]
+  )
 
-  if (open) openerClasses.push("use-cardano-wallet-provider-selector-opener-open")
-  if (walletApiLoading) openerClasses.push("use-cardano-wallet-provider-selector-opener-loading")
-  else if (!isValid) openerClasses.push("use-cardano-wallet-provider-selector-opener-warning")
+  const buttonClassName = concatenateClasses(
+    "cardano-wallet-selector__button",
+    open && "cardano-wallet-selector__button--active",
+    walletApiLoading && "cardano-wallet-selector__button--loading",
+    !walletApiLoading && !isValid && "cardano-wallet-selector__button--warning"
+  )
 
-  const chevronClasses = ["use-cardano-wallet-provider-selector-chevron"]
+  let buttonText = ""
 
-  if (open) chevronClasses.push("use-cardano-wallet-provider-selector-chevron-open")
+  if (walletApiLoading) {
+    buttonText = ""
+  } else if (!isNil(walletProvider)) {
+    if (isValid) {
+      const address = shortAddress(account.address)
+      if (address) buttonText = address
+    } else {
+      buttonText = walletProvider
+    }
+  } else {
+    buttonText = "Select Wallet"
+  }
 
   return (
-    <div ref={ref} className="use-cardano-wallet-provider-selector-container">
+    <div ref={ref} className="cardano-wallet-selector">
       <button
         disabled={walletApiLoading}
-        className={openerClasses.join(" ")}
+        className={buttonClassName}
         onClick={() => setOpen((wasOpen) => !wasOpen)}
+        title={isValid ? undefined : warning?.message}
       >
-        <div className={chevronClasses.join(" ")}>▼</div>
-
-        <div className="use-cardano-wallet-provider-selector-opener-text">
-          {walletApiLoading
-            ? ""
-            : isValid
-            ? shortAddress(account.address) || "Select Wallet"
-            : isNil(walletProvider)
-            ? "Select Wallet"
-            : isNil(networkId)
-            ? walletProvider
-            : `${walletProvider} (${toNetworkName(networkId)})`}
-        </div>
+        <div className="cardano-wallet-selector__button__text">{buttonText}</div>
+        {!isValid && <span className="cardano-wallet-selector__button__warning-sign">⚠</span>}
       </button>
 
       {open && (
-        <ul className="use-cardano-wallet-provider-selector-opener-list">
-          {allProviders.sort().map((provider, i) => {
+        <ul className="cardano-wallet-selector__menu">
+          {allProviders.sort().map((provider) => {
             const installed = availableProviders.some((p) => p.key === provider)
             const isCurrent = provider === walletProvider
 
-            const classes = ["use-cardano-wallet-provider-selector-opener-list-item"]
-
-            if (!isValid)
-              classes.push("use-cardano-wallet-provider-selector-opener-list-item-warning")
-
-            if (installed && !isCurrent)
-              classes.push("use-cardano-wallet-provider-selector-opener-list-item-available")
-
-            if (!installed)
-              classes.push("use-cardano-wallet-provider-selector-opener-list-item-not-installed")
-
-            if (i === allProviders.length - 1)
-              classes.push("use-cardano-wallet-provider-selector-opener-list-item-last")
-
-            if (!isValid)
-              classes.push("use-cardano-wallet-provider-selector-opener-list-item-last-warning")
-
             return (
-              <li key={`use-cardano-provider-select-${provider}`}>
+              <li
+                key={`use-cardano-provider-select-${provider}`}
+                className="cardano-wallet-selector__menu__item"
+              >
                 <button
-                  className={classes.join(" ")}
-                  title={installed ? undefined : `${provider} extension is not installed`}
                   disabled={!installed}
+                  title={installed ? undefined : `${provider} extension is not installed`}
                   onClick={() => {
                     if (!isCurrent) {
                       onWalletProviderChange(provider)
@@ -102,6 +95,10 @@ export const CardanoWalletSelector = () => {
                   }}
                 >
                   {provider}
+
+                  {!installed && (
+                    <span className="cardano-wallet-selector__menu__item__warning-sign">⚠</span>
+                  )}
                 </button>
               </li>
             )
