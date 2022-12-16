@@ -1,7 +1,7 @@
 import { ExampleWrapper } from "components/ExampleWrapper"
 import { baseConfig } from "config/use-cardano-config"
 import { isNil } from "lodash"
-import { useCardano, utility, WalletSelector } from "use-cardano"
+import { useCardano, utility, CardanoWalletSelector } from "use-cardano"
 
 const OnlyTestnetExample = () => {
   const { networkId, isValid } = useCardano()
@@ -9,7 +9,7 @@ const OnlyTestnetExample = () => {
   return (
     <>
       <div>
-        <WalletSelector />
+        <CardanoWalletSelector />
       </div>
 
       <br />

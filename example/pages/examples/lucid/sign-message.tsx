@@ -3,7 +3,7 @@ import { baseConfig } from "config/use-cardano-config"
 import { utf8ToHex } from "lucid-cardano"
 import { useCallback, useState } from "react"
 import styles from "styles/example.module.css"
-import { useCardano, WalletSelector } from "use-cardano"
+import { useCardano, CardanoWalletSelector } from "use-cardano"
 
 const SignMessageExample = () => {
   const {
@@ -41,7 +41,7 @@ const SignMessageExample = () => {
   return (
     <>
       <div>
-        <WalletSelector />
+        <CardanoWalletSelector />
       </div>
 
       <br />

@@ -1,4 +1,4 @@
-import { useCardano } from "contexts/use-cardano-context"
+import { useCardano } from "contexts/CardanoContext"
 import { noAccountSetError, noDappError, unknownError, userRejectedError } from "lib/errors"
 import { getInfo, getText } from "lib/get-toaster-texts"
 import { setStoredWalletProvider } from "lib/local-storage"

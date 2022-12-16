@@ -1,4 +1,4 @@
-import { useCardano } from "contexts/use-cardano-context"
+import { useCardano } from "contexts/CardanoContext"
 import { filterAvailableProviders } from "lib/filter-available-providers"
 import { getInfo, getText } from "lib/get-toaster-texts"
 import { getStoredWalletProvider, setStoredWalletProvider } from "lib/local-storage"

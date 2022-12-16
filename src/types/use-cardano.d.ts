@@ -98,9 +98,9 @@ declare module "use-cardano" {
 
   export const useCardano: () => UseCardanoContextState
 
-  export const WalletProviderToaster: () => JSX.Element
+  export const CardanoToaster: () => JSX.Element
 
-  export const WalletSelector: () => JSX.Element
+  export const CardanoWalletSelector: () => JSX.Element
 
   export const utility: {
     toNetworkId: (network: string) => number

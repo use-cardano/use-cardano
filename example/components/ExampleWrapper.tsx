@@ -1,5 +1,5 @@
 import React from "react"
-import { CardanoProvider, UseCardanoOptions, WalletProviderToaster } from "use-cardano"
+import { CardanoProvider, UseCardanoOptions, CardanoToaster } from "use-cardano"
 import styles from "styles/example.module.css"
 import { useRouter } from "next/router"
 import Link from "next/link"
@@ -39,7 +39,7 @@ export const ExampleWrapper = ({ children, options }: React.PropsWithChildren<Pr
         {children}
       </div>
 
-      <WalletProviderToaster />
+      <CardanoToaster />
     </CardanoProvider>
   )
 }

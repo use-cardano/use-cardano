@@ -1,4 +1,4 @@
-import { useCardano } from "contexts/use-cardano-context"
+import { useCardano } from "contexts/CardanoContext"
 import { getNodeProvider } from "lib/get-node-provider"
 import { isNil } from "lodash"
 import { Lucid } from "lucid-cardano"

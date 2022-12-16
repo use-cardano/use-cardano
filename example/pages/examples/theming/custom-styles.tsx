@@ -1,12 +1,12 @@
 import { ExampleWrapper } from "components/ExampleWrapper"
 import { baseConfig } from "config/use-cardano-config"
 import styles from "styles/example.module.css"
-import { WalletSelector } from "use-cardano"
+import { CardanoWalletSelector } from "use-cardano"
 
 const CustomStylesExample = () => (
   <>
     <div>
-      <WalletSelector />
+      <CardanoWalletSelector />
     </div>
 
     <br />

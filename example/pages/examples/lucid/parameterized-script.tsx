@@ -4,7 +4,7 @@ import * as utils from "lib/parameterized-script-utils"
 import { isObject } from "lodash"
 import { useCallback, useMemo, useState } from "react"
 import styles from "styles/example.module.css"
-import { useCardano, WalletSelector } from "use-cardano"
+import { useCardano, CardanoWalletSelector } from "use-cardano"
 
 const isError = (e: any): e is { message: string } =>
   e instanceof Error || (isObject(e) && typeof (e as any)?.message === "string")
@@ -32,7 +32,7 @@ const ParameterizedScriptExample = () => {
   return (
     <>
       <div>
-        <WalletSelector />
+        <CardanoWalletSelector />
       </div>
 
       <br />

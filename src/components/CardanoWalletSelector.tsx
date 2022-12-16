@@ -1,5 +1,5 @@
 import { supportedWalletProviders as allProviders } from "constants/supported-wallet-providers"
-import { useCardano } from "contexts/use-cardano-context"
+import { useCardano } from "contexts/CardanoContext"
 import { useOutsideClick } from "hooks/use-outside-click"
 import { shortAddress } from "lib/short-address"
 import { isNil } from "lodash"
@@ -7,7 +7,7 @@ import { useCallback, useMemo } from "react"
 import { WalletProvider } from "use-cardano"
 import { toNetworkName } from "utils/network-dictionary"
 
-export const WalletSelector = () => {
+export const CardanoWalletSelector = () => {
   const { ref, open, setOpen } = useOutsideClick()
 
   const {

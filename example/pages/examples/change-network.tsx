@@ -1,7 +1,7 @@
 import { ExampleWrapper } from "components/ExampleWrapper"
 import { baseConfig } from "config/use-cardano-config"
 import styles from "styles/example.module.css"
-import { useCardano, WalletSelector } from "use-cardano"
+import { useCardano, CardanoWalletSelector } from "use-cardano"
 
 const ChangeNetworkExample = () => {
   const { networkId, networkWarning: warning } = useCardano()
@@ -9,7 +9,7 @@ const ChangeNetworkExample = () => {
   return (
     <>
       <div>
-        <WalletSelector />
+        <CardanoWalletSelector />
       </div>
 
       <br />

@@ -2,7 +2,7 @@ import { ExampleWrapper } from "components/ExampleWrapper"
 import { baseConfig } from "config/use-cardano-config"
 import { useTransaction } from "hooks/use-transaction"
 import styles from "styles/example.module.css"
-import { useCardano, WalletSelector } from "use-cardano"
+import { useCardano, CardanoWalletSelector } from "use-cardano"
 
 const TransactionExample = () => {
   const { lucid, networkId, walletApiError, accountError, networkWarning, accountWarning } =
@@ -74,7 +74,7 @@ const TransactionExample = () => {
   const header = (
     <div>
       <div>
-        <WalletSelector />
+        <CardanoWalletSelector />
       </div>
 
       <br />

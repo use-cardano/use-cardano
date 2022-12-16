@@ -1,4 +1,4 @@
-import { useCardano } from "contexts/use-cardano-context"
+import { useCardano } from "contexts/CardanoContext"
 import { invalidWalletError, unknownError } from "lib/errors"
 import { hexArrayToAddress } from "lib/hex-array-to-address"
 import { noLiveAccountChangeWarning } from "lib/warnings"

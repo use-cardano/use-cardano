@@ -1,4 +1,4 @@
-import { useCardano } from "contexts/use-cardano-context"
+import { useCardano } from "contexts/CardanoContext"
 import { disallowedNetworkError } from "lib/errors"
 import { noLiveNetworkChangeWarning } from "lib/warnings"
 import { isNil } from "lodash"

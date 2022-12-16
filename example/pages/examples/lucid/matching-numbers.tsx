@@ -5,7 +5,7 @@ import { isNil } from "lodash"
 import { UTxO } from "lucid-cardano"
 import { useCallback, useEffect, useState } from "react"
 import styles from "styles/example.module.css"
-import { useCardano, WalletSelector } from "use-cardano"
+import { useCardano, CardanoWalletSelector } from "use-cardano"
 
 /*
   MatchingNumbers Example
@@ -86,7 +86,7 @@ const MatchingNumbersExample = () => {
   return (
     <>
       <div>
-        <WalletSelector />
+        <CardanoWalletSelector />
       </div>
 
       <br />

@@ -3,7 +3,7 @@ import { baseConfig } from "config/use-cardano-config"
 import * as utils from "lib/always-succeed-utils"
 import { useCallback, useState } from "react"
 import styles from "styles/example.module.css"
-import { useCardano, WalletSelector } from "use-cardano"
+import { useCardano, CardanoWalletSelector } from "use-cardano"
 
 /*
   AlwaysSucceeds Example
@@ -64,7 +64,7 @@ const AlwaysSucceedExample = () => {
   return (
     <>
       <div>
-        <WalletSelector />
+        <CardanoWalletSelector />
       </div>
 
       <br />

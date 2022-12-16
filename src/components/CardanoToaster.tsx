@@ -1,7 +1,7 @@
-import { useCardano } from "contexts/use-cardano-context"
+import { useCardano } from "contexts/CardanoContext"
 import { useEffect, useRef, useState } from "react"
 
-export const WalletProviderToaster = () => {
+export const CardanoToaster = () => {
   const {
     toasterIsShowing,
     count,
