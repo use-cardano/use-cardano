@@ -4,13 +4,13 @@ import * as utils from "lib/simple-mint-utils"
 import { isObject } from "lodash"
 import { useCallback, useMemo, useState } from "react"
 import styles from "styles/example.module.css"
-import { useCardanoContext, WalletProviderSelector } from "use-cardano"
+import { useCardano, WalletProviderSelector } from "use-cardano"
 
 const isError = (e: any): e is { message: string } =>
   e instanceof Error || (isObject(e) && typeof (e as any)?.message === "string")
 
 const LucidSimpleMintExample = () => {
-  const { lucid, account, showToaster } = useCardanoContext()
+  const { lucid, account, showToaster } = useCardano()
 
   const [name, setName] = useState("")
 

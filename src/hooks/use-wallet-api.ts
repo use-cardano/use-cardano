@@ -1,4 +1,4 @@
-import { useCardanoContext } from "contexts/use-cardano-context"
+import { useCardano } from "contexts/use-cardano-context"
 import { noAccountSetError, noDappError, unknownError, userRejectedError } from "lib/errors"
 import { getInfo, getText } from "lib/get-toaster-texts"
 import { setStoredWalletProvider } from "lib/local-storage"
@@ -17,7 +17,7 @@ export const useWalletApi = (autoReconnect?: boolean) => {
     setAccountWarning,
     setNetworkError,
     setAccountError,
-  } = useCardanoContext()
+  } = useCardano()
 
   useEffect(() => {
     if (!window.cardano) return

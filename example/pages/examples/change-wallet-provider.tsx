@@ -3,12 +3,12 @@ import { baseConfig } from "config/use-cardano-config"
 import {
   AvailableProvider,
   constants,
-  useCardanoContext,
+  useCardano,
   WalletProviderSelector,
 } from "use-cardano"
 
 const WalletProviderSelectExample = () => {
-  const { walletProvider, availableProviders } = useCardanoContext()
+  const { walletProvider, availableProviders } = useCardano()
 
   return (
     <>

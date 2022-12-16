@@ -144,7 +144,7 @@ export const CardanoProvider = ({ children, options }: React.PropsWithChildren<P
   )
 }
 
-export const useCardanoContext = () => {
+export const useCardano = () => {
   const context = React.useContext(UseCardanoContext)
 
   if (context === undefined)

@@ -4,7 +4,7 @@ import * as utils from "lib/matching-keyhash-utils"
 import Head from "next/head"
 import { useCallback, useState } from "react"
 import styles from "styles/example.module.css"
-import { useCardanoContext, WalletProviderSelector } from "use-cardano"
+import { useCardano, WalletProviderSelector } from "use-cardano"
 
 /*
   MatchingPubKeyHash Example
@@ -16,7 +16,7 @@ import { useCardanoContext, WalletProviderSelector } from "use-cardano"
  */
 
 const MatchingKeyhashExample = () => {
-  const { lucid, showToaster, hideToaster } = useCardanoContext()
+  const { lucid, showToaster, hideToaster } = useCardano()
 
   const [lovelace, setLovelace] = useState(0)
   const [isLocking, setIsLocking] = useState(false)

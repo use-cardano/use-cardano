@@ -37,12 +37,10 @@ _I am looking to add support for more providers besides blockfrost as lucid-card
 ### Minimal usage
 
 ```tsx
-import { useCardano, useCardanoContext, SelectWalletProvider } from "use-cardano"
+import { CardanoProvider, useCardano, SelectWalletProvider } from "use-cardano"
 
-const App = () => {
-  useCardano(config)
-
-  const { account } = useCardanoContext()
+const Content = () => {
+  const { account } = useCardano()
 
   return (
     <div>
@@ -52,9 +50,17 @@ const App = () => {
     </div>
   )
 }
+
+const App = () => {
+  return (
+    <CardanoProvider options={options}>
+      <Content />
+    </CardanoProvider>
+  )
+}
 ```
 
-At a first glance, it might seems weird that `useCardano` and `useCardanoContext` are separated, but this nicely separates initialization from usage. This is especially useful when you want to use the context in a deeply nested child component, avoiding prop drilling.
+Since the `CardanoProvider` uses a React.context under the hood, you are able to call `useCardano` anywhere in the component tree - avoiding excessive prop drilling - to access the state and functionality of the package.
 
 ## Examples
 
@@ -86,7 +92,6 @@ _OBS! It's probably possible to use either npm or yarn instead of pnpm, but I re
 When running the project locally, the examples site will be served on localhost:3000.
 
 Some wallet providers (gerowallet) will not inject itself in the CIP-0030 web bridge if the page is not served over https. To get around this, the site is also served over a reverse proxy using [localtunnel](https://www.npmjs.com/package/localtunnel) in development mode. The proxied site will launch automatically in your default browser, and you will be informed that it's being proxied and prompted to continue.
-
 
 ### Example app
 

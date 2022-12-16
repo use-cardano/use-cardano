@@ -1,4 +1,4 @@
-import { useCardanoContext } from "contexts/use-cardano-context"
+import { useCardano } from "contexts/use-cardano-context"
 import { filterAvailableProviders } from "lib/filter-available-providers"
 import { getInfo, getText } from "lib/get-toaster-texts"
 import { getStoredWalletProvider, setStoredWalletProvider } from "lib/local-storage"
@@ -10,7 +10,7 @@ type Interval = ReturnType<typeof setInterval>
 const useWalletProviders = (autoConnectTo?: WalletProvider, autoReconnect?: boolean) => {
   const interval = useRef<Interval>()
 
-  const { showToaster, setWalletProvider, setAvailableProviders } = useCardanoContext()
+  const { showToaster, setWalletProvider, setAvailableProviders } = useCardano()
 
   useEffect(() => {
     if (interval.current) clearInterval(interval.current)

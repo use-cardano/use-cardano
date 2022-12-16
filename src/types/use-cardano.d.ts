@@ -96,7 +96,7 @@ declare module "use-cardano" {
 
   export const CardanoProvider: (props: React.PropsWithChildren<Props>) => JSX.Element
 
-  export const useCardanoContext: () => UseCardanoContextState
+  export const useCardano: () => UseCardanoContextState
 
   export const WalletProviderToaster: () => JSX.Element
 

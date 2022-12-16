@@ -1,9 +1,9 @@
 import { ExampleWrapper } from "components/ExampleWrapper"
 import { baseConfig } from "config/use-cardano-config"
-import { useCardanoContext, WalletProviderSelector } from "use-cardano"
+import { useCardano, WalletProviderSelector } from "use-cardano"
 
 const SimpleExample = () => {
-  const { account } = useCardanoContext()
+  const { account } = useCardano()
 
   return (
     <div>

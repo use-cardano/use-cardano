@@ -1,5 +1,5 @@
 import { supportedWalletProviders as allProviders } from "constants/supported-wallet-providers"
-import { useCardanoContext } from "contexts/use-cardano-context"
+import { useCardano } from "contexts/use-cardano-context"
 import { useOutsideClick } from "hooks/use-outside-click"
 import { shortAddress } from "lib/short-address"
 import { isNil } from "lodash"
@@ -21,7 +21,7 @@ export const WalletProviderSelector = () => {
     accountError,
     networkError,
     networkId,
-  } = useCardanoContext()
+  } = useCardano()
 
   const onWalletProviderChange = useCallback((provider: WalletProvider) => {
     setWalletApiLoading(true)

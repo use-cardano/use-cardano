@@ -1,4 +1,4 @@
-import { useCardanoContext } from "contexts/use-cardano-context"
+import { useCardano } from "contexts/use-cardano-context"
 import { useEffect, useRef, useState } from "react"
 
 export const WalletProviderToaster = () => {
@@ -12,7 +12,7 @@ export const WalletProviderToaster = () => {
     walletApiError,
     accountError,
     networkError,
-  } = useCardanoContext()
+  } = useCardano()
 
   const [isManuallyOpen, setIsManuallyOpen] = useState(false)
 

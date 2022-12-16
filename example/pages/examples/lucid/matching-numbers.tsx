@@ -5,7 +5,7 @@ import { isNil } from "lodash"
 import { UTxO } from "lucid-cardano"
 import { useCallback, useEffect, useState } from "react"
 import styles from "styles/example.module.css"
-import { useCardanoContext, WalletProviderSelector } from "use-cardano"
+import { useCardano, WalletProviderSelector } from "use-cardano"
 
 /*
   MatchingNumbers Example
@@ -21,7 +21,7 @@ import { useCardanoContext, WalletProviderSelector } from "use-cardano"
 let interval: ReturnType<typeof setInterval>
 
 const MatchingNumbersExample = () => {
-  const { lucid, showToaster, hideToaster } = useCardanoContext()
+  const { lucid, showToaster, hideToaster } = useCardano()
 
   const [lockedData, setLockedData] = useState<UTxO>()
   const [number, setNumber] = useState(1) // "Dictionary" key / number

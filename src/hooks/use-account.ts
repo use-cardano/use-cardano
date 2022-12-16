@@ -1,4 +1,4 @@
-import { useCardanoContext } from "contexts/use-cardano-context"
+import { useCardano } from "contexts/use-cardano-context"
 import { invalidWalletError, unknownError } from "lib/errors"
 import { hexArrayToAddress } from "lib/hex-array-to-address"
 import { noLiveAccountChangeWarning } from "lib/warnings"
@@ -15,7 +15,7 @@ export const useAccount = () => {
     setAccountError,
     setAccountWarning,
     setWalletApiLoading,
-  } = useCardanoContext()
+  } = useCardano()
 
   const updateAddresses = useCallback(async () => {
     if (!walletApi) {

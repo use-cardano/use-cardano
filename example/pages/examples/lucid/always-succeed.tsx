@@ -3,7 +3,7 @@ import { baseConfig } from "config/use-cardano-config"
 import * as utils from "lib/always-succeed-utils"
 import { useCallback, useState } from "react"
 import styles from "styles/example.module.css"
-import { useCardanoContext, WalletProviderSelector } from "use-cardano"
+import { useCardano, WalletProviderSelector } from "use-cardano"
 
 /*
   AlwaysSucceeds Example
@@ -18,7 +18,7 @@ import { useCardanoContext, WalletProviderSelector } from "use-cardano"
  */
 
 const AlwaysSucceedExample = () => {
-  const { lucid, showToaster, hideToaster } = useCardanoContext()
+  const { lucid, showToaster, hideToaster } = useCardano()
 
   const [lovelace, setLovelace] = useState(0)
   const [isLocking, setIsLocking] = useState(false)

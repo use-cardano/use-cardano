@@ -1,4 +1,4 @@
-import { useCardanoContext } from "contexts/use-cardano-context"
+import { useCardano } from "contexts/use-cardano-context"
 import { disallowedNetworkError } from "lib/errors"
 import { noLiveNetworkChangeWarning } from "lib/warnings"
 import { isNil } from "lodash"
@@ -6,7 +6,7 @@ import { useCallback, useEffect } from "react"
 
 export const useNetworkId = (allowedNetworks: number[]) => {
   const { setNetworkId, setNetworkWarning, setNetworkError, walletApi, showToaster } =
-    useCardanoContext()
+    useCardano()
 
   const onNetworkChange = useCallback(
     (id: unknown) => {

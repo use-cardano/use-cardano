@@ -3,7 +3,7 @@ import { baseConfig } from "config/use-cardano-config"
 import { utf8ToHex } from "lucid-cardano"
 import { useCallback, useState } from "react"
 import styles from "styles/example.module.css"
-import { useCardanoContext, WalletProviderSelector } from "use-cardano"
+import { useCardano, WalletProviderSelector } from "use-cardano"
 
 const SignMessageExample = () => {
   const {
@@ -11,7 +11,7 @@ const SignMessageExample = () => {
     showToaster,
     hideToaster,
     account: { address },
-  } = useCardanoContext()
+  } = useCardano()
 
   const [message, setMessage] = useState<string>()
   const [isSigning, setIsSigning] = useState(false)

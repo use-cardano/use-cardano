@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
-  "module": "src/index.js",
+  "module": "dist/index.js",
   "types": "src/types/use-cardano.d.ts",
   "scripts": {
     "build": "rollup -c",

@@ -1,10 +1,10 @@
 import { ExampleWrapper } from "components/ExampleWrapper"
 import { baseConfig } from "config/use-cardano-config"
 import { isNil } from "lodash"
-import { useCardanoContext, utility, WalletProviderSelector } from "use-cardano"
+import { useCardano, utility, WalletProviderSelector } from "use-cardano"
 
 const MainnetAndTestnetExample = () => {
-  const { networkId, isValid } = useCardanoContext()
+  const { networkId, isValid } = useCardano()
 
   return (
     <>
