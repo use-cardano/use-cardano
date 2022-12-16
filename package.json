@@ -8,14 +8,14 @@
   "scripts": {
     "build": "rollup -c",
     "dev:package": "rollup -c -w &",
-    "dev:example": "cd example && pnpm run dev -p 4200",
-    "dev": "concurrently \"pnpm run dev:package\" \"pnpm run dev:example &\" \"node scripts/open.js\""
+    "dev:example": "cd example && pnpm dev -p 4200",
+    "dev": "concurrently \"pnpm dev:package\" \"pnpm dev:example\" \"node scripts/open.js\""
   },
   "keywords": [],
   "author": "Jesper Tullberg",
   "license": "ISC",
   "peerDependencies": {
-    "lucid-cardano": "0.7.8",
+    "lucid-cardano": "0.8.1",
     "react": "^18.2.0"
   },
   "devDependencies": {

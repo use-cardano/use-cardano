@@ -85,7 +85,7 @@ _OBS! It's probably possible to use either npm or yarn instead of pnpm, but I re
 1. Install example dependencies: `cd example && pnpm i && cd ..`
 1. Link the library run time dependencies: `pnpm link ./example/node_modules/react ./example/node_modules/lucid-cardano`
 1. Install library dependencies: `pnpm i`
-1. Run the library in watch mode, and launch the example app: `pnpm run dev`
+1. Run the library in watch mode, and launch the example app: `pnpm dev`
 
 #### Reverse Proxy
 
