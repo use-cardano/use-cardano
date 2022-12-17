@@ -6,7 +6,6 @@ import { shortAddress } from "lib/short-address"
 import { isNil } from "lodash"
 import { useCallback, useMemo } from "react"
 import { WalletProvider } from "use-cardano"
-import { toNetworkName } from "utils/network-dictionary"
 
 export const CardanoWalletSelector = () => {
   const { ref, open, setOpen } = useOutsideClick()
@@ -21,7 +20,6 @@ export const CardanoWalletSelector = () => {
     walletApiError,
     accountError,
     networkError,
-    networkId,
   } = useCardano()
 
   const onWalletProviderChange = useCallback((provider: WalletProvider) => {
@@ -61,6 +59,9 @@ export const CardanoWalletSelector = () => {
     buttonText = "Select Wallet"
   }
 
+  const currentProvider = availableProviders.find((p) => p.key === walletProvider)
+  const iconSize = walletProvider === "nami" ? "24px" : "32px"
+
   return (
     <div ref={ref} className="cardano-wallet-selector">
       <button
@@ -69,21 +70,41 @@ export const CardanoWalletSelector = () => {
         onClick={() => setOpen((wasOpen) => !wasOpen)}
         title={isValid ? undefined : warning?.message}
       >
-        <div className="cardano-wallet-selector__button__text">{buttonText}</div>
-        {!isValid && <span className="cardano-wallet-selector__button__warning-sign">⚠</span>}
+        {walletApiLoading ? (
+          <div className="cardano-wallet-selector__button__text">{buttonText}</div>
+        ) : (
+          <>
+            {isValid && currentProvider?.icon && (
+              <img
+                className="cardano-wallet-selector__button__icon"
+                src={currentProvider.icon}
+                alt={`${walletProvider} icon`}
+                height={iconSize}
+                width={iconSize}
+              />
+            )}
+            <div className="cardano-wallet-selector__button__text">{buttonText}</div>
+            {!isValid && <span className="cardano-wallet-selector__button__warning-sign">⚠</span>}
+          </>
+        )}
       </button>
 
       {open && (
         <ul className="cardano-wallet-selector__menu">
           {allProviders.sort().map((provider) => {
-            const installed = availableProviders.some((p) => p.key === provider)
+            const availableProvider = availableProviders.find((p) => p.key === provider)
+            const installed = !isNil(availableProvider)
             const isCurrent = provider === walletProvider
 
+            const iconSize = provider === "nami" ? "26px" : "32px"
+
+            const itemClassName = concatenateClasses(
+              "cardano-wallet-selector__menu__item",
+              isCurrent && "cardano-wallet-selector__menu__item--current"
+            )
+
             return (
-              <li
-                key={`use-cardano-provider-select-${provider}`}
-                className="cardano-wallet-selector__menu__item"
-              >
+              <li key={`use-cardano-provider-select-${provider}`} className={itemClassName}>
                 <button
                   disabled={!installed}
                   title={installed ? undefined : `${provider} extension is not installed`}
@@ -94,13 +115,24 @@ export const CardanoWalletSelector = () => {
                     }
                   }}
                 >
-                  {provider}
+                  <div className="cardano-wallet-selector__menu__item__text">
+                    <span className="cardano-wallet-selector__menu__item__text__icon">
+                      {availableProvider?.icon && (
+                        <img
+                          src={availableProvider.icon}
+                          alt={`${provider} icon`}
+                          height={iconSize}
+                          width={iconSize}
+                        />
+                      )}
+                    </span>
 
-                  {isCurrent ? (
-                    <span className="cardano-wallet-selector__menu__item__current-sign">✓</span>
-                  ) : !installed ? (
-                    <span className="cardano-wallet-selector__menu__item__warning-sign">⚠</span>
-                  ) : null}
+                    {provider}
+                  </div>
+
+                  {isCurrent && (
+                    <span className="cardano-wallet-selector__menu__item--current__checkmark">✓</span>
+                  )}
                 </button>
               </li>
             )

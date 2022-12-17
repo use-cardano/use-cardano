@@ -114,13 +114,17 @@
   color: rgba(0, 0, 0, 0.25);
 }
 
+.cardano-wallet-selector__button__icon {
+  margin: -5px 10px -5px -5px;
+}
+
 .cardano-wallet-selector__button__text {
   text-align: center;
   width: 100%;
 }
 
 .cardano-wallet-selector__button__warning-sign {
-  font-size: 1rem;
+  margin: -2px 0;
 }
 
 .cardano-wallet-selector__menu {
@@ -152,6 +156,16 @@
   cursor: pointer;
 }
 
+.cardano-wallet-selector__menu__item--current button {
+  background-color: #f0f0f0;
+}
+
+.cardano-wallet-selector__menu__item--current__checkmark {
+  font-style: inherit;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
 .cardano-wallet-selector__menu__item button:disabled {
   color: rgba(0, 0, 0, 0.25);
   cursor: default;
@@ -161,10 +175,17 @@
   background-color: #f2f2f2;
 }
 
-.cardano-wallet-selector__menu__item__current-sign,
-.cardano-wallet-selector__menu__item__warning-sign {
-  font-style: inherit;
-  font-size: 1rem;
+.cardano-wallet-selector__menu__item__text {
+  display: flex;
+  align-items: center;
+}
+
+.cardano-wallet-selector__menu__item__text__icon {
+  display: flex;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+  margin-right: 0.5rem;
 }
 
 .cardano-wallet-selector__menu__item:last-child {
