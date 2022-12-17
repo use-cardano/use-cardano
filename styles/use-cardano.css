@@ -161,6 +161,7 @@
   background-color: #f2f2f2;
 }
 
+.cardano-wallet-selector__menu__item__current-sign,
 .cardano-wallet-selector__menu__item__warning-sign {
   font-style: inherit;
   font-size: 1rem;

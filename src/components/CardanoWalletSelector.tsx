@@ -96,9 +96,11 @@ export const CardanoWalletSelector = () => {
                 >
                   {provider}
 
-                  {!installed && (
+                  {isCurrent ? (
+                    <span className="cardano-wallet-selector__menu__item__current-sign">✓</span>
+                  ) : !installed ? (
                     <span className="cardano-wallet-selector__menu__item__warning-sign">⚠</span>
-                  )}
+                  ) : null}
                 </button>
               </li>
             )
