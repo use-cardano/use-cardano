@@ -109,9 +109,9 @@ const Index = () => {
         <li className={styles.item}>
           <Link
             className={styles.link}
-            href="/examples/customization/custom-wallet-provider-selector"
+            href="/examples/manual/your-own-wallet-provider-selector"
           >
-            Customization / Custom Wallet Provider Selector
+            Manual / You Own Wallet Provider Selector
           </Link>
         </li>
 

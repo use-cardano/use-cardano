@@ -34,36 +34,45 @@ const CustomStylesExample = () => (
 
     <style jsx global>
       {`
-        .use-cardano-wallet-provider-toaster-container {
+        .cardano-toaster {
           background: red;
           color: white;
           font-weight: bold;
         }
 
-        .use-cardano-wallet-provider-toaster-close {
+        .cardano-toaster__close-button {
           color: white;
         }
 
-        .use-cardano-wallet-provider-toaster-notification-container {
+        .cardano-toaster-notification-container {
           background: red;
           color: white;
         }
 
-        .use-cardano-wallet-provider-selector-opener,
-        .use-cardano-wallet-provider-selector-opener-list-item,
-        .use-cardano-wallet-provider-selector-opener-list-item-last {
+        .cardano-wallet-selector__button,
+        .cardano-wallet-selector__menu__item,
+        .cardano-wallet-selector__menu__item:last-child {
           border-color: darkblue;
           border-width: 8px;
         }
 
-        .use-cardano-wallet-provider-selector-opener,
-        .use-cardano-wallet-provider-selector-opener-list-item {
+        .cardano-wallet-selector__button,
+        .cardano-wallet-selector__menu__item button {
           background: blue;
           color: white;
         }
 
-        .use-cardano-wallet-provider-selector-opener-list-item-not-installed {
+        .cardano-wallet-selector__menu__item:last-child button {
+          border-radius: 0px;
+        }
+
+        .cardano-wallet-selector__menu__item button:disabled {
           color: darkblue;
+        }
+
+        .cardano-wallet-selector__menu__item button:not(:disabled):hover {
+          background: white;
+          color: blue;
         }
       `}
     </style>
