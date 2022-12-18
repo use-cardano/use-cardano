@@ -3,11 +3,12 @@ import { options } from "config/use-cardano-options"
 import styles from "styles/example.module.css"
 import { CardanoWalletSelector } from "use-cardano"
 
-const AutoConnectExample = () => (
+const NoAutoReconnectExample = () => (
   <>
     <div>
-      In this example, as you refresh you page, it should attempt to reconnect to the last selected
-      wallet. It should not automatically attempt to connect to Nami or Eternl on your first visit.
+      In this example, as you refresh you page, it should <b>not</b> attempt to reconnect to the
+      last selected wallet. It should not automatically attempt to connect to Nami or Eternl on your
+      first visit.
     </div>
 
     <br />
@@ -25,10 +26,10 @@ const AutoConnectExample = () => (
   </>
 )
 
-const AutoConnectExamplePage = () => (
-  <ExampleWrapper options={{ ...options, autoReconnect: true }}>
-    <AutoConnectExample />
+const NoAutoReconnectExamplePage = () => (
+  <ExampleWrapper options={{ ...options, autoReconnect: false }}>
+    <NoAutoReconnectExample />
   </ExampleWrapper>
 )
 
-export default AutoConnectExamplePage
+export default NoAutoReconnectExamplePage

@@ -1,6 +1,10 @@
 import { NextApiHandler } from "next"
 import httpProxyMiddleware from "next-http-proxy-middleware"
 
+/*
+  Since both testnet, preview and preprod are all using network id 1, it is impossible to distinguish them
+  Use the one that makes sense for your use case
+*/
 const getTarget = (url?: string) => {
   if (url?.startsWith("/api/blockfrost/0")) return "https://cardano-testnet.blockfrost.io/api/v0"
   if (url?.startsWith("/api/blockfrost/1")) return "https://cardano-mainnet.blockfrost.io/api/v0"

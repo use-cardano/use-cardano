@@ -40,11 +40,14 @@ export const useWalletApi = (autoReconnect?: boolean) => {
         setAccountError(undefined)
         setWalletApiError(undefined)
         setWalletApi(api)
+
+        if (autoReconnect) setStoredWalletProvider(walletProvider)
+        else setStoredWalletProvider(undefined)
       })
       .catch((e) => {
         setWalletApi(undefined)
         setWalletProvider(undefined)
-        if (autoReconnect) setStoredWalletProvider(undefined)
+        setStoredWalletProvider(undefined)
         setWalletApiLoading(false)
 
         if (!isNil(e.code)) {

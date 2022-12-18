@@ -44,7 +44,9 @@ const useWalletProviders = (autoConnectTo?: WalletProvider, autoReconnect?: bool
         if (!connectedProvider) return
 
         setWalletProvider(connectedProvider.key)
+
         if (autoReconnect) setStoredWalletProvider(connectedProvider.key)
+        else setStoredWalletProvider(undefined)
 
         const text = getText(connectedProvider.key)
         const info = getInfo(connectedProvider.key)

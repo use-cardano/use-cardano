@@ -71,8 +71,8 @@ const Index = () => {
         </li>
 
         <li className={styles.item}>
-          <Link className={styles.link} href="/examples/configuration/auto-reconnect">
-            Configuration / Auto Reconnect
+          <Link className={styles.link} href="/examples/configuration/no-auto-reconnect">
+            Configuration / No Auto Reconnect
           </Link>
         </li>
 
