@@ -41,12 +41,6 @@ const Index = () => {
         </li>
 
         <li className={styles.item}>
-          <Link className={styles.link} href="/examples/manual-toaster-operations">
-            Manual Toaster Operations
-          </Link>
-        </li>
-
-        <li className={styles.item}>
           <Link className={styles.link} href="/examples/configuration/auto-connect-to-nami">
             Configuration / Auto Connect to Nami
           </Link>
@@ -107,10 +101,13 @@ const Index = () => {
         </li>
 
         <li className={styles.item}>
-          <Link
-            className={styles.link}
-            href="/examples/manual/your-own-wallet-provider-selector"
-          >
+          <Link className={styles.link} href="/examples/manual/toaster-operations">
+            Manual / Toaster Operations
+          </Link>
+        </li>
+
+        <li className={styles.item}>
+          <Link className={styles.link} href="/examples/manual/your-own-wallet-provider-selector">
             Manual / You Own Wallet Provider Selector
           </Link>
         </li>
