@@ -1,4 +1,4 @@
-# USE CARDANO
+# use-cardano
 
 use-cardano is a react context, hook, and set of components that makes interacting with the Cardano blockchain easy. It allows you to build web3 applications, connect wallets and performing tasks such as signing transactions and interacting with smart contracts.
 
