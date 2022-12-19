@@ -1,23 +1,14 @@
 # USE CARDANO
 
-## Unreleased
-
-**OBS!! This project is unreleased. Feel free to use it, but be aware that it is to be considered as an alpha version. Things can break, the APIs will change etc.**
-
-### Release Timeline
-
-I am aiming for an initial beta (as in a functional and stable solution with a finalized API) release before end-of-year 2022. I think this is realistic. Please see [this issue](https://github.com/GGAlanSmithee/use-cardano/issues/7) for what is left to do.
-
-## Overview
-
-This repository contains the source code for [use-cardano](https://www.npmjs.com/package/use-cardano), a react hook that makes interacting with the Cardano blockchain easy.
-
+use-cardano is a react context, hook, and set of components that makes interacting with the Cardano blockchain easy. It allows you to build web3 applications, connect wallets and performing tasks such as signing transactions and interacting with smart contracts.
 
 ## Documentation
 
-Visit the [documentation site](https://use-cardano.alangaming.com/) for installation instructions and usage examples.
+Visit the [documentation site](https://use-cardano.alangaming.com/) for installation instructions, configuration options, and live examples.
 
 ## Contributing / Development
+
+This repository contains the source code for [use-cardano](https://www.npmjs.com/package/use-cardano), a react hook that makes interacting with the Cardano blockchain easy.
 
 Feel free to contribute in any capacity, either by opening an issue, creating a pull request or by giving feedback.
 
@@ -30,13 +21,13 @@ _We highly recommend pnpm over yarn and npm since it handles local project linki
 1. `git clone git@github.com:GGAlanSmithee/use-cardano.git`
 1. `npm i -g pnpm`
 1. `cd example && pnpm i && cd ..`
-    - _Installs example dependencies_
+   - _Installs example dependencies_
 1. `pnpm link ./example/node_modules/react ./example/node_modules/lucid-cardano`
-    - _Links the libraries peer dependencies_
+   - _Links the libraries peer dependencies_
 1. `pnpm i`
-    - _Installs library dependencies_ 
+   - _Installs library dependencies_
 1. `pnpm dev`
-    - _Runs the library in watch mode, and launches the example app_
+   - _Runs the library in watch mode, and launches the example app_
 
 ## Reverse Proxy
 
