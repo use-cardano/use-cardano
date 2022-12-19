@@ -47,5 +47,3 @@ Some wallet providers (gerowallet) will not inject itself in the CIP-0030 web br
 ## Example app
 
 There is an example app in the `/example` folder. It is a simple Next.js app that serves both as a testbed and as a reference. Changes to both the `use-cardano` package as well as the example app will be hot-reloaded during development.
-
-![Example app](.github/example-app.png)
