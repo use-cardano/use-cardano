@@ -3,9 +3,9 @@ import { useLucid } from "hooks/use-lucid"
 import { useNetworkId } from "hooks/use-network-id"
 import { useWalletApi } from "hooks/use-wallet-api"
 import { useWalletProviders } from "hooks/use-wallet-providers"
+import { toNetworkId } from "lib/network-dictionary"
 import { useMemo } from "react"
 import { UseCardanoOptions } from "use-cardano"
-import { toNetworkId } from "utils/network-dictionary"
 
 type DefaultUseCardanoOptions = {
   autoConnectTo: undefined

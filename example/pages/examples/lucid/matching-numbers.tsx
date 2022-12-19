@@ -5,7 +5,7 @@ import { isNil } from "lodash"
 import { UTxO } from "lucid-cardano"
 import { useCallback, useEffect, useState } from "react"
 import styles from "styles/example.module.css"
-import { useCardano, CardanoWalletSelector } from "use-cardano"
+import { CardanoWalletSelector, useCardano, utility } from "use-cardano"
 
 /*
   MatchingNumbers Example
@@ -58,7 +58,8 @@ const MatchingNumbersExample = () => {
         setNumber(1)
         setLovelace(0)
       } catch (e) {
-        if (e instanceof Error) showToaster("Could not lock UTXO", e.message)
+        if (utility.isError(e)) showToaster("Could not lock UTxO", e.message)
+        else if (typeof e === "string") showToaster("Could not lock UTxO", e)
       } finally {
         setIsLocking(false)
       }
@@ -77,7 +78,8 @@ const MatchingNumbersExample = () => {
 
       showToaster("Redeemed UTXO", `Redeemed all available lovelace from key ${number} in tx ${tx}`)
     } catch (e) {
-      if (e instanceof Error) showToaster("Could not redeem UTXO", e.message)
+      if (utility.isError(e)) showToaster("Could not redeem UTXO", e.message)
+      else if (typeof e === "string") showToaster("Could not redeem UTxO", e)
     } finally {
       setIsRedeeming(false)
     }

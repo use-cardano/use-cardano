@@ -3,7 +3,7 @@ import { options } from "config/use-cardano-options"
 import { utf8ToHex } from "lucid-cardano"
 import { useCallback, useState } from "react"
 import styles from "styles/example.module.css"
-import { useCardano, CardanoWalletSelector } from "use-cardano"
+import { CardanoWalletSelector, useCardano, utility } from "use-cardano"
 
 const SignMessageExample = () => {
   const {
@@ -32,7 +32,8 @@ const SignMessageExample = () => {
       showToaster("Signed message", message)
       setMessage(undefined)
     } catch (e) {
-      if (e instanceof Error) showToaster("Could not sign message", e.message)
+      if (utility.isError(e)) showToaster("Could not sign message", e.message)
+      else if (typeof e === "string") showToaster("Could not sign message", e)
     } finally {
       setIsSigning(false)
     }

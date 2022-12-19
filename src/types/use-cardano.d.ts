@@ -1,8 +1,8 @@
 declare module "use-cardano" {
-  import { Lucid, WalletApi } from "lucid-cardano"
-  import React from "react"
+import { Lucid, WalletApi } from "lucid-cardano"
+import React from "react"
 
-  // todo, add support for more node providers, when available in lucid
+    // todo, add support for more node providers, when available in lucid
   export type NodeProvider = "blockfrost" | "blockfrost-proxy"
   export type WalletProvider = "nami" | "eternl" | "gerowallet" | "flint"
 
@@ -105,6 +105,7 @@ declare module "use-cardano" {
   export const utility: {
     toNetworkId: (network: string) => number
     toNetworkName: (id: number) => string
+    isError: (e: any) => e is { message: string }
   }
 
   export const constants: {

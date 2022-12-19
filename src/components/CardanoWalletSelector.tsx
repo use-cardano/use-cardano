@@ -1,8 +1,8 @@
-import { supportedWalletProviders as allProviders } from "constants/supported-wallet-providers"
 import { useCardano } from "contexts/CardanoContext"
 import { useOutsideClick } from "hooks/use-outside-click"
 import { concatenateClasses } from "lib/concatenate-classes"
 import { shortAddress } from "lib/short-address"
+import { supportedWalletProviders as allProviders } from "lib/supported-wallet-providers"
 import { isNil } from "lodash"
 import { useCallback, useMemo } from "react"
 import { WalletProvider } from "use-cardano"
@@ -131,7 +131,9 @@ export const CardanoWalletSelector = () => {
                   </div>
 
                   {isCurrent && (
-                    <span className="cardano-wallet-selector__menu__item--current__checkmark">✓</span>
+                    <span className="cardano-wallet-selector__menu__item--current__checkmark">
+                      ✓
+                    </span>
                   )}
                 </button>
               </li>

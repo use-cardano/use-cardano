@@ -1,13 +1,9 @@
 import { ExampleWrapper } from "components/ExampleWrapper"
 import { options } from "config/use-cardano-options"
 import * as utils from "lib/simple-mint-utils"
-import { isObject } from "lodash"
 import { useCallback, useMemo, useState } from "react"
 import styles from "styles/example.module.css"
-import { useCardano, CardanoWalletSelector } from "use-cardano"
-
-const isError = (e: any): e is { message: string } =>
-  e instanceof Error || (isObject(e) && typeof (e as any)?.message === "string")
+import { CardanoWalletSelector, useCardano, utility } from "use-cardano"
 
 const LucidSimpleMintExample = () => {
   const { lucid, account, showToaster } = useCardano()
@@ -22,8 +18,8 @@ const LucidSimpleMintExample = () => {
 
       showToaster("Minted NFT", `Transaction: ${nftTx}`)
     } catch (e) {
-      if (isError(e)) showToaster("Could not mint NFT", e.message)
-      else showToaster("Could not mint NFT", (e as any).toString())
+      if (utility.isError(e)) showToaster("Could not mint NFT", e.message)
+      else if (typeof e === "string") showToaster("Could not mint NFT", e)
     }
   }, [lucid, account?.address, showToaster, name])
 
@@ -35,8 +31,8 @@ const LucidSimpleMintExample = () => {
 
       showToaster("Burned NFT", `Transaction: ${nftTx}`)
     } catch (e) {
-      if (isError(e)) showToaster("Could not mint NFT", e.message)
-      else showToaster("Could not mint NFT", (e as any).toString())
+      if (utility.isError(e)) showToaster("Could not burn NFT", e.message)
+      else if (typeof e === "string") showToaster("Could not burn NFT", e)
     }
   }, [lucid, account?.address, showToaster, name])
 

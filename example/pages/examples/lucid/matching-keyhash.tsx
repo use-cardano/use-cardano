@@ -1,10 +1,9 @@
 import { ExampleWrapper } from "components/ExampleWrapper"
 import { options } from "config/use-cardano-options"
 import * as utils from "lib/matching-keyhash-utils"
-import Head from "next/head"
 import { useCallback, useState } from "react"
 import styles from "styles/example.module.css"
-import { useCardano, CardanoWalletSelector } from "use-cardano"
+import { CardanoWalletSelector, useCardano, utility } from "use-cardano"
 
 /*
   MatchingPubKeyHash Example
@@ -34,7 +33,8 @@ const MatchingKeyhashExample = () => {
 
         showToaster("Locked UTXO", `Locked ${value} lovelace in tx ${tx}`)
       } catch (e) {
-        if (e instanceof Error) showToaster("Could not lock UTXO", e.message)
+        if (utility.isError(e)) showToaster("Could not lock UTxO", e.message)
+        else if (typeof e === "string") showToaster("Could not lock UTxO", e)
       } finally {
         setIsLocking(false)
       }
@@ -53,7 +53,8 @@ const MatchingKeyhashExample = () => {
 
       showToaster("Redeemed UTXO", `Redeemed all available lovelace in tx ${tx}`)
     } catch (e) {
-      if (e instanceof Error) showToaster("Could not redeem UTXO", e.message)
+      if (utility.isError(e)) showToaster("Could not redeem UTxO", e.message)
+      else if (typeof e === "string") showToaster("Could not redeem UTxO", e)
     } finally {
       setIsRedeeming(false)
     }
@@ -61,14 +62,6 @@ const MatchingKeyhashExample = () => {
 
   return (
     <>
-      <Head>
-        <script
-          type="module"
-          async
-          src="https://raw.githubusercontent.com/Hyperion-BT/Helios/v0.4.0/helios.js"
-        ></script>
-      </Head>
-
       <div>
         <CardanoWalletSelector />
       </div>
