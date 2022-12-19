@@ -13,6 +13,7 @@ specifiers:
   lodash: ^4.17.21
   open: ^8.4.0
   open-cli: ^7.1.0
+  react: ^16.0.0 || ^17.0.0 || ^18.2.0
   rollup: ^3.7.4
   rollup-plugin-peer-deps-external: ^2.2.4
   tslib: ^2.4.1
