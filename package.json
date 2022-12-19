@@ -1,6 +1,6 @@
 {
   "name": "use-cardano",
-  "version": "1.0.0-beta.3",
+  "version": "1.0.0-beta.4",
   "engines": {
     "node": ">=16.15.0"
   },
@@ -19,9 +19,9 @@
   "author": "Alan Smithee (ggnore.alan.smithee@gmail.com)",
   "license": "MIT",
   "homepage": "https://use-cardano.alangaming.com",
-  "repository": "GGAlanSmithee/use-cardano",
+  "repository": "use-cardano/use-cardano",
   "bugs": {
-    "url": "https://www.github.com/GGAlanSmithee/use-cardano/issues"
+    "url": "https://www.github.com/use-carrdano/use-cardano/issues"
   },
   "scripts": {
     "build": "rollup -c",
