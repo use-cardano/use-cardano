@@ -13,7 +13,7 @@ export const useLucid = (allowedNetworks: number[], node: UseCardanoNodeOptions)
       if (walletApiLoading || isNil(networkId) || isNil(walletApi)) return
 
       const provider = getNodeProvider({ ...node, networkId })
-      const network = networkId === 0 ? "Testnet" : "Mainnet"
+      const network = networkId === 0 ? "Preview" : "Mainnet"
 
       if (!allowedNetworks.includes(networkId)) {
         setLucid(undefined)

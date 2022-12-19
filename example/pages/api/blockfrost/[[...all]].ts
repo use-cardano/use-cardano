@@ -6,7 +6,7 @@ import httpProxyMiddleware from "next-http-proxy-middleware"
   Use the one that makes sense for your use case
 */
 const getTarget = (url?: string) => {
-  if (url?.startsWith("/api/blockfrost/0")) return "https://cardano-testnet.blockfrost.io/api/v0"
+  if (url?.startsWith("/api/blockfrost/0")) return "https://cardano-preview.blockfrost.io/api/v0"
   if (url?.startsWith("/api/blockfrost/1")) return "https://cardano-mainnet.blockfrost.io/api/v0"
   return null
 }
