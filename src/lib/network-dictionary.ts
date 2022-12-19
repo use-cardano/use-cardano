@@ -1,19 +1,23 @@
+import { TestnetNetwork } from "use-cardano"
+
 export const toNetworkId = (network: string) => {
   switch (network) {
-    case "testnet":
+    case "Testnet":
+    case "Preview":
+    case "Preprod":
       return 0
-    case "mainnet":
+    case "Mainnet":
     default:
       return 1
   }
 }
 
-export const toNetworkName = (id: number) => {
+export const toNetworkName = (id: number, TestnetNetwork: TestnetNetwork) => {
   switch (id) {
     case 0:
-      return "testnet"
+      return TestnetNetwork
     case 1:
     default:
-      return "mainnet"
+      return "Mainnet"
   }
 }

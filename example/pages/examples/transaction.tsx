@@ -144,7 +144,7 @@ const TransactionExample = () => {
 }
 
 const TransactionExamplePage = () => (
-  <ExampleWrapper options={{ ...options, allowedNetworks: ["testnet", "mainnet"] }}>
+  <ExampleWrapper options={{ ...options, allowedNetworks: ["Testnet", "Mainnet"] }}>
     <TransactionExample />
   </ExampleWrapper>
 )

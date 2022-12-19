@@ -3,10 +3,10 @@ import { disallowedNetworkError } from "lib/errors"
 import { noLiveNetworkChangeWarning } from "lib/warnings"
 import { isNil } from "lodash"
 import { useCallback, useEffect } from "react"
+import { TestnetNetwork } from "use-cardano"
 
-export const useNetworkId = (allowedNetworks: number[]) => {
-  const { setNetworkId, setNetworkWarning, setNetworkError, walletApi, showToaster } =
-    useCardano()
+export const useNetworkId = (allowedNetworks: number[], testnetNetwork: TestnetNetwork) => {
+  const { setNetworkId, setNetworkWarning, setNetworkError, walletApi, showToaster } = useCardano()
 
   const onNetworkChange = useCallback(
     (id: unknown) => {
@@ -14,7 +14,7 @@ export const useNetworkId = (allowedNetworks: number[]) => {
 
       // NOTE: We don't want to unset network id, since that would have cascading effects
       if (!allowedNetworks.includes(networkId))
-        setNetworkError(disallowedNetworkError(allowedNetworks, networkId))
+        setNetworkError(disallowedNetworkError(allowedNetworks, testnetNetwork, networkId))
       else setNetworkError(undefined)
 
       setNetworkId(networkId)

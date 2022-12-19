@@ -180,7 +180,7 @@ const MatchingNumbersExample = () => {
 }
 
 const LucidMatchingNumbersExamplePage = () => (
-  <ExampleWrapper options={{ ...options, allowedNetworks: ["testnet"] }}>
+  <ExampleWrapper options={{ ...options, allowedNetworks: ["Testnet"] }}>
     <MatchingNumbersExample />
   </ExampleWrapper>
 )

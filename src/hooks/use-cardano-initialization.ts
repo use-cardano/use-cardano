@@ -10,7 +10,8 @@ import { UseCardanoOptions } from "use-cardano"
 type DefaultUseCardanoOptions = {
   autoConnectTo: undefined
   autoReconnect: true
-  allowedNetworks: ["mainnet"]
+  testnetNetwork: "Preview"
+  allowedNetworks: ["Mainnet"]
   node: {
     provider: "blockfrost"
     proxyUrl: undefined
@@ -21,7 +22,8 @@ type DefaultUseCardanoOptions = {
 const defaultOptions: DefaultUseCardanoOptions = {
   autoConnectTo: undefined,
   autoReconnect: true,
-  allowedNetworks: ["mainnet"],
+  testnetNetwork: "Preview",
+  allowedNetworks: ["Mainnet"],
   node: {
     provider: "blockfrost",
     proxyUrl: undefined,
@@ -34,6 +36,7 @@ export const useCardanoInitialization = (options: UseCardanoOptions = {}) => {
     node,
     autoConnectTo,
     autoReconnect,
+    testnetNetwork,
     allowedNetworks: allowedNetworkNames,
   } = useMemo(() => ({ ...defaultOptions, ...options }), [options])
 
@@ -41,7 +44,7 @@ export const useCardanoInitialization = (options: UseCardanoOptions = {}) => {
 
   useWalletProviders(autoConnectTo, autoReconnect)
   useWalletApi(autoReconnect)
-  useNetworkId(allowedNetworks)
+  useNetworkId(allowedNetworks, testnetNetwork)
   useAccount()
-  useLucid(allowedNetworks, node)
+  useLucid(allowedNetworks, testnetNetwork, node)
 }

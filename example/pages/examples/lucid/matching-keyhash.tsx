@@ -128,7 +128,7 @@ const MatchingKeyhashExample = () => {
 }
 
 const LucidMatchingKeyhashExamplePage = () => (
-  <ExampleWrapper options={{ ...options, allowedNetworks: ["testnet"] }}>
+  <ExampleWrapper options={{ ...options, allowedNetworks: ["Testnet"] }}>
     <MatchingKeyhashExample />
   </ExampleWrapper>
 )

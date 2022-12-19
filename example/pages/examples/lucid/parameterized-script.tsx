@@ -65,7 +65,7 @@ const ParameterizedScriptExample = () => {
 }
 
 const LucidParameterizedScriptExamplePage = () => (
-  <ExampleWrapper options={{ ...options, allowedNetworks: ["testnet"] }}>
+  <ExampleWrapper options={{ ...options, allowedNetworks: ["Testnet"] }}>
     <ParameterizedScriptExample />
   </ExampleWrapper>
 )

@@ -88,7 +88,7 @@ const SignMessageExample = () => {
 }
 
 const LucidSignMessageExamplePage = () => (
-  <ExampleWrapper options={{ ...options, allowedNetworks: ["testnet"] }}>
+  <ExampleWrapper options={{ ...options, allowedNetworks: ["Testnet"] }}>
     <SignMessageExample />
   </ExampleWrapper>
 )

@@ -126,7 +126,7 @@ const AlwaysSucceedExample = () => {
 }
 
 const LucidAlwaysSucceedExamplePage = () => (
-  <ExampleWrapper options={{ ...options, allowedNetworks: ["testnet"] }}>
+  <ExampleWrapper options={{ ...options, allowedNetworks: ["Testnet"] }}>
     <AlwaysSucceedExample />
   </ExampleWrapper>
 )

@@ -1,5 +1,5 @@
 import { toNetworkName } from "lib/network-dictionary"
-import { USE_CARDANO_ERROR, WalletProvider } from "use-cardano"
+import { TestnetNetwork, USE_CARDANO_ERROR, WalletProvider } from "use-cardano"
 
 export class UseCardanoError extends Error {
   type?: USE_CARDANO_ERROR
@@ -33,9 +33,13 @@ export const invalidWalletError = new UseCardanoError(
   "No addresses found in wallet. This is an unexpected error, please check your wallet."
 )
 
-export const disallowedNetworkError = (allowedNetworks: number[], networkId: number) => {
-  const networks = allowedNetworks.map(toNetworkName)
-  const network = toNetworkName(networkId)
+export const disallowedNetworkError = (
+  allowedNetworks: number[],
+  testnetNetwork: TestnetNetwork,
+  networkId: number
+) => {
+  const networks = allowedNetworks.map((id) => toNetworkName(id, testnetNetwork))
+  const network = toNetworkName(networkId, testnetNetwork)
 
   if (networks.length === 0) {
     if (process.env.NODE_ENV === "development")

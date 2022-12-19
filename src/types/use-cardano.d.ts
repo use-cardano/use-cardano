@@ -1,12 +1,13 @@
 declare module "use-cardano" {
-import { Lucid, WalletApi } from "lucid-cardano"
+import { Lucid, Network, WalletApi } from "lucid-cardano"
 import React from "react"
 
     // todo, add support for more node providers, when available in lucid
   export type NodeProvider = "blockfrost" | "blockfrost-proxy"
   export type WalletProvider = "nami" | "eternl" | "gerowallet" | "flint"
 
-  export type AllowedNetworks = ("mainnet" | "testnet")[]
+  export type AllowedNetworks = ("Testnet" | "Mainnet")[]
+  export type TestnetNetwork = "Testnet" | "Preview" | "Preprod"
 
   export type UseCardanoNodeOptions = {
     provider?: NodeProvider
@@ -18,6 +19,7 @@ import React from "react"
     autoConnectTo?: WalletProvider
     autoReconnect?: boolean
     allowedNetworks?: AllowedNetworks
+    testnetNetwork?: TestnetNetwork
     node?: UseCardanoNodeOptions
   }
 

@@ -87,7 +87,7 @@ const LucidSimpleMintExample = () => {
 }
 
 const LucidSimpleMintExamplePage = () => (
-  <ExampleWrapper options={{ ...options, allowedNetworks: ["testnet"] }}>
+  <ExampleWrapper options={{ ...options, allowedNetworks: ["Testnet"] }}>
     <LucidSimpleMintExample />
   </ExampleWrapper>
 )
