@@ -30,7 +30,7 @@
     "dev": "concurrently \"pnpm dev:package\" \"pnpm dev:example\" \"node scripts/open.js\""
   },
   "peerDependencies": {
-    "lucid-cardano": "0.8.1",
+    "lucid-cardano": "0.8.2",
     "react": "^18.2.0"
   },
   "devDependencies": {

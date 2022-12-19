@@ -9,12 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@hyperionbt/helios": "^0.9.7",
+    "@hyperionbt/helios": "^0.9.10",
     "@types/react": "18.0.26",
     "@types/react-dom": "18.0.9",
-    "eslint": "8.29.0",
+    "eslint": "8.30.0",
     "eslint-config-next": "13.0.7",
-    "lucid-cardano": "0.8.1",
+    "lucid-cardano": "0.8.2",
     "next": "13.0.7",
     "next-http-proxy-middleware": "^1.2.5",
     "react": "18.2.0",
