@@ -1,8 +1,9 @@
 {
   "name": "use-cardano",
-  "version": "1.0.0-beta.6",
+  "type": "module",
+  "version": "1.0.0-beta.7",
   "engines": {
-    "node": ">=16.15.0"
+    "node": "^16.15.0  || ^17.0.0 || ^18.0.0"
   },
   "description": "A react context, hook, and set of components that makes interacting with the Cardano blockchain easy",
   "main": "dist/index.js",
@@ -27,7 +28,7 @@
     "build": "rollup -c",
     "dev:package": "rollup -c -w &",
     "dev:example": "cd example && pnpm dev -p 4200",
-    "dev": "concurrently \"pnpm dev:package\" \"pnpm dev:example\" \"node scripts/open.js\""
+    "dev": "concurrently \"pnpm dev:package\" \"pnpm dev:example\" \"node scripts/open.mjs\""
   },
   "peerDependencies": {
     "lucid-cardano": "0.8.2",

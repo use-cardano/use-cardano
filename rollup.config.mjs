@@ -41,7 +41,7 @@ export default {
     copyCss(),
     typescript({
       noEmit: true,
-      exclude: ["node_modules/**", "example/**"],
+      exclude: ["node_modules/**", "dist/**", "example/**", "scripts/**"],
     }),
   ],
   external: ["react", "react-dom"],

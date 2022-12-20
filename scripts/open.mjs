@@ -1,5 +1,5 @@
-const localtunnel = require("localtunnel")
-const open = require("open")
+import localtunnel from "localtunnel"
+import open from "open"
 
 // Give the build some time to finish
 setTimeout(() => {
