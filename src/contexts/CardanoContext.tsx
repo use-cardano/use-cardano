@@ -3,17 +3,15 @@ import { UseCardanoError } from "lib/errors"
 import { Lucid, WalletApi } from "lucid-cardano"
 import React from "react"
 import {
-  AvailableProvider,
-  UseCardanoContextState,
-  UseCardanoOptions,
-  UseCardanoWarning,
-  WalletProvider,
+    AvailableProvider, UseCardanoContextState, UseCardanoOptions, UseCardanoWarning, WalletProvider
 } from "use-cardano"
 
 const noop = (..._: any[]) => {}
 
 const defaultContextState: UseCardanoContextState = {
   isValid: undefined,
+  isInitialized: false,
+  setIsInitialized: noop,
   text: "",
   info: "",
   count: 0,
@@ -73,6 +71,7 @@ const Injector = ({ children, options }: React.PropsWithChildren<Props>) => {
 
 export const CardanoProvider = ({ children, options }: React.PropsWithChildren<Props>) => {
   const [count, setCount] = useState(0)
+  const [isInitialized, setIsInitialized] = useState<boolean | undefined>(false)
   const [text, setText] = useState<string | undefined>(undefined)
   const [info, setInfo] = useState<string | undefined>(undefined)
   const [lucid, setLucid] = useState<Lucid | undefined>(undefined)
@@ -105,6 +104,8 @@ export const CardanoProvider = ({ children, options }: React.PropsWithChildren<P
     <UseCardanoContext.Provider
       value={{
         isValid,
+        isInitialized,
+        setIsInitialized,
         text,
         info,
         count,

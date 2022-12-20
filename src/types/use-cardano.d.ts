@@ -58,6 +58,8 @@ import React from "react"
 
   export interface UseCardanoContextState {
     isValid?: boolean
+    isInitialized?: boolean
+    setIsInitialized: (initialized?: boolean) => void
     text?: string
     info?: string
     count: number

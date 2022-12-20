@@ -10,7 +10,7 @@ type Interval = ReturnType<typeof setInterval>
 const useWalletProviders = (autoConnectTo?: WalletProvider, autoReconnect?: boolean) => {
   const interval = useRef<Interval>()
 
-  const { showToaster, setWalletProvider, setAvailableProviders } = useCardano()
+  const { showToaster, setWalletProvider, setAvailableProviders, setIsInitialized } = useCardano()
 
   useEffect(() => {
     if (interval.current) clearInterval(interval.current)
@@ -20,6 +20,8 @@ const useWalletProviders = (autoConnectTo?: WalletProvider, autoReconnect?: bool
       // local storage is not available in SSR
       if (typeof window === "undefined") return
       if (!window.cardano) return
+
+      setIsInitialized(true)
 
       // clear the interval once the extension is injected
       clearInterval(interval.current)

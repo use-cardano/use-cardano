@@ -133,6 +133,35 @@
 .cardano-wallet-selector__button__text {
   text-align: center;
   width: 100%;
+  max-height: 36px;
+}
+
+.cardano-wallet-selector__button__loading-spinner {
+  margin: 0 auto;
+  margin-top: -12px;
+  display: inline-block;
+  height: 36px;
+}
+
+.cardano-wallet-selector__button__loading-spinner:after {
+  content: " ";
+  display: block;
+  width: 24px;
+  height: 24px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 3px solid rgba(0, 0, 0, 0.7);
+  border-color: rgba(0, 0, 0, 0.7) transparent rgba(0, 0, 0, 0.7) transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .cardano-wallet-selector__button__warning-sign {
