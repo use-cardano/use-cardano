@@ -1,7 +1,7 @@
 {
   "name": "use-cardano",
   "type": "module",
-  "version": "1.0.0-beta.7",
+  "version": "1.0.0-beta.8",
   "engines": {
     "node": "^16.15.0  || ^17.0.0 || ^18.0.0"
   },
@@ -31,7 +31,7 @@
     "dev": "concurrently \"pnpm dev:package\" \"pnpm dev:example\" \"node scripts/open.mjs\""
   },
   "peerDependencies": {
-    "lucid-cardano": "0.8.2",
+    "lucid-cardano": "0.8.3",
     "react": "^16.0.0 || ^17.0.0 || ^18.2.0"
   },
   "devDependencies": {

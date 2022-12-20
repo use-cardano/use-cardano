@@ -20,8 +20,6 @@ export const useLucid = (
       const provider = getNodeProvider({ ...node, testnetNetwork, networkId })
       const network = toNetworkName(networkId, testnetNetwork)
 
-      console.log(network)
-      
       if (!allowedNetworks.includes(networkId)) {
         setLucid(undefined)
         return
