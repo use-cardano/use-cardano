@@ -1,19 +1,22 @@
 /* CardanoToaster styles */
 
 .cardano-toaster {
-  user-select: none;
-  z-index: 1000;
-  font-family: "Gill Sans", "Gill Sans MT", "Calibri", "Trebuchet MS", "sans-serif";
-  font-size: 1.1rem;
   position: fixed;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.25);
+  z-index: 1000;
   top: 2rem;
   right: -500px;
   transition: right 0.2s ease-in-out;
   width: 400px;
+
+  background: white;
+
+  user-select: none;
+  font-family: "Gill Sans", "Gill Sans MT", "Calibri", "Trebuchet MS", "sans-serif";
+  font-size: 1.1rem;
   text-align: left;
+
+  border-radius: 8px;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.25);
 }
 
 .cardano-toaster--open {
@@ -24,12 +27,14 @@
   height: calc(100% - 2px);
   padding: 1rem 2rem;
   word-break: break-word;
+  color: #333;
 }
 
 .cardano-toaster__close-button {
   position: absolute;
   top: 0.4rem;
   right: 0.4rem;
+
   background: none;
   border: none;
   outline: none;
@@ -45,21 +50,24 @@
 /* CardanoToaster notification styles */
 
 .cardano-notification {
-  user-select: none;
-  z-index: 1000;
-  font-family: "Gill Sans", "Gill Sans MT", "Calibri", "Trebuchet MS", "sans-serif";
-  font-size: 1.1rem;
   position: fixed;
-  background: white;
-  border-radius: 50%;
-  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.25);
+  z-index: 1000;
   top: 2rem;
   right: 2rem;
-  opacity: 1;
-  transition: opacity 0.2s ease-in-out;
-  transition-delay: 0.2s;
   width: 2rem;
   height: 2rem;
+
+  background: white;
+  transition: opacity 0.2s ease-in-out;
+  transition-delay: 0.2s;
+  opacity: 1;
+
+  user-select: none;
+  font-family: "Gill Sans", "Gill Sans MT", "Calibri", "Trebuchet MS", "sans-serif";
+  font-size: 1.1rem;
+
+  border-radius: 50%;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.25);
   text-align: center;
 }
 
@@ -72,6 +80,9 @@
   display: flex;
   height: 100%;
   width: 100%;
+
+  color: #333;
+
   align-items: center;
   justify-content: center;
   cursor: pointer;
@@ -80,9 +91,10 @@
 /* CardanoWalletSelector styles */
 
 .cardano-wallet-selector {
-  user-select: none;
-  display: inline-block;
   position: relative;
+  z-index: 1000;
+  display: inline-block;
+  user-select: none;
 }
 
 .cardano-wallet-selector__button {
@@ -178,6 +190,7 @@
 .cardano-wallet-selector__menu__item__text {
   display: flex;
   align-items: center;
+  color: #333;
 }
 
 .cardano-wallet-selector__menu__item__text__icon {
