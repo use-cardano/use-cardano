@@ -18,7 +18,7 @@ _Are you new to Open Source development, or the Cardano dApps eco system? I know
 
 _We highly recommend pnpm over yarn and npm since it handles local project linking, as well as being very performant._
 
-1. `git clone git@github.com:GGAlanSmithee/use-cardano.git`
+1. `git clone git@github.com:use-cardano/use-cardano.git`
 1. `npm i -g pnpm`
 1. `cd example && pnpm i && cd ..`
    - _Installs example dependencies_
@@ -31,9 +31,9 @@ _We highly recommend pnpm over yarn and npm since it handles local project linki
 
 ## Reverse Proxy
 
-When running the project locally, the examples site will be served on `http://localhost:4200`.
+When running the project locally, the examples site will be automatically served on `http://localhost:4200`.
 
-Some wallet providers (gerowallet) will not inject itself in the CIP-0030 web bridge if the page is not served over https. To get around this, the site is also served over a reverse proxy using [localtunnel](https://www.npmjs.com/package/localtunnel). The proxied site will launch automatically in your default browser, and you will be informed that it's being proxied and prompted to continue.
+Some wallet providers (gerowallet) will not inject itself in the CIP-0030 web bridge if the page is not served over https. To get around this, the site is automatically also served over a reverse proxy using [localtunnel](https://www.npmjs.com/package/localtunnel). The proxied site will launch automatically in your default browser, and you will be informed that it's being proxied and prompted to continue.
 
 ## Example app
 
