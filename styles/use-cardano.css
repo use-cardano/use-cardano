@@ -128,31 +128,52 @@
 
 .cardano-wallet-selector__button__icon {
   margin: -5px 10px -5px -5px;
+
+  animation: fadeInAnimation ease 0.5s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
 }
 
 .cardano-wallet-selector__button__text {
   text-align: center;
   width: 100%;
   max-height: 36px;
+
+  animation: fadeInAnimation ease 0.5s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
 }
 
 .cardano-wallet-selector__button__loading-spinner {
   margin: 0 auto;
   margin-top: -12px;
   display: inline-block;
-  height: 36px;
+  height: 35px;
+
+  animation: fadeInAnimation ease 0.5s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
 }
 
 .cardano-wallet-selector__button__loading-spinner:after {
   content: " ";
   display: block;
-  width: 24px;
-  height: 24px;
+  width: 25px;
+  height: 25px;
   margin: 8px;
   border-radius: 50%;
-  border: 3px solid rgba(0, 0, 0, 0.7);
+  border: 2px solid rgba(0, 0, 0, 0.7);
   border-color: rgba(0, 0, 0, 0.7) transparent rgba(0, 0, 0, 0.7) transparent;
   animation: lds-dual-ring 1.2s linear infinite;
+}
+
+@keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 @keyframes lds-dual-ring {
@@ -237,4 +258,9 @@
 
 .cardano-wallet-selector__menu__item:last-child button {
   border-radius: 0 0 3px 3px;
+}
+
+.cardano-wallet-selector__menu__item .cardano-wallet-selector__menu__item__disconnect {
+  justify-content: center;
+  justify-self: center;
 }

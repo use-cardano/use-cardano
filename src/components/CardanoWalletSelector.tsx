@@ -47,15 +47,15 @@ export const CardanoWalletSelector = () => {
 
   let buttonText = ""
 
-  if (!isNil(walletProvider)) {
+  if (isNil(walletProvider)) {
+    buttonText = "Select Wallet"
+  } else {
     if (isValid) {
       const address = shortAddress(account.address)
       if (address) buttonText = address
     } else {
       buttonText = walletProvider
     }
-  } else {
-    buttonText = "Select Wallet"
   }
 
   const currentProvider = availableProviders.find((p) => p.key === walletProvider)
@@ -140,6 +140,20 @@ export const CardanoWalletSelector = () => {
               </li>
             )
           })}
+
+          {currentProvider && (
+            <li className="cardano-wallet-selector__menu__item">
+              <button
+                className="cardano-wallet-selector__menu__item__disconnect"
+                onClick={() => {
+                  setWalletProvider(undefined)
+                  setOpen(false)
+                }}
+              >
+                Disconnect
+              </button>
+            </li>
+          )}
         </ul>
       )}
     </div>

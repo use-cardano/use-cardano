@@ -1,7 +1,7 @@
 import { Lucid } from "lucid-cardano"
 import { useCallback, useEffect, useState } from "react"
 
-const useTransaction = (lucid?: Lucid) => {
+const useTransaction = (isValid?: boolean, lucid?: Lucid) => {
   const [successMessage, setSuccessMessage] = useState<string>()
   const [error, setError] = useState<Error | undefined>()
   const [lovelace, setLovelace] = useState(0)
@@ -60,7 +60,7 @@ const useTransaction = (lucid?: Lucid) => {
     toAccount,
     setToAccount: toAccountSetter,
     sendTransaction,
-    canTransact: lovelace > 0 && toAccount,
+    canTransact: isValid && lovelace > 0 && toAccount,
   }
 }
 

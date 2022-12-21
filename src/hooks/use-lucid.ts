@@ -15,7 +15,8 @@ export const useLucid = (
 
   useEffect(() => {
     ;(async () => {
-      if (walletApiLoading || isNil(networkId) || isNil(walletApi)) return
+      if (isNil(walletApi) && !isNil(lucid)) setLucid(undefined)
+      if (walletApiLoading || isNil(walletApi) || isNil(networkId)) return
 
       const provider = getNodeProvider({ ...node, testnetNetwork, networkId })
       const network = toNetworkName(networkId, testnetNetwork)
@@ -24,7 +25,6 @@ export const useLucid = (
         setLucid(undefined)
         return
       }
-
 
       const updatedLucid = await (isNil(lucid)
         ? Lucid.new(provider, network)

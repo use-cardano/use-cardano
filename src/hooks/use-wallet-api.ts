@@ -21,7 +21,10 @@ export const useWalletApi = (autoReconnect?: boolean) => {
 
   useEffect(() => {
     if (!window.cardano) return
-    if (!walletProvider) return
+    if (!walletProvider) {
+      setWalletApi(undefined)
+      return
+    }
 
     if (!window.cardano[walletProvider]) {
       setWalletApiError(noDappError(walletProvider))
@@ -48,7 +51,6 @@ export const useWalletApi = (autoReconnect?: boolean) => {
         setWalletApi(undefined)
         setWalletProvider(undefined)
         setStoredWalletProvider(undefined)
-        setWalletApiLoading(false)
 
         if (!isNil(e.code)) {
           switch (e.code) {

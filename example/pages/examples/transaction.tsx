@@ -5,13 +5,33 @@ import styles from "styles/example.module.css"
 import { CardanoWalletSelector, useCardano } from "use-cardano"
 
 const TransactionExample = () => {
-  const { lucid, networkId, walletApiError, accountError, networkWarning, accountWarning } =
-    useCardano()
+  const { isValid, lucid, networkId } = useCardano()
 
-  const tx = useTransaction(lucid)
+  const tx = useTransaction(isValid, lucid)
 
-  const mainContent = (
+  return (
     <>
+      <div>
+        <div>
+          <CardanoWalletSelector />
+        </div>
+
+        <br />
+
+        {networkId === 1 && (
+          <>
+            <br />
+            <div>
+              <b className={styles.warning}>
+                ⚠️ mainnet - be aware that you are sending real ADA to real people! ⚠️
+              </b>
+            </div>
+          </>
+        )}
+      </div>
+
+      <br />
+
       <div>
         <label>
           <span className={styles.label}>To Account</span>
@@ -50,11 +70,15 @@ const TransactionExample = () => {
           Send transaction
         </button>
 
-        {!tx.successMessage && !tx.error && !tx.canTransact && (
+        {isValid === false ? (
+          <p className={styles.info}>
+            <small>connect a wallet to send a transaction</small>
+          </p>
+        ) : !tx.successMessage && !tx.error && !tx.canTransact ? (
           <p className={styles.info}>
             <small>specify a lovelace amount and account to send a transaction</small>
           </p>
-        )}
+        ) : null}
 
         {tx.error && (
           <p className={styles.info}>
@@ -68,77 +92,6 @@ const TransactionExample = () => {
           </p>
         )}
       </div>
-    </>
-  )
-
-  const header = (
-    <div>
-      <div>
-        <CardanoWalletSelector />
-      </div>
-
-      <br />
-
-      {(accountWarning || networkWarning) && (
-        <>
-          <br />
-
-          <div>Warnings</div>
-
-          {accountWarning && (
-            <div className={styles.info}>
-              <small>{accountWarning.message}</small>
-            </div>
-          )}
-
-          {networkWarning && (
-            <div className={styles.info}>
-              <small>{networkWarning.message}</small>
-            </div>
-          )}
-        </>
-      )}
-
-      {(walletApiError || accountError) && (
-        <>
-          <br />
-
-          <div>Errors</div>
-
-          {walletApiError && (
-            <div className={styles.info}>
-              <small>{walletApiError.message}</small>
-            </div>
-          )}
-
-          {accountError && (
-            <div className={styles.info}>
-              <small>{accountError.message}</small>
-            </div>
-          )}
-        </>
-      )}
-
-      {networkId === 1 && (
-        <>
-          <br />
-          <div>
-            <b className={styles.warning}>
-              ⚠️ mainnet - be aware that you are sending real ADA to real people! ⚠️
-            </b>
-          </div>
-        </>
-      )}
-    </div>
-  )
-
-  return (
-    <>
-      {header}
-
-      <br />
-
-      {mainContent}
     </>
   )
 }
