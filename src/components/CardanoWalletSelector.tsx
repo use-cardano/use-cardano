@@ -12,6 +12,7 @@ export const CardanoWalletSelector = () => {
 
   const {
     account,
+    showToaster,
     isInitialized,
     availableProviders,
     walletApiLoading,
@@ -148,6 +149,7 @@ export const CardanoWalletSelector = () => {
                 onClick={() => {
                   setWalletProvider(undefined)
                   setOpen(false)
+                  showToaster("Wallet disconnected!", " ")
                 }}
               >
                 Disconnect

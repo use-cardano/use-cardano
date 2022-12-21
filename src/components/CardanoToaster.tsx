@@ -6,7 +6,6 @@ import { useEffect, useMemo, useRef, useState } from "react"
 export const CardanoToaster = () => {
   const {
     toasterIsShowing,
-    count,
     text,
     info,
     hideToaster,
@@ -32,7 +31,7 @@ export const CardanoToaster = () => {
     return () => {
       if (openTimeout.current) clearTimeout(openTimeout.current)
     }
-  }, [count, isManuallyOpen, toasterIsShowing])
+  }, [isManuallyOpen, toasterIsShowing])
 
   const isValid = useMemo(
     () => isNil(networkError) && isNil(accountError) && isNil(walletApiError),

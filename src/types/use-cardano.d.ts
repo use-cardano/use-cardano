@@ -62,7 +62,6 @@ import React from "react"
     setIsInitialized: (initialized?: boolean) => void
     text?: string
     info?: string
-    count: number
     walletApi?: WalletApi
     setWalletApi: (walletApi?: WalletApi) => void
     lucid?: Lucid
