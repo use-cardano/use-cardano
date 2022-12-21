@@ -4,13 +4,16 @@ import { concatenateClasses } from "lib/concatenate-classes"
 import { shortAddress } from "lib/short-address"
 import { supportedWalletProviders as allProviders } from "lib/supported-wallet-providers"
 import { isNil } from "lodash"
-import { useCallback, useMemo } from "react"
+import { fromUnit } from "lucid-cardano"
+import { useCallback, useEffect, useMemo } from "react"
 import { WalletProvider } from "use-cardano"
 
 export const CardanoWalletSelector = () => {
   const { ref, open, setOpen } = useOutsideClick()
 
   const {
+    lucid,
+    walletApi,
     account,
     showToaster,
     isInitialized,
@@ -23,6 +26,47 @@ export const CardanoWalletSelector = () => {
     accountError,
     networkError,
   } = useCardano()
+
+  useEffect(() => {
+    if (walletApiLoading || isNil(lucid) || isNil(walletProvider)) return
+
+    const adaHandlePolicyId = "f0ff48bbb7bbe9d59a40f1ce90e9e9d0ff5002ec48f232b49ca0fb9a"
+
+    lucid.wallet.getUtxos().then((utxos) => {
+      const allUtxos = utxos
+        .map((u) => Object.keys(u.assets).map((key) => ({ key, value: u.assets[key] })))
+        .reduce((acc, curr) => [...acc, ...curr], [])
+        .map((a) => ({
+          unit: a.key,
+          ...fromUnit(a.key),
+          value: Number(a.value),
+        }))
+
+      // console.log(allUtxos)
+
+      const utxoAssets = allUtxos.filter((u) => u.policyId === adaHandlePolicyId)
+      // .map((a) => ({
+      //   ...a,
+      //   fullyQualifiedAssetName: `${a.policyId}${a.name}`,
+      // }))
+
+      Promise.all(utxoAssets.map((a) => lucid.provider.getUtxoByUnit(a.unit))).then(
+        (adaHandles) => {
+          console.log(adaHandles)
+        }
+      )
+      //   lucid.provider
+      //   const assetsWithMetadata: Responses["asset"][] = await Promise.all(
+      //     utxoAssets.map((a) =>
+      //       fetch(`/api/blockfrost/${networkId}/assets/${a.fullyQualifiedAssetName}`).then((r) =>
+      //         r.json()
+      //       )
+      //     )
+      //   )
+
+      // console.log(utxoAssets)
+    })
+  }, [lucid, walletProvider, walletApi, walletApiLoading])
 
   const onWalletProviderChange = useCallback((provider: WalletProvider) => {
     setWalletApiLoading(true)
