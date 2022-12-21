@@ -3,9 +3,6 @@
 .cardano-toaster {
   position: fixed;
   z-index: 1000;
-  top: 2rem;
-  right: -500px;
-  transition: right 0.2s ease-in-out;
   width: 400px;
 
   background: white;
@@ -19,7 +16,29 @@
   box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.25);
 }
 
-.cardano-toaster--open {
+.cardano-toaster--top {
+  top: 2rem;
+}
+
+.cardano-toaster--bottom {
+  bottom: 2rem;
+}
+
+.cardano-toaster--left {
+  transition: left 0.2s ease-in-out;
+  left: -500px;
+}
+
+.cardano-toaster--left.cardano-toaster--open {
+  left: 2rem;
+}
+
+.cardano-toaster--right {
+  transition: right 0.2s ease-in-out;
+  right: -500px;
+}
+
+.cardano-toaster--right.cardano-toaster--open {
   right: 2rem;
 }
 

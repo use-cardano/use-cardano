@@ -3,16 +3,13 @@ import { concatenateClasses } from "lib/concatenate-classes"
 import { isNil } from "lodash"
 import { useEffect, useMemo, useRef, useState } from "react"
 
-export const CardanoToaster = () => {
-  const {
-    toasterIsShowing,
-    text,
-    info,
-    hideToaster,
-    walletApiError,
-    accountError,
-    networkError,
-  } = useCardano()
+interface CardanoToasterProps {
+  position?: "topright" | "bottomright" | "bottomleft" | "topleft"
+}
+
+export const CardanoToaster = ({ position = "topright" }: CardanoToasterProps) => {
+  const { toasterIsShowing, text, info, hideToaster, walletApiError, accountError, networkError } =
+    useCardano()
 
   const [isManuallyOpen, setIsManuallyOpen] = useState(false)
 
@@ -40,7 +37,11 @@ export const CardanoToaster = () => {
 
   const toasterClassNames = concatenateClasses(
     "cardano-toaster",
-    toasterIsShowing && "cardano-toaster--open"
+    toasterIsShowing && "cardano-toaster--open",
+    (position === "topright" || position === "topleft") && "cardano-toaster--top",
+    (position === "bottomright" || position === "bottomleft") && "cardano-toaster--bottom",
+    (position === "topright" || position === "bottomright") && "cardano-toaster--right",
+    (position === "topleft" || position === "bottomleft") && "cardano-toaster--left"
   )
 
   return (

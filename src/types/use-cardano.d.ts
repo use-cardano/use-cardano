@@ -101,7 +101,9 @@ import React from "react"
 
   export const useCardano: () => UseCardanoContextState
 
-  export const CardanoToaster: () => JSX.Element
+  type position = "topright" | "topleft" | "bottomright" | "bottomleft"
+  type CardanoToasterProps = { position: position }
+  export const CardanoToaster: (props: CardanoToasterProps) => JSX.Element
 
   export const CardanoWalletSelector: () => JSX.Element
 

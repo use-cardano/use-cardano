@@ -101,6 +101,12 @@ const Index = () => {
         </li>
 
         <li className={styles.item}>
+          <Link className={styles.link} href="/examples/customization/toaster-position">
+            Customization / Toaster Position
+          </Link>
+        </li>
+
+        <li className={styles.item}>
           <Link className={styles.link} href="/examples/theming/custom-styles">
             Theming / Custom Styles
           </Link>
