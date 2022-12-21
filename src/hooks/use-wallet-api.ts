@@ -7,8 +7,9 @@ import { useEffect } from "react"
 
 export const useWalletApi = (autoReconnect?: boolean) => {
   const {
+    lucid,
+    setLucid,
     walletProvider,
-    setWalletApiLoading,
     showToaster,
     setWalletApi,
     setWalletProvider,
@@ -44,10 +45,13 @@ export const useWalletApi = (autoReconnect?: boolean) => {
         setWalletApiError(undefined)
         setWalletApi(api)
 
+        if (lucid) lucid.selectWallet(api)
+
         if (autoReconnect) setStoredWalletProvider(walletProvider)
         else setStoredWalletProvider(undefined)
       })
       .catch((e) => {
+        setLucid(undefined)
         setWalletApi(undefined)
         setWalletProvider(undefined)
         setStoredWalletProvider(undefined)
@@ -83,5 +87,5 @@ export const useWalletApi = (autoReconnect?: boolean) => {
 
         showToaster(text, info)
       })
-  }, [walletProvider])
+  }, [lucid, walletProvider])
 }
