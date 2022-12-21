@@ -44,11 +44,6 @@ const CustomStylesExample = () => (
           color: white;
         }
 
-        .cardano-toaster-notification-container {
-          background: red;
-          color: white;
-        }
-
         .cardano-wallet-selector__button,
         .cardano-wallet-selector__menu__item,
         .cardano-wallet-selector__menu__item:last-child {

@@ -10,7 +10,6 @@ export const CardanoToaster = () => {
     text,
     info,
     hideToaster,
-    showToaster,
     walletApiError,
     accountError,
     networkError,
@@ -28,7 +27,7 @@ export const CardanoToaster = () => {
     openTimeout.current = setTimeout(() => {
       hideToaster()
       setIsManuallyOpen(false)
-    }, 6000)
+    }, 7500)
 
     return () => {
       if (openTimeout.current) clearTimeout(openTimeout.current)
@@ -45,74 +44,55 @@ export const CardanoToaster = () => {
     toasterIsShowing && "cardano-toaster--open"
   )
 
-  const notificationClassNames = concatenateClasses(
-    "cardano-notification",
-    (count === 0 || toasterIsShowing) && "cardano-notification--open"
-  )
-
   return (
-    <>
-      <div className={notificationClassNames}>
-        <div
-          className="cardano-notification__content"
-          onClick={() => {
-            showToaster()
-            setIsManuallyOpen(true)
-          }}
-        >
-          {isValid ? "i" : "!"}
+    <div className={toasterClassNames} onMouseLeave={() => setIsManuallyOpen(false)}>
+      <div className="cardano-toaster__content">
+        <button className="cardano-toaster__close-button" onClick={hideToaster}>
+          ✖
+        </button>
+
+        <div>
+          {!isValid ? (
+            <div>
+              <div>⚠ Unable to connect wallet</div>
+
+              <ul className="cardano-toaster__warning-list">
+                {walletApiError && (
+                  <li>
+                    <small>
+                      <i>{walletApiError.message}</i>
+                    </small>
+                  </li>
+                )}
+
+                {accountError && (
+                  <li>
+                    <small>
+                      <i>{accountError.message}</i>
+                    </small>
+                  </li>
+                )}
+
+                {networkError && (
+                  <li>
+                    <small>
+                      <i>{networkError.message}</i>
+                    </small>
+                  </li>
+                )}
+              </ul>
+            </div>
+          ) : (
+            <>
+              <div>{text || null}</div>
+
+              <small>
+                <i>{info || null}</i>
+              </small>
+            </>
+          )}
         </div>
       </div>
-
-      <div className={toasterClassNames} onMouseLeave={() => setIsManuallyOpen(false)}>
-        <div className="cardano-toaster__content">
-          <button className="cardano-toaster__close-button" onClick={hideToaster}>
-            ✖
-          </button>
-
-          <div>
-            {!isValid ? (
-              <div>
-                <div>⚠ Unable to connect wallet</div>
-
-                <ul className="cardano-toaster__warning-list">
-                  {walletApiError && (
-                    <li>
-                      <small>
-                        <i>{walletApiError.message}</i>
-                      </small>
-                    </li>
-                  )}
-
-                  {accountError && (
-                    <li>
-                      <small>
-                        <i>{accountError.message}</i>
-                      </small>
-                    </li>
-                  )}
-
-                  {networkError && (
-                    <li>
-                      <small>
-                        <i>{networkError.message}</i>
-                      </small>
-                    </li>
-                  )}
-                </ul>
-              </div>
-            ) : (
-              <>
-                <div>{text || null}</div>
-
-                <small>
-                  <i>{info || null}</i>
-                </small>
-              </>
-            )}
-          </div>
-        </div>
-      </div>
-    </>
+    </div>
   )
 }
