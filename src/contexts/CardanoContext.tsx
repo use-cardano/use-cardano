@@ -14,7 +14,6 @@ const defaultContextState: UseCardanoContextState = {
   setIsInitialized: noop,
   text: "",
   info: "",
-  count: 0,
   lucid: undefined,
   setLucid: noop,
   walletApi: undefined,
@@ -70,7 +69,6 @@ const Injector = ({ children, options }: React.PropsWithChildren<Props>) => {
 }
 
 export const CardanoProvider = ({ children, options }: React.PropsWithChildren<Props>) => {
-  const [count, setCount] = useState(0)
   const [isInitialized, setIsInitialized] = useState<boolean | undefined>(false)
   const [text, setText] = useState<string | undefined>(undefined)
   const [info, setInfo] = useState<string | undefined>(undefined)
@@ -91,7 +89,6 @@ export const CardanoProvider = ({ children, options }: React.PropsWithChildren<P
   const toasterIsShowing = React.useMemo(() => toasterIsShowingState, [toasterIsShowingState])
   const hideToaster = React.useCallback(() => setToasterIsShowing(false), [])
   const showToaster = React.useCallback((text?: string, info?: string) => {
-    setCount((c) => (c += 1))
     setToasterIsShowing(true)
     if (text) setText(text)
     if (info) setInfo(info)
@@ -108,7 +105,6 @@ export const CardanoProvider = ({ children, options }: React.PropsWithChildren<P
         setIsInitialized,
         text,
         info,
-        count,
         walletApi,
         setWalletApi,
         lucid,
