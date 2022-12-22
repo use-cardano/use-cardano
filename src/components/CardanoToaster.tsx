@@ -7,7 +7,7 @@ interface CardanoToasterProps {
   position?: "topright" | "bottomright" | "bottomleft" | "topleft"
 }
 
-export const CardanoToaster = ({ position = "topright" }: CardanoToasterProps) => {
+export const CardanoToaster = ({ position = "bottomright" }: CardanoToasterProps) => {
   const { toasterIsShowing, text, info, hideToaster, walletApiError, accountError, networkError } =
     useCardano()
 
@@ -23,7 +23,7 @@ export const CardanoToaster = ({ position = "topright" }: CardanoToasterProps) =
     openTimeout.current = setTimeout(() => {
       hideToaster()
       setIsManuallyOpen(false)
-    }, 7500)
+    }, 10000)
 
     return () => {
       if (openTimeout.current) clearTimeout(openTimeout.current)
