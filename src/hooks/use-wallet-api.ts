@@ -14,6 +14,7 @@ export const useWalletApi = (autoReconnect?: boolean) => {
     setWalletApi,
     setWalletProvider,
     setWalletApiError,
+    setWalletApiLoading,
     setNetworkWarning,
     setAccountWarning,
     setNetworkError,
@@ -55,6 +56,7 @@ export const useWalletApi = (autoReconnect?: boolean) => {
         setWalletApi(undefined)
         setWalletProvider(undefined)
         setStoredWalletProvider(undefined)
+        setWalletApiLoading(false)
 
         if (!isNil(e.code)) {
           switch (e.code) {

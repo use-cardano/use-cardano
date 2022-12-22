@@ -86,7 +86,6 @@ export const CardanoWalletSelector = () => {
               />
             )}
             <div className="cardano-wallet-selector__button__text">{buttonText}</div>
-            {!isValid && <span className="cardano-wallet-selector__button__warning-sign">⚠</span>}
           </>
         )}
       </button>

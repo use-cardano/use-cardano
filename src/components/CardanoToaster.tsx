@@ -54,7 +54,7 @@ export const CardanoToaster = ({ position = "topright" }: CardanoToasterProps) =
         <div>
           {!isValid ? (
             <div>
-              <div>⚠ Unable to connect wallet</div>
+              <div>Unable to connect wallet</div>
 
               <ul className="cardano-toaster__warning-list">
                 {walletApiError && (
