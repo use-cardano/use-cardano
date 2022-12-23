@@ -75,18 +75,20 @@ export const CardanoWalletSelector = () => {
         ) : walletApiLoading ? (
           <div className="cardano-wallet-selector__button__loading-spinner" />
         ) : (
-          <>
+          <div className="cardano-wallet-selector__button__content">
             {isValid && currentProvider?.icon && (
-              <img
-                className="cardano-wallet-selector__button__icon"
-                src={currentProvider.icon}
-                alt={`${walletProvider} icon`}
-                height={iconSize}
-                width={iconSize}
-              />
+              <span>
+                <img
+                  src={currentProvider.icon}
+                  alt={`${walletProvider} icon`}
+                  height={iconSize}
+                  width={iconSize}
+                />
+              </span>
             )}
-            <div className="cardano-wallet-selector__button__text">{buttonText}</div>
-          </>
+
+            <span>{buttonText}</span>
+          </div>
         )}
       </button>
 

@@ -76,19 +76,45 @@
 }
 
 .cardano-wallet-selector__button {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  min-width: 200px;
+  height: 60px;
+
   outline: none;
   border: 1px solid #555;
   background-color: white;
   color: #222;
+
   font-size: 1.25rem;
-  min-width: 200px;
-  min-height: 57px;
   border-radius: 4px;
   cursor: pointer;
-  padding: 1rem 2rem;
+}
+
+.cardano-wallet-selector__button__content,
+.cardano-wallet-selector__button__loading-spinner {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.cardano-wallet-selector__button__content > *,
+.cardano-wallet-selector__button__loading-spinner {
+  animation: fadeInAnimation ease 0.5s 1 forwards;
+}
+
+.cardano-wallet-selector__button__loading-spinner:after {
+  content: " ";
+  display: block;
+  width: 25px;
+  height: 25px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 2px solid rgba(0, 0, 0, 0.7);
+  border-color: rgba(0, 0, 0, 0.7) transparent rgba(0, 0, 0, 0.7) transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
 }
 
 .cardano-wallet-selector__button--active {
@@ -104,52 +130,11 @@
   color: rgba(0, 0, 0, 0.25);
 }
 
-.cardano-wallet-selector__button__icon {
-  margin: -5px 10px -5px -5px;
-
-  animation: fadeInAnimation ease 0.5s;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-}
-
-.cardano-wallet-selector__button__text {
-  text-align: center;
-  width: 100%;
-  max-height: 36px;
-
-  animation: fadeInAnimation ease 0.5s;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-}
-
-.cardano-wallet-selector__button__loading-spinner {
-  margin: 0 auto;
-  margin-top: -12px;
-  display: inline-block;
-  height: 35px;
-
-  animation: fadeInAnimation ease 0.5s;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-}
-
-.cardano-wallet-selector__button__loading-spinner:after {
-  content: " ";
-  display: block;
-  width: 25px;
-  height: 25px;
-  margin: 8px;
-  border-radius: 50%;
-  border: 2px solid rgba(0, 0, 0, 0.7);
-  border-color: rgba(0, 0, 0, 0.7) transparent rgba(0, 0, 0, 0.7) transparent;
-  animation: lds-dual-ring 1.2s linear infinite;
-}
-
 @keyframes fadeInAnimation {
   0% {
     opacity: 0;
   }
-  100% {
+  50% {
     opacity: 1;
   }
 }
