@@ -49,7 +49,7 @@ export const CardanoWalletSelector = () => {
   let buttonText = ""
 
   if (isNil(walletProvider)) {
-    buttonText = "Select Wallet"
+    buttonText = "Connect Wallet"
   } else {
     if (isValid) {
       const address = shortAddress(account.address)
