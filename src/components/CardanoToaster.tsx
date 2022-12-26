@@ -8,27 +8,32 @@ interface CardanoToasterProps {
 }
 
 export const CardanoToaster = ({ position = "bottomright" }: CardanoToasterProps) => {
-  const { toasterIsShowing, text, info, hideToaster, walletApiError, accountError, networkError } =
-    useCardano()
-
-  const [isManuallyOpen, setIsManuallyOpen] = useState(false)
+  const {
+    toasterIsShowing,
+    text,
+    info,
+    toasterShowCount,
+    hideToaster,
+    walletApiError,
+    accountError,
+    networkError,
+  } = useCardano()
 
   const openTimeout = useRef<NodeJS.Timeout>()
 
   useEffect(() => {
     if (openTimeout.current) clearTimeout(openTimeout.current)
 
-    if (isManuallyOpen || !toasterIsShowing) return
+    if (!toasterIsShowing) return
 
     openTimeout.current = setTimeout(() => {
       hideToaster()
-      setIsManuallyOpen(false)
     }, 10000)
 
     return () => {
       if (openTimeout.current) clearTimeout(openTimeout.current)
     }
-  }, [isManuallyOpen, toasterIsShowing])
+  }, [toasterIsShowing, toasterShowCount, text, info])
 
   const isValid = useMemo(
     () => isNil(networkError) && isNil(accountError) && isNil(walletApiError),
@@ -45,7 +50,7 @@ export const CardanoToaster = ({ position = "bottomright" }: CardanoToasterProps
   )
 
   return (
-    <div className={toasterClassNames} onMouseLeave={() => setIsManuallyOpen(false)}>
+    <div className={toasterClassNames}>
       <div className="cardano-toaster__content">
         <button className="cardano-toaster__close-button" onClick={hideToaster}>
           ✖

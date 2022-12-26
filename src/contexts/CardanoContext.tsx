@@ -44,6 +44,7 @@ const defaultContextState: UseCardanoContextState = {
   availableProviders: [],
   setAvailableProviders: noop,
   toasterIsShowing: false,
+  toasterShowCount: 0,
   showToaster: noop,
   hideToaster: noop,
 }
@@ -69,6 +70,7 @@ const Injector = ({ children, options }: React.PropsWithChildren<Props>) => {
 }
 
 export const CardanoProvider = ({ children, options }: React.PropsWithChildren<Props>) => {
+  const [toasterShowCount, setToasterShowCount] = useState(0)
   const [isInitialized, setIsInitialized] = useState<boolean | undefined>(false)
   const [text, setText] = useState<string | undefined>(undefined)
   const [info, setInfo] = useState<string | undefined>(undefined)
@@ -90,6 +92,7 @@ export const CardanoProvider = ({ children, options }: React.PropsWithChildren<P
   const hideToaster = React.useCallback(() => setToasterIsShowing(false), [])
   const showToaster = React.useCallback((text?: string, info?: string) => {
     setToasterIsShowing(true)
+    setToasterShowCount((count) => count + 1)
     if (text) setText(text)
     if (info) setInfo(info)
   }, [])
@@ -132,6 +135,7 @@ export const CardanoProvider = ({ children, options }: React.PropsWithChildren<P
         availableProviders,
         setAvailableProviders,
         toasterIsShowing,
+        toasterShowCount,
         showToaster,
         hideToaster,
       }}

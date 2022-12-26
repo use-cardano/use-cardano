@@ -89,6 +89,7 @@ import React from "react"
     availableProviders: AvailableProvider[]
     setAvailableProviders: (availableProviders: AvailableProvider[]) => void
     toasterIsShowing: boolean
+    toasterShowCount: number
     showToaster: (text?: string, info?: string) => void
     hideToaster: () => void
   }

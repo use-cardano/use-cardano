@@ -1,12 +1,27 @@
 import { useCardano } from "contexts/CardanoContext"
 import { disallowedNetworkError } from "lib/errors"
+import { getInfo, getText } from "lib/get-toaster-texts"
 import { noLiveNetworkChangeWarning } from "lib/warnings"
 import { isNil } from "lodash"
 import { useCallback, useEffect } from "react"
 import { TestnetNetwork } from "use-cardano"
 
 export const useNetworkId = (allowedNetworks: number[], testnetNetwork: TestnetNetwork) => {
-  const { setNetworkId, setNetworkWarning, setNetworkError, walletApi, showToaster } = useCardano()
+  const {
+    setNetworkId,
+    setNetworkWarning,
+    setNetworkError,
+    walletApi,
+    showToaster,
+    walletProvider,
+  } = useCardano()
+
+  const showToasterWithNetworkInfo = useCallback(() => {
+    const text = walletProvider ? getText(walletProvider) : undefined
+    const info = walletProvider ? getInfo(walletProvider) : undefined
+
+    showToaster(text, info)
+  }, [walletProvider])
 
   const onNetworkChange = useCallback(
     (id: unknown) => {
@@ -18,9 +33,9 @@ export const useNetworkId = (allowedNetworks: number[], testnetNetwork: TestnetN
       else setNetworkError(undefined)
 
       setNetworkId(networkId)
-      showToaster()
+      showToasterWithNetworkInfo()
     },
-    [allowedNetworks]
+    [allowedNetworks, showToasterWithNetworkInfo]
   )
 
   useEffect(() => {
