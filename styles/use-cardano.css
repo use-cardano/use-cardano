@@ -7,7 +7,6 @@
 
   background: white;
 
-  user-select: none;
   font-family: "Gill Sans", "Gill Sans MT", "Calibri", "Trebuchet MS", "sans-serif";
   font-size: 1.1rem;
   text-align: left;
@@ -72,7 +71,6 @@
   position: relative;
   z-index: 1000;
   display: inline-block;
-  user-select: none;
 }
 
 .cardano-wallet-selector__button {
