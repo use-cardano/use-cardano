@@ -1,4 +1,5 @@
 import { useCardano } from "contexts/CardanoContext"
+import { useIsConnectedToTheCorrectNetwork } from "hooks/use-is-connected-to-the-correct-network"
 import { useOutsideClick } from "hooks/use-outside-click"
 import { concatenateClasses } from "lib/concatenate-classes"
 import { shortAddress } from "lib/short-address"
@@ -39,6 +40,8 @@ export const CardanoWalletSelector = () => {
     [walletApiError, accountError, networkError]
   )
 
+  const isConnectedToTheCorrectNetwork = useIsConnectedToTheCorrectNetwork()
+
   const buttonClassName = concatenateClasses(
     "cardano-wallet-selector__button",
     open && "cardano-wallet-selector__button--active",
@@ -55,7 +58,7 @@ export const CardanoWalletSelector = () => {
       const address = shortAddress(account.address)
       if (address) buttonText = address
     } else {
-      buttonText = walletProvider
+      buttonText = isConnectedToTheCorrectNetwork ? walletProvider : "Incorrect Network"
     }
   }
 

@@ -1,7 +1,7 @@
 import { useCardanoInitialization } from "hooks/use-cardano-initialization"
 import { UseCardanoError } from "lib/errors"
 import { Lucid, WalletApi } from "lucid-cardano"
-import React from "react"
+import React, { useMemo } from "react"
 import {
     AvailableProvider, UseCardanoContextState, UseCardanoOptions, UseCardanoWarning, WalletProvider
 } from "use-cardano"
@@ -49,6 +49,32 @@ const defaultContextState: UseCardanoContextState = {
   hideToaster: noop,
 }
 
+type DefaultUseCardanoOptions = {
+  autoConnectTo: undefined
+  autoReconnect: true
+  testnetNetwork: "Preview"
+  allowedNetworks: ["Mainnet"]
+  node: {
+    provider: "blockfrost"
+    proxyUrl: undefined
+    projectId: undefined
+  }
+}
+
+const defaultOptions: DefaultUseCardanoOptions = {
+  autoConnectTo: undefined,
+  autoReconnect: true,
+  testnetNetwork: "Preview",
+  allowedNetworks: ["Mainnet"],
+  node: {
+    provider: "blockfrost",
+    proxyUrl: undefined,
+    projectId: undefined,
+  },
+}
+
+export type UseCardanoOptionsWithDefaults = UseCardanoOptions & DefaultUseCardanoOptions
+
 const UseCardanoContext = React.createContext<UseCardanoContextState>(defaultContextState)
 
 function useState<T>(initialState: T): [T, React.Dispatch<React.SetStateAction<T>>] {
@@ -60,7 +86,7 @@ function useState<T>(initialState: T): [T, React.Dispatch<React.SetStateAction<T
 }
 
 interface Props {
-  options: UseCardanoOptions
+  options: UseCardanoOptionsWithDefaults
 }
 
 const Injector = ({ children, options }: React.PropsWithChildren<Props>) => {
@@ -69,7 +95,12 @@ const Injector = ({ children, options }: React.PropsWithChildren<Props>) => {
   return <>{children}</>
 }
 
-export const CardanoProvider = ({ children, options }: React.PropsWithChildren<Props>) => {
+export const CardanoProvider = ({
+  children,
+  options: userOptions,
+}: React.PropsWithChildren<Props>) => {
+  const options = useMemo(() => ({ ...defaultOptions, ...userOptions }), [userOptions])
+
   const [toasterShowCount, setToasterShowCount] = useState(0)
   const [isInitialized, setIsInitialized] = useState<boolean | undefined>(false)
   const [text, setText] = useState<string | undefined>(undefined)
@@ -103,6 +134,8 @@ export const CardanoProvider = ({ children, options }: React.PropsWithChildren<P
   return (
     <UseCardanoContext.Provider
       value={{
+        allowedNetworks: options.allowedNetworks,
+        testnetNetwork: options.testnetNetwork,
         isValid,
         isInitialized,
         setIsInitialized,

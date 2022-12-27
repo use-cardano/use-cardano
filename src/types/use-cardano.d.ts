@@ -57,6 +57,8 @@ import React from "react"
   }
 
   export interface UseCardanoContextState {
+    allowedNetworks?: AllowedNetworks
+    testnetNetwork?: TestnetNetwork
     isValid?: boolean
     isInitialized?: boolean
     setIsInitialized: (initialized?: boolean) => void
