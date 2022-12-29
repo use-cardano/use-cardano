@@ -46,7 +46,8 @@ export const CardanoWalletSelector = () => {
     "cardano-wallet-selector__button",
     open && "cardano-wallet-selector__button--active",
     walletApiLoading && "cardano-wallet-selector__button--loading",
-    !walletApiLoading && !isValid && "cardano-wallet-selector__button--warning"
+    ((!walletApiLoading && !isValid) || !isConnectedToTheCorrectNetwork) &&
+      "cardano-wallet-selector__button--warning"
   )
 
   let buttonText = ""
@@ -58,7 +59,7 @@ export const CardanoWalletSelector = () => {
       const address = shortAddress(account.address)
       if (address) buttonText = address
     } else {
-      buttonText = isConnectedToTheCorrectNetwork ? walletProvider : "Incorrect Network"
+      buttonText = walletProvider
     }
   }
 
@@ -73,10 +74,14 @@ export const CardanoWalletSelector = () => {
         onClick={() => setOpen((wasOpen) => !wasOpen)}
         title={isValid ? undefined : warning?.message}
       >
-        {!isInitialized ? (
-          ""
-        ) : walletApiLoading ? (
+        {walletApiLoading || (isConnectedToTheCorrectNetwork && isNil(account.address)) ? (
           <div className="cardano-wallet-selector__button__loading-spinner" />
+        ) : !isInitialized ? (
+          ""
+        ) : !isConnectedToTheCorrectNetwork ? (
+          <div className="cardano-wallet-selector__button__content--incorrect-network">
+            Incorrect Network
+          </div>
         ) : (
           <div className="cardano-wallet-selector__button__content">
             {isValid && currentProvider?.icon && (

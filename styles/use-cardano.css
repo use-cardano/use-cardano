@@ -99,7 +99,8 @@
 }
 
 .cardano-wallet-selector__button__content > *,
-.cardano-wallet-selector__button__loading-spinner {
+.cardano-wallet-selector__button__loading-spinner,
+.cardano-wallet-selector__button__content--incorrect-network {
   animation: fadeInAnimation ease 0.5s 1 forwards;
 }
 

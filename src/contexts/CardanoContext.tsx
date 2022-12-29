@@ -3,7 +3,8 @@ import { UseCardanoError } from "lib/errors"
 import { Lucid, WalletApi } from "lucid-cardano"
 import React, { useMemo } from "react"
 import {
-    AvailableProvider, UseCardanoContextState, UseCardanoOptions, UseCardanoWarning, WalletProvider
+    AvailableProvider, DefaultUseCardanoOptions, UseCardanoContextState,
+    UseCardanoOptionsWithDefaults, UseCardanoWarning, WalletProvider
 } from "use-cardano"
 
 const noop = (..._: any[]) => {}
@@ -49,18 +50,6 @@ const defaultContextState: UseCardanoContextState = {
   hideToaster: noop,
 }
 
-type DefaultUseCardanoOptions = {
-  autoConnectTo: undefined
-  autoReconnect: true
-  testnetNetwork: "Preview"
-  allowedNetworks: ["Mainnet"]
-  node: {
-    provider: "blockfrost"
-    proxyUrl: undefined
-    projectId: undefined
-  }
-}
-
 const defaultOptions: DefaultUseCardanoOptions = {
   autoConnectTo: undefined,
   autoReconnect: true,
@@ -72,8 +61,6 @@ const defaultOptions: DefaultUseCardanoOptions = {
     projectId: undefined,
   },
 }
-
-export type UseCardanoOptionsWithDefaults = UseCardanoOptions & DefaultUseCardanoOptions
 
 const UseCardanoContext = React.createContext<UseCardanoContextState>(defaultContextState)
 

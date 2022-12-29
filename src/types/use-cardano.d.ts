@@ -23,6 +23,20 @@ import React from "react"
     node?: UseCardanoNodeOptions
   }
 
+  export type DefaultUseCardanoOptions = {
+    autoConnectTo: undefined
+    autoReconnect: true
+    testnetNetwork: "Preview"
+    allowedNetworks: ["Mainnet"]
+    node: {
+      provider: "blockfrost"
+      proxyUrl: undefined
+      projectId: undefined
+    }
+  }
+
+  export type UseCardanoOptionsWithDefaults = UseCardanoOptions & DefaultUseCardanoOptions
+
   export interface Account {
     address?: string | null
     rewardAddress?: string | null
