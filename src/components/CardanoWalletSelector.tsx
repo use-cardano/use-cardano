@@ -74,7 +74,7 @@ export const CardanoWalletSelector = () => {
         onClick={() => setOpen((wasOpen) => !wasOpen)}
         title={isValid ? undefined : warning?.message}
       >
-        {walletApiLoading || (isConnectedToTheCorrectNetwork && isNil(account.address)) ? (
+        {walletApiLoading ? (
           <div className="cardano-wallet-selector__button__loading-spinner" />
         ) : !isInitialized ? (
           ""
@@ -84,16 +84,19 @@ export const CardanoWalletSelector = () => {
           </div>
         ) : (
           <div className="cardano-wallet-selector__button__content">
-            {isValid && currentProvider?.icon && (
-              <span>
-                <img
-                  src={currentProvider.icon}
-                  alt={`${walletProvider} icon`}
-                  height={iconSize}
-                  width={iconSize}
-                />
-              </span>
-            )}
+            {isValid &&
+              currentProvider?.icon &&
+              isConnectedToTheCorrectNetwork &&
+              !isNil(account.address) && (
+                <span>
+                  <img
+                    src={currentProvider.icon}
+                    alt={`${walletProvider} icon`}
+                    height={iconSize}
+                    width={iconSize}
+                  />
+                </span>
+              )}
 
             <span>{buttonText}</span>
           </div>

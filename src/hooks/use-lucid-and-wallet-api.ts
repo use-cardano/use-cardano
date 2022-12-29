@@ -48,6 +48,9 @@ export const useLucidAndWalletApi = (options: UseCardanoOptionsWithDefaults) => 
 
   const onAccountChangeCallback = async (walletApi: WalletApi) => {
     try {
+      setAccount({})
+      setWalletApiLoading(true)
+
       // todo, find a way to use the built-ins from lucid lucid.wallet.address(), lucid.wallet.rewardAddress()
       const [address, unusedAddress, rewardAddress] = await Promise.all([
         walletApi.getUsedAddresses().then(hexArrayToAddress),
@@ -59,13 +62,15 @@ export const useLucidAndWalletApi = (options: UseCardanoOptionsWithDefaults) => 
       setAccount({ address: address || unusedAddress, rewardAddress })
     } catch (e) {
       if (e instanceof Error) setAccountError(unknownError(e))
-      setAccount({})
+    } finally {
+      setWalletApiLoading(false)
     }
   }
 
   const initializeWalletApiAndLucid = useCallback(async () => {
+    if (!isNil(account.address) || !isNil(account.rewardAddress)) setAccount({})
+
     if (!window.cardano || !walletProvider || !window.cardano[walletProvider]) {
-      if (!isNil(account.address) || !isNil(account.rewardAddress)) setAccount({})
       if (walletProvider && !window.cardano[walletProvider])
         setWalletApiError(noDappError(walletProvider))
 
@@ -108,10 +113,15 @@ export const useLucidAndWalletApi = (options: UseCardanoOptionsWithDefaults) => 
         if (!isNil(account.address) || !isNil(account.rewardAddress)) setAccount({})
         setNetworkError(disallowedNetworkError(allowedNetworks, testnetNetwork, networkId))
       } else {
-        const [updatedLucid] = await Promise.all([
+        const [updatedLucid, address, unusedAddress, rewardAddress] = await Promise.all([
           isNil(lucid) ? Lucid.new(provider, network) : lucid.switchProvider(provider, network),
-          onAccountChange(),
+          api.getUsedAddresses().then(hexArrayToAddress),
+          api.getUnusedAddresses().then(hexArrayToAddress),
+          api.getRewardAddresses().then(hexArrayToAddress),
         ])
+
+        setAccountError(!address && !unusedAddress ? invalidWalletError : undefined)
+        setAccount({ address: address || unusedAddress, rewardAddress })
 
         const lucidWithWallet = updatedLucid.selectWallet(api)
 
