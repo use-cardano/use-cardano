@@ -185,9 +185,13 @@
   font-weight: bold;
 }
 
+.cardano-wallet-selector__menu__item button {
+  color: #333;
+}
+
 .cardano-wallet-selector__menu__item button:disabled {
   color: rgba(0, 0, 0, 0.25);
-  cursor: default;
+  cursor: not-allowed;
 }
 
 .cardano-wallet-selector__menu__item button:not(:disabled):hover {
@@ -197,7 +201,6 @@
 .cardano-wallet-selector__menu__item__text {
   display: flex;
   align-items: center;
-  color: #333;
 }
 
 .cardano-wallet-selector__menu__item__text__icon {

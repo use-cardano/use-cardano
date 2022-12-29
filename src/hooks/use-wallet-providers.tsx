@@ -19,9 +19,10 @@ const useWalletProviders = (autoConnectTo?: WalletProvider, autoReconnect?: bool
     interval.current = setInterval(() => {
       // local storage is not available in SSR
       if (typeof window === "undefined") return
-      if (!window.cardano) return
 
       setIsInitialized(true)
+
+      if (!window.cardano) return
 
       // clear the interval once the extension is injected
       clearInterval(interval.current)
