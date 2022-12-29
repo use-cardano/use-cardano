@@ -56,7 +56,6 @@ export const useLucidAndWalletApi = (options: UseCardanoOptionsWithDefaults) => 
       ])
 
       setAccountError(!address && !unusedAddress ? invalidWalletError : undefined)
-
       setAccount({ address: address || unusedAddress, rewardAddress })
     } catch (e) {
       if (e instanceof Error) setAccountError(unknownError(e))
@@ -102,7 +101,6 @@ export const useLucidAndWalletApi = (options: UseCardanoOptionsWithDefaults) => 
 
       if (hasEventListener) {
         api.experimental.on("networkChange", onNetworkChange)
-        // api.experimental.on("networkChange", onAccountChange)
         api.experimental.on("accountChange", onAccountChange)
       }
 
@@ -122,16 +120,12 @@ export const useLucidAndWalletApi = (options: UseCardanoOptionsWithDefaults) => 
         if (autoReconnect) setStoredWalletProvider(walletProvider)
         else setStoredWalletProvider(undefined)
 
-        const text = getText(walletProvider)
-        const info = getInfo(walletProvider)
-
-        showToaster(text, info)
+        showToaster(getText(walletProvider), getInfo(walletProvider))
       }
 
       return () => {
         if (hasEventListener) {
           api.experimental.off("networkChange", onNetworkChange)
-          // api.experimental.off("networkChange", onAccountChange)
           api.experimental.off("accountChange", onAccountChange)
         }
       }
