@@ -10,6 +10,8 @@ setTimeout(() => {
     console.log()
 
     open(tunnel.url)
-    open("http://localhost:4200")
+
+    // make sure localhost is opened last
+    setTimeout(() => open("http://localhost:4200"), 250)
   })
-}, 5000)
+}, 3000)
