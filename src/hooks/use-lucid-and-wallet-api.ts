@@ -13,8 +13,10 @@ import { isError } from "lib/utils/is-error"
 import { noLiveNetworkChangeWarning } from "lib/warnings"
 import { isNil } from "lodash"
 import { Lucid, WalletApi } from "lucid-cardano"
-import { useCallback, useEffect } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { UseCardanoOptionsWithDefaults } from "use-cardano"
+
+let longPollingInterval: NodeJS.Timeout | undefined
 
 export const useLucidAndWalletApi = (options: UseCardanoOptionsWithDefaults) => {
   const { autoReconnect, allowedNetworks: allowedNetworkNames, testnetNetwork, node } = options
@@ -29,6 +31,7 @@ export const useLucidAndWalletApi = (options: UseCardanoOptionsWithDefaults) => 
     setLucid,
     walletProvider,
     showToaster,
+    setWalletProvider,
     setWalletApi,
     setWalletApiError,
     setWalletApiLoading,
@@ -37,6 +40,8 @@ export const useLucidAndWalletApi = (options: UseCardanoOptionsWithDefaults) => 
     setNetworkError,
     setAccountError,
   } = useCardano()
+
+  const [forceReload, setForceReload] = useState(0)
 
   const onNetworkChange = useCallback(
     (id: unknown) => {
@@ -68,14 +73,22 @@ export const useLucidAndWalletApi = (options: UseCardanoOptionsWithDefaults) => 
   }
 
   const initializeWalletApiAndLucid = useCallback(async () => {
+    console.log("initializing wallet api 1")
+
     if (!isNil(account.address) || !isNil(account.rewardAddress)) setAccount({})
+
+    console.log("initializing wallet api 2")
 
     if (!window.cardano || !walletProvider || !window.cardano[walletProvider]) {
       if (walletProvider && !window.cardano[walletProvider])
         setWalletApiError(noDappError(walletProvider))
 
+      console.log("initializing wallet api 3a")
+
       return
     }
+
+    console.log("initializing wallet api 3b")
 
     try {
       const api = await window.cardano[walletProvider].enable()
@@ -107,6 +120,27 @@ export const useLucidAndWalletApi = (options: UseCardanoOptionsWithDefaults) => 
       if (hasEventListener) {
         api.experimental.on("networkChange", onNetworkChange)
         api.experimental.on("accountChange", onAccountChange)
+      } else {
+        if (longPollingInterval) clearInterval(longPollingInterval)
+
+        longPollingInterval = setInterval(async () => {
+          // interacting with the api will fail if the account of network has changed, use this to communicate to the user
+          try {
+            await api.getNetworkId()
+          } catch (e) {
+            setWalletProvider(undefined)
+            setAccount({})
+            setLucid(undefined)
+            setWalletApi(undefined)
+
+            showToaster(
+              "Account or network changed",
+              "The active account or network in your connected wallet has changed. Please re-connect your wallet."
+            )
+
+            clearInterval(longPollingInterval)
+          }
+        }, 5000)
       }
 
       if (!allowedNetworks.includes(networkId)) {
@@ -137,11 +171,14 @@ export const useLucidAndWalletApi = (options: UseCardanoOptionsWithDefaults) => 
         if (hasEventListener) {
           api.experimental.off("networkChange", onNetworkChange)
           api.experimental.off("accountChange", onAccountChange)
+        } else {
+          if (longPollingInterval) clearInterval(longPollingInterval)
         }
       }
     } catch (e) {
       setAccount({})
       setLucid(undefined)
+      setWalletProvider(undefined)
       setStoredWalletProvider(undefined)
 
       if (isError(e)) {
@@ -194,5 +231,5 @@ export const useLucidAndWalletApi = (options: UseCardanoOptionsWithDefaults) => 
     ;(async () => {
       await initializeWalletApiAndLucid()
     })()
-  }, [networkId, walletProvider])
+  }, [networkId, walletProvider, forceReload])
 }

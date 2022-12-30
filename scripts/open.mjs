@@ -12,6 +12,6 @@ setTimeout(() => {
     open(tunnel.url)
 
     // make sure localhost is opened last
-    setTimeout(() => open("http://localhost:4200"), 250)
+    setTimeout(() => open("http://localhost:4200"), 500)
   })
 }, 3000)
