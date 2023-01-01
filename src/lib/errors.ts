@@ -1,4 +1,4 @@
-import { toNetworkName } from "lib/network-dictionary"
+import { toNetworkName } from "lib/utils/network-dictionary"
 import { TestnetNetwork, USE_CARDANO_ERROR, WalletProvider } from "use-cardano"
 
 export class UseCardanoError extends Error {

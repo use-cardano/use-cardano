@@ -1,4 +1,4 @@
-import { supportedWalletProviders } from "lib/supported-wallet-providers"
+import { supportedWalletProviders } from "lib/constants/supported-wallet-providers"
 import { isNil } from "lodash"
 import { AvailableProvider } from "use-cardano"
 
