@@ -71,3 +71,7 @@
 .title {
   padding-bottom: 2rem;
 }
+
+.assetsList {
+  list-style: none;
+}

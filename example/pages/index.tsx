@@ -47,6 +47,12 @@ const Index = () => {
         </li>
 
         <li className={styles.item}>
+          <Link className={styles.link} href="/examples/listing-assets">
+            Listing Assets
+          </Link>
+        </li>
+
+        <li className={styles.item}>
           <Link className={styles.link} href="/examples/configuration/auto-connect-to-nami">
             Configuration / Auto Connect to Nami
           </Link>

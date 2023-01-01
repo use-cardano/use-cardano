@@ -129,6 +129,8 @@ import React from "react"
     toNetworkId: (network: string) => number
     toNetworkName: (id: number) => string
     isError: (e: any) => e is { message: string }
+    hasErrorCode: (e: any) => e is { code: number }
+    lovelaceToAda: (n: number | bigint) => number
   }
 
   export const constants: {
