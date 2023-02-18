@@ -165,6 +165,8 @@ export const CardanoProvider = ({
   )
 }
 
+export const UseCardanoConsumer = UseCardanoContext.Consumer
+
 export const useCardano = () => {
   const context = React.useContext(UseCardanoContext)
 
