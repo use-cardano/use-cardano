@@ -134,4 +134,6 @@ import React from "react"
   export const constants: {
     supportedWalletProviders: WalletProvider[]
   }
+
+  export const UseCardanoConsumer: React.Consumer<UseCardanoContextState>
 }
