@@ -1,7 +1,7 @@
 import { ExampleWrapper } from "components/ExampleWrapper"
-import { options } from "config/use-cardano-options"
+import { options } from "config/mynth-use-cardano-options"
 import { isNil } from "lodash"
-import { CardanoWalletSelector, useCardano, utility } from "use-cardano"
+import { CardanoWalletSelector, useCardano, utility } from "mynth-use-cardano"
 
 const OnlyTestnetExample = () => {
   const { networkId, isValid } = useCardano()
@@ -27,7 +27,7 @@ const OnlyTestnetExample = () => {
       <br />
 
       <div>
-        use-cardano is valid and can be used: <b>{isValid ? "yes" : "no"}</b>
+        mynth-use-cardano is valid and can be used: <b>{isValid ? "yes" : "no"}</b>
       </div>
     </>
   )

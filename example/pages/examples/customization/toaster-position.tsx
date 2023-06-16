@@ -1,6 +1,6 @@
 import { ExampleWrapper } from "components/ExampleWrapper"
-import { options } from "config/use-cardano-options"
-import { CardanoToaster, CardanoWalletSelector, useCardano } from "use-cardano"
+import { options } from "config/mynth-use-cardano-options"
+import { CardanoToaster, CardanoWalletSelector, useCardano } from "mynth-use-cardano"
 
 const CustomizationToasterPositionExample = () => {
   const { account } = useCardano()

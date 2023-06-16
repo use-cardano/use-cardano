@@ -1,6 +1,6 @@
-# use-cardano example
+# mynth-use-cardano example
 
-This is an example of how to use `use-cardano` in a project. This is used as a reference, but also during development to test the library.
+This is an example of how to use `mynth-use-cardano` in a project. This is used as a reference, but also during development to test the library.
 
 ## Usage
 

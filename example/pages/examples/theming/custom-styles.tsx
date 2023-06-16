@@ -1,7 +1,7 @@
 import { ExampleWrapper } from "components/ExampleWrapper"
-import { options } from "config/use-cardano-options"
+import { options } from "config/mynth-use-cardano-options"
 import styles from "styles/example.module.css"
-import { CardanoWalletSelector } from "use-cardano"
+import { CardanoWalletSelector } from "mynth-use-cardano"
 
 const CustomStylesExample = () => (
   <>

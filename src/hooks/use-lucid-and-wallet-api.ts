@@ -14,7 +14,7 @@ import { noLiveNetworkChangeWarning } from "lib/warnings"
 import { isNil } from "lodash"
 import { Lucid, WalletApi } from "lucid-cardano"
 import { useCallback, useEffect } from "react"
-import { UseCardanoOptionsWithDefaults } from "use-cardano"
+import { UseCardanoOptionsWithDefaults } from "mynth-use-cardano"
 
 export const useLucidAndWalletApi = (options: UseCardanoOptionsWithDefaults) => {
   const { autoReconnect, allowedNetworks: allowedNetworkNames, testnetNetwork, node } = options

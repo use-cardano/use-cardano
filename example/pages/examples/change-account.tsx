@@ -1,7 +1,7 @@
 import { ExampleWrapper } from "components/ExampleWrapper"
-import { options } from "config/use-cardano-options"
+import { options } from "config/mynth-use-cardano-options"
 import styles from "styles/example.module.css"
-import { useCardano, CardanoWalletSelector } from "use-cardano"
+import { useCardano, CardanoWalletSelector } from "mynth-use-cardano"
 
 const ChangeAccountExample = () => {
   const { accountWarning: warning, account, accountLoaded } = useCardano()

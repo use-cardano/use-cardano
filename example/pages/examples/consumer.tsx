@@ -1,6 +1,6 @@
 import { ExampleWrapper } from "components/ExampleWrapper"
-import { options } from "config/use-cardano-options"
-import { CardanoWalletSelector, UseCardanoConsumer } from "use-cardano"
+import { options } from "config/mynth-use-cardano-options"
+import { CardanoWalletSelector, UseCardanoConsumer } from "mynth-use-cardano"
 
 const ConsumerExample = () => {
   return (

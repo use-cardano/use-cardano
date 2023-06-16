@@ -6,7 +6,7 @@ const Index = () => {
   return (
     <div className={exampleStyles.container}>
       <div>
-        <h1>use-cardano examples</h1>
+        <h1>mynth-use-cardano examples</h1>
       </div>
 
       <ul className={styles.examplesList}>

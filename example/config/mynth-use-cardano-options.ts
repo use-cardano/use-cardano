@@ -1,4 +1,4 @@
-import { UseCardanoOptions } from "use-cardano"
+import { UseCardanoOptions } from "mynth-use-cardano"
 
 export const options: UseCardanoOptions = {
   node: {

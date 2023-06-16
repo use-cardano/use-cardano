@@ -5,7 +5,7 @@ import React, { useMemo } from "react"
 import {
     AvailableProvider, DefaultUseCardanoOptions, UseCardanoContextState,
     UseCardanoOptionsWithDefaults, UseCardanoWarning, WalletProvider
-} from "use-cardano"
+} from "mynth-use-cardano"
 
 const noop = (..._: any[]) => {}
 

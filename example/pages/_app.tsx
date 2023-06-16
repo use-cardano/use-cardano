@@ -1,4 +1,4 @@
-import "use-cardano/styles/use-cardano.css"
+import "mynth-use-cardano/styles/mynth-use-cardano.css"
 import "styles/styles.css"
 
 import type { AppProps } from "next/app"

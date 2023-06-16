@@ -1,4 +1,4 @@
-declare module "use-cardano" {
+declare module "mynth-use-cardano" {
 import { Lucid, Network, WalletApi } from "lucid-cardano"
 import React from "react"
 

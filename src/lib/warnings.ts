@@ -1,4 +1,4 @@
-import { UseCardanoWarning } from "use-cardano"
+import { UseCardanoWarning } from "mynth-use-cardano"
 
 export const noLiveAccountChangeWarning: UseCardanoWarning = {
   type: "NO_LIVE_ACCOUNT_CHANGE",

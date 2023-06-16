@@ -1,7 +1,7 @@
 import { ExampleWrapper } from "components/ExampleWrapper"
-import { options } from "config/use-cardano-options"
+import { options } from "config/mynth-use-cardano-options"
 import styles from "styles/example.module.css"
-import { CardanoWalletSelector } from "use-cardano"
+import { CardanoWalletSelector } from "mynth-use-cardano"
 
 const AutoConnectToGeroExample = () => (
   <>
@@ -20,7 +20,7 @@ const AutoConnectToGeroExample = () => (
 
     <div className={styles.info}>
       Other examples can affect the behavior of this example. Clear local storage, key{" "}
-      <b>use-cardano/reconnect-to</b>, to reset the example.
+      <b>use-cardano/mynth-reconnect-to</b>, to reset the example.
     </div>
   </>
 )

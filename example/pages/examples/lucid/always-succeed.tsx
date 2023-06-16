@@ -1,9 +1,9 @@
 import { ExampleWrapper } from "components/ExampleWrapper"
-import { options } from "config/use-cardano-options"
+import { options } from "config/mynth-use-cardano-options"
 import * as utils from "lib/always-succeed-utils"
 import { useCallback, useState } from "react"
 import styles from "styles/example.module.css"
-import { CardanoWalletSelector, useCardano, utility } from "use-cardano"
+import { CardanoWalletSelector, useCardano, utility } from "mynth-use-cardano"
 
 /*
   AlwaysSucceeds Example
@@ -73,7 +73,7 @@ const AlwaysSucceedExample = () => {
 
       <div>
         This is a port of the Lucid &quot;Always Succeed&quot; example. It also an example of how to
-        use the use-cardano toaster to display custom messages.
+        use the mynth-use-cardano toaster to display custom messages.
       </div>
 
       <br />

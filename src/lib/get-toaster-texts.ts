@@ -1,4 +1,4 @@
-import { WalletProvider } from "use-cardano"
+import { WalletProvider } from "mynth-use-cardano"
 
 export const getText = (provider: WalletProvider) => `Connected to ${provider}`
 

@@ -1,9 +1,9 @@
 import { ExampleWrapper } from "components/ExampleWrapper"
-import { options } from "config/use-cardano-options"
+import { options } from "config/mynth-use-cardano-options"
 import { utf8ToHex } from "lucid-cardano"
 import { useCallback, useState } from "react"
 import styles from "styles/example.module.css"
-import { CardanoWalletSelector, useCardano, utility } from "use-cardano"
+import { CardanoWalletSelector, useCardano, utility } from "mynth-use-cardano"
 
 const SignMessageExample = () => {
   const {

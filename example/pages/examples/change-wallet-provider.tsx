@@ -1,6 +1,6 @@
 import { ExampleWrapper } from "components/ExampleWrapper"
-import { options } from "config/use-cardano-options"
-import { AvailableProvider, constants, useCardano, CardanoWalletSelector } from "use-cardano"
+import { options } from "config/mynth-use-cardano-options"
+import { AvailableProvider, constants, useCardano, CardanoWalletSelector } from "mynth-use-cardano"
 
 const WalletProviderSelectExample = () => {
   const { walletProvider, availableProviders } = useCardano()
@@ -25,7 +25,7 @@ const WalletProviderSelectExample = () => {
       <br />
 
       <div>
-        Wallet extensions supported by use-cardano: {constants.supportedWalletProviders.join(", ")}
+        Wallet extensions supported by mynth-use-cardano: {constants.supportedWalletProviders.join(", ")}
       </div>
     </>
   )

@@ -2,7 +2,7 @@ import { useCardano } from "contexts/CardanoContext"
 import { filterAvailableProviders } from "lib/filter-available-providers"
 import { getStoredWalletProvider, setStoredWalletProvider } from "lib/local-storage"
 import { useEffect, useRef } from "react"
-import { UseCardanoOptionsWithDefaults } from "use-cardano"
+import { UseCardanoOptionsWithDefaults } from "mynth-use-cardano"
 
 type Interval = ReturnType<typeof setInterval>
 

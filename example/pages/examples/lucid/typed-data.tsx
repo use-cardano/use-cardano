@@ -1,10 +1,10 @@
 import { ExampleWrapper } from "components/ExampleWrapper"
-import { options } from "config/use-cardano-options"
+import { options } from "config/mynth-use-cardano-options"
 import * as utils from "lib/typed-data-utils"
 import { isNil } from "lodash"
 import { useCallback, useMemo, useState } from "react"
 import styles from "styles/example.module.css"
-import { CardanoWalletSelector, useCardano, utility } from "use-cardano"
+import { CardanoWalletSelector, useCardano, utility } from "mynth-use-cardano"
 
 const TypedDataExample = () => {
   const { lucid, showToaster } = useCardano()

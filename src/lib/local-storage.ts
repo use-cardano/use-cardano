@@ -1,6 +1,6 @@
-import { WalletProvider } from "use-cardano"
+import { WalletProvider } from "mynth-use-cardano"
 
-const key = "use-cardano/reconnect-to"
+const key = "mynth-use-cardano/reconnect-to"
 
 export const setStoredWalletProvider = (provider?: WalletProvider) => {
   if (!provider) return localStorage.removeItem(key)

@@ -1,4 +1,4 @@
-import { TestnetNetwork } from "use-cardano"
+import { TestnetNetwork } from "mynth-use-cardano"
 
 export const toNetworkId = (network: string) => {
   switch (network) {

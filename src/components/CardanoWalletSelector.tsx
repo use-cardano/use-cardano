@@ -6,7 +6,7 @@ import { shortAddress } from "lib/short-address"
 import { supportedWalletProviders as allProviders } from "lib/supported-wallet-providers"
 import { isNil } from "lodash"
 import { useCallback, useMemo } from "react"
-import { WalletProvider } from "use-cardano"
+import { WalletProvider } from "mynth-use-cardano"
 
 export const CardanoWalletSelector = () => {
   const { ref, open, setOpen } = useOutsideClick()
