@@ -18,27 +18,31 @@ cloud and add the projectId in /config/mynth-use-cardano-options.ts
 
 ## Minimal Example
 
-\`\`\`tsx filename=“minimal-example.tsx” copy import
-“mynth-use-cardano/styles/use-cardano.css” import { useCardano,
-CardanoProvider, CardanoWalletSelector, CardanoToaster } from
-“mynth-use-cardano”
+``` typescript
+tsx filename="minimal-example.tsx" copy
+import "mynth-use-cardano/styles/use-cardano.css"
+import { useCardano, CardanoProvider, CardanoWalletSelector, CardanoToaster } from "mynth-use-cardano"
 
-const Content = () =\> { const { account } = useCardano()
+const Content = () => {
+  const { account } = useCardano()
 
-return ( \<\> <CardanoWalletSelector />
+  return (
+    <>
+      <CardanoWalletSelector />
 
-``` 
-  <div>Connected Address: {account.address}</div>
-</>
-```
+      <div>Connected Address: {account.address}</div>
+    </>
+  )
+}
 
-) }
-
-const App = () =\> ( <CardanoProvider options={options}> <Content />
+const App = () => (
+  <CardanoProvider options={options}>
+    <Content />
 
     <CardanoToaster />
-
-</CardanoProvider> ) \`\`\`
+  </CardanoProvider>
+)
+```
 
 ## Contributing / Development
 
