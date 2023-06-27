@@ -1,10 +1,11 @@
 declare module "mynth-use-cardano" {
 import { Lucid, Network, WalletApi } from "lucid-cardano"
+import { EnabledAPI } from "@dcspark/adalib/dist/types/CardanoInjected"
 import React from "react"
 
-    // todo, add support for more node providers, when available in lucid
+  // todo, add support for more node providers, when available in lucid
   export type NodeProvider = "blockfrost" | "blockfrost-proxy"
-  export type WalletProvider = "nami" | "eternl" | "gerowallet" | "flint"
+  export type WalletProvider = "walletconnect" | "nami" | "eternl" | "gerowallet" | "flint"
 
   export type AllowedNetworks = ("Testnet" | "Mainnet")[]
   export type TestnetNetwork = "Testnet" | "Preview" | "Preprod"
@@ -21,6 +22,14 @@ import React from "react"
     allowedNetworks?: AllowedNetworks
     testnetNetwork?: TestnetNetwork
     node?: UseCardanoNodeOptions
+    walletconnect?: {
+      name: string;
+      desc: string;
+      projectId: string;
+      url: string;
+      qrcode: boolean;
+      icons: string[];
+    }
   }
 
   export type DefaultUseCardanoOptions = {
@@ -45,10 +54,10 @@ import React from "react"
   export interface AvailableProvider {
     key: WalletProvider
     name: string
-    icon: string
-    version: string
-    enable(): Promise<WalletApi>
-    isEnabled(): Promise<boolean>
+    icon?: string
+    version?: string
+    enable?(): Promise<WalletApi>
+    isEnabled?(): Promise<boolean>
   }
 
   export type USE_CARDANO_WARNING = "NO_LIVE_NETWORK_CHANGE" | "NO_LIVE_ACCOUNT_CHANGE" | "UNKNOWN"
@@ -78,8 +87,8 @@ import React from "react"
     setIsInitialized: (initialized?: boolean) => void
     text?: string
     info?: string
-    walletApi?: WalletApi
-    setWalletApi: (walletApi?: WalletApi) => void
+    walletApi?: WalletApi | EnabledAPI
+    setWalletApi: (walletApi?: WalletApi | EnabledAPI) => void
     lucid?: Lucid
     setLucid: (lucid?: Lucid) => void
     networkId?: number

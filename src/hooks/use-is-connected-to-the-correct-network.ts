@@ -1,5 +1,5 @@
-import { useCardano } from "contexts/CardanoContext"
-import { toNetworkName } from "lib/network-dictionary"
+import { useCardano } from "../contexts/CardanoContext"
+import { toNetworkName } from "../lib/network-dictionary"
 import { isNil } from "lodash"
 import { useMemo } from "react"
 

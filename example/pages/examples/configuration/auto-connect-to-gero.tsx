@@ -20,7 +20,7 @@ const AutoConnectToGeroExample = () => (
 
     <div className={styles.info}>
       Other examples can affect the behavior of this example. Clear local storage, key{" "}
-      <b>use-cardano/mynth-reconnect-to</b>, to reset the example.
+      <b>mynth-use-cardano/mynth-reconnect-to</b>, to reset the example.
     </div>
   </>
 )

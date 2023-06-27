@@ -1,0 +1,40 @@
+name: Publish to npm
+
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - main
+
+jobs:
+  publish-npm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+          token: ${{ secrets.PAT }}
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          registry-url: https://registry.npmjs.org/
+      - run: npm ci
+      - run: npm run build
+      - name: Git configuration
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+      - run: |
+          git add .
+          git commit -m "Update dist folder"
+      - run: npm version --commit-hooks true patch
+      - name: Git commit and push
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
+        run: git push origin
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+

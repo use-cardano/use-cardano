@@ -1,5 +1,5 @@
-import { useCardano } from "contexts/CardanoContext"
-import { concatenateClasses } from "lib/concatenate-classes"
+import { useCardano } from "../contexts/CardanoContext"
+import { concatenateClasses } from "../lib/concatenate-classes"
 import { isNil } from "lodash"
 import { useEffect, useMemo, useRef, useState } from "react"
 

@@ -4,6 +4,9 @@ mynth-use-cardano is forked from use-cardano which is a react context, hook, and
 
 The package leverages [lucid](https://github.com/spacebudz/lucid) for transaction building and off-chain code to interact with smart contracts. For more information on that, visit the [lucid documentation](https://lucid.spacebudz.io/).
 
+In order to allow walletconnect too, create an account on Wallet Connect cloud and add the projectId in
+/config/mynth-use-cardano-options.ts
+
 ## Minimal Example
 
 ```tsx filename="minimal-example.tsx" copy
@@ -38,3 +41,8 @@ See the [contributing](/docs/CONTRIBUTING) doc for instructions on how to contri
 ## LICENSE
 
 MIT, see [LICENSE](/LICENSE) for more information.
+
+## Publishing
+Whenever a PR is merged into the `main` branch, it will automatically trigger a version update and publish the new version while updating the current repo with the new version. To assist this,
+get a Personal access token from Github account and save it as a repository secret with the name `PAT`.
+Similarly, get npm access token and save it as a repository secret with the name `NPM_AUTH_TOKEN`

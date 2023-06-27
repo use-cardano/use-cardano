@@ -1,13 +1,13 @@
-import { useCardano } from "contexts/CardanoContext"
-import { filterAvailableProviders } from "lib/filter-available-providers"
-import { getStoredWalletProvider, setStoredWalletProvider } from "lib/local-storage"
+import { useCardano } from "../contexts/CardanoContext"
+import { filterAvailableProviders } from "../lib/filter-available-providers"
+import { getStoredWalletProvider, setStoredWalletProvider } from "../lib/local-storage"
 import { useEffect, useRef } from "react"
-import { UseCardanoOptionsWithDefaults } from "mynth-use-cardano"
+import { UseCardanoOptionsWithDefaults, AvailableProvider, WalletProvider } from "mynth-use-cardano"
 
 type Interval = ReturnType<typeof setInterval>
 
 const useWalletProviders = (options: UseCardanoOptionsWithDefaults) => {
-  const { autoConnectTo, autoReconnect } = options
+  const { autoConnectTo, autoReconnect, walletconnect } = options
 
   const interval = useRef<Interval>()
 
@@ -33,9 +33,17 @@ const useWalletProviders = (options: UseCardanoOptionsWithDefaults) => {
         .map((key) => ({
           key,
           ...window.cardano[key],
-        }))
+        } as AvailableProvider))
         .filter(filterAvailableProviders)
+      
+      if (walletconnect?.projectId) {
+        const walletConnectProvider: AvailableProvider = {
+          key: "walletconnect", 
+          name: "WalletConnect"
 
+        };
+        providers.push(walletConnectProvider);
+      }
       setAvailableProviders(providers)
 
       const providerToConnectTo = autoReconnect
@@ -49,9 +57,9 @@ const useWalletProviders = (options: UseCardanoOptionsWithDefaults) => {
         if (!connectedProvider) return
 
         setWalletApiLoading(true)
-        setWalletProvider(connectedProvider.key)
+        setWalletProvider(connectedProvider.key as WalletProvider)
 
-        if (autoReconnect) setStoredWalletProvider(connectedProvider.key)
+        if (autoReconnect) setStoredWalletProvider(connectedProvider.key as WalletProvider)
         else setStoredWalletProvider(undefined)
       }
     }, 1)

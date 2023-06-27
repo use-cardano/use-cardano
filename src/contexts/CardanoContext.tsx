@@ -1,11 +1,12 @@
-import { useCardanoInitialization } from "hooks/use-cardano-initialization"
-import { UseCardanoError } from "lib/errors"
+import { useCardanoInitialization } from "../hooks/use-cardano-initialization"
+import { UseCardanoError } from "../lib/errors"
 import { Lucid, WalletApi } from "lucid-cardano"
 import React, { useMemo } from "react"
 import {
     AvailableProvider, DefaultUseCardanoOptions, UseCardanoContextState,
     UseCardanoOptionsWithDefaults, UseCardanoWarning, WalletProvider
 } from "mynth-use-cardano"
+import { EnabledAPI } from "@dcspark/adalib/dist/types/CardanoInjected";
 
 const noop = (..._: any[]) => {}
 
@@ -93,7 +94,7 @@ export const CardanoProvider = ({
   const [text, setText] = useState<string | undefined>(undefined)
   const [info, setInfo] = useState<string | undefined>(undefined)
   const [lucid, setLucid] = useState<Lucid | undefined>(undefined)
-  const [walletApi, setWalletApi] = useState<WalletApi | undefined>(undefined)
+  const [walletApi, setWalletApi] = useState<WalletApi | EnabledAPI | undefined>(undefined)
   const [account, setAccount] = useState(defaultContextState.account)
   const [accountLoaded, setAccountLoaded] = useState(defaultContextState.accountLoaded)
   const [walletProvider, setWalletProvider] = useState<WalletProvider | undefined>(undefined)

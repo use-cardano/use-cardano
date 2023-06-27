@@ -1,12 +1,14 @@
-import { useCardano } from "contexts/CardanoContext"
-import { useIsConnectedToTheCorrectNetwork } from "hooks/use-is-connected-to-the-correct-network"
-import { useOutsideClick } from "hooks/use-outside-click"
-import { concatenateClasses } from "lib/concatenate-classes"
-import { shortAddress } from "lib/short-address"
-import { supportedWalletProviders as allProviders } from "lib/supported-wallet-providers"
+import { useCardano } from "../contexts/CardanoContext"
+import { useIsConnectedToTheCorrectNetwork } from "../hooks/use-is-connected-to-the-correct-network"
+import { useOutsideClick } from "../hooks/use-outside-click"
+import { concatenateClasses } from "../lib/concatenate-classes"
+import { shortAddress } from "../lib/short-address"
+import { supportedWalletProviders as allProviders } from "../lib/supported-wallet-providers"
 import { isNil } from "lodash"
 import { useCallback, useMemo } from "react"
 import { WalletProvider } from "mynth-use-cardano"
+
+import { disconnect } from '@dcspark/adalib';
 
 export const CardanoWalletSelector = () => {
   const { ref, open, setOpen } = useOutsideClick()
@@ -108,6 +110,7 @@ export const CardanoWalletSelector = () => {
           {allProviders.sort().map((provider) => {
             const availableProvider = availableProviders.find((p) => p.key === provider)
             const installed = !isNil(availableProvider)
+
             const isCurrent = provider === walletProvider
 
             const iconSize = provider === "nami" ? "26px" : "32px"
@@ -159,6 +162,7 @@ export const CardanoWalletSelector = () => {
               <button
                 className="cardano-wallet-selector__menu__item__disconnect"
                 onClick={() => {
+                  if(walletProvider === 'walletconnect') disconnect()
                   setWalletProvider(undefined)
                   setOpen(false)
                   showToaster("Wallet disconnected!", " ")

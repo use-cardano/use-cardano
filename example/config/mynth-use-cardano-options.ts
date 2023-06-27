@@ -5,4 +5,12 @@ export const options: UseCardanoOptions = {
     provider: "blockfrost-proxy",
     proxyUrl: "/api/blockfrost",
   },
+  walletconnect: {
+    name: 'Mynth web dApp',
+    description: 'Mynth web dApp',
+    projectId: "",
+    url: "http://localhost:3000",
+    qrcode: true,
+    icons: ['https://avatars.githubusercontent.com/u/37784886']
+  }
 }
