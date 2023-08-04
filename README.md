@@ -4,9 +4,9 @@ use-cardano is a react context, hook, and set of components that makes interacti
 
 The package leverages [lucid](https://github.com/spacebudz/lucid) for transaction building and off-chain code to interact with smart contracts. For more information on that, visit the [lucid documentation](https://lucid.spacebudz.io/).
 
-This package uses blockfrost as the Cardano node provider by default. You can sign up here with a free or paid subscription: [blockfrost signup](https://blockfrost.io/)
+This package uses blockfrost as the Cardano node provider by default. You can sign up here with a free or paid subscription: [blockfrost](https://blockfrost.io/)
 
-The following are blockfrost proxyUrl's if you decide to use it:
+The following are the current blockfrost proxyUrl's:
 
 ```
 "https://cardano-testnet.blockfrost.io/api/v0"
