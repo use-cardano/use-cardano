@@ -12,13 +12,13 @@ import "use-cardano/styles/use-cardano.css"
 import { useCardano, CardanoProvider, CardanoWalletSelector, CardanoToaster } from "use-cardano"
 
 const UseCardanoNodeOptions = {
-  provider: 'blockfrost' || 'blockfrost-proxy',
-  proxyUrl: 'https://cardano-mainnet.blockfrost.io/api/v0',
+  provider: 'blockfrost',
+  // this exposes your API key to the client, consider using blockfrost-proxy instead
   projectId: process.env.REACT_APP_BLOCKFROST_PROJECT_ID_MAINNET
 }
+
 const UseCardanoOptions = {
-  autoReconnect: false,
-  testnetNetwork: 'Mainnet',
+  testnetNetwork: 'Preview',
   node: UseCardanoNodeOptions
 }
 
