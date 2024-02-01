@@ -1,7 +1,12 @@
 import { ExampleWrapper } from "components/ExampleWrapper"
-import { options } from "config/use-cardano-options"
+import { options as baseOptions } from "config/use-cardano-options"
 import styles from "styles/example.module.css"
-import { useCardano, CardanoWalletSelector } from "use-cardano"
+import { useCardano, CardanoWalletSelector, UseCardanoOptions } from "use-cardano"
+
+const options: UseCardanoOptions = {
+  ...baseOptions,
+  allowedNetworks: ["Mainnet", "Testnet"],
+}
 
 const ChangeNetworkExample = () => {
   const { networkId, networkWarning: warning } = useCardano()
@@ -14,13 +19,14 @@ const ChangeNetworkExample = () => {
 
       <br />
 
-      <div>
-        Change network in your wallet provider extension and see the addresses updating here.
-      </div>
+      <div>Change network in your wallet provider extension and see the addresses updating here.</div>
 
       <br />
 
-      <div className={styles.warning}>{warning?.message || "Live network change is active"}</div>
+      <div className={styles.warning}>
+        {warning?.message ||
+          "Your wallet supports live network change, changing network will take effect immediately"}
+      </div>
 
       <br />
 
