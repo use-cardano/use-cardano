@@ -127,7 +127,7 @@ import React from "react"
 
   export const utility: {
     toNetworkId: (network: string) => number
-    toNetworkName: (id: number) => string
+    toNetworkName: (id: number) => string // todo, is this needed or can we get ths from lucid?
     isError: (e: any) => e is { message: string }
   }
 

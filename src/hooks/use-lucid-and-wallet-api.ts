@@ -1,13 +1,17 @@
 import { useCardano } from "contexts/CardanoContext"
 import {
-    disallowedNetworkError, invalidWalletError, noAccountSetError, noDappError, unknownError,
-    userRejectedError
+  disallowedNetworkError,
+  invalidWalletError,
+  noAccountSetError,
+  noDappError,
+  unknownError,
+  userRejectedError,
 } from "lib/errors"
 import { getNodeProvider } from "lib/get-node-provider"
 import { getInfo, getText } from "lib/get-toaster-texts"
 import { hexArrayToAddress } from "lib/hex-array-to-address"
 import { setStoredWalletProvider } from "lib/local-storage"
-import { toNetworkId, toNetworkName } from "lib/network-dictionary"
+import { toNetworkId } from "lib/network-dictionary"
 import { hasErrorCode } from "lib/utils/has-error-code"
 import { isError } from "lib/utils/is-error"
 import { noLiveNetworkChangeWarning } from "lib/warnings"
@@ -71,8 +75,7 @@ export const useLucidAndWalletApi = (options: UseCardanoOptionsWithDefaults) => 
     if (!isNil(account.address) || !isNil(account.rewardAddress)) setAccount({})
 
     if (!window.cardano || !walletProvider || !window.cardano[walletProvider]) {
-      if (walletProvider && !window.cardano[walletProvider])
-        setWalletApiError(noDappError(walletProvider))
+      if (walletProvider && !window.cardano[walletProvider]) setWalletApiError(noDappError(walletProvider))
 
       return
     }
@@ -163,10 +166,7 @@ export const useLucidAndWalletApi = (options: UseCardanoOptionsWithDefaults) => 
             case -2: // user rejected request to connect wallet (Flint)
             case -3: // user rejected request to connect wallet (Nami)
               setWalletApiError(userRejectedError)
-              showToaster(
-                `Could not connect to wallet ${walletProvider}`,
-                userRejectedError.message
-              )
+              showToaster(`Could not connect to wallet ${walletProvider}`, userRejectedError.message)
               break
           }
         }

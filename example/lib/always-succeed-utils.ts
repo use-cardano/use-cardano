@@ -8,8 +8,8 @@ const alwaysSucceedScript: SpendingValidator = {
 const alwaysSucceedAddress = (lucid: Lucid): Address =>
   lucid.utils.validatorToAddress(alwaysSucceedScript)
 
-const Datum = () => Data.empty()
-const Redeemer = () => Data.empty()
+const Datum = () => Data.void()
+const Redeemer = () => Data.void()
 
 export const lockUtxo = async (lucid: Lucid, lovelace: Lovelace): Promise<TxHash> => {
   const address = alwaysSucceedAddress(lucid)

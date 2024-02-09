@@ -1,10 +1,18 @@
 import {
-    applyParamsToScript, Data, Lucid, MintingPolicy, PolicyId, TxHash, Unit, fromText
+  applyParamsToScript,
+  Data,
+  Lucid,
+  MintingPolicy,
+  PolicyId,
+  TxHash,
+  Unit,
+  fromText,
 } from "lucid-cardano"
 
 // Type definition could be auto generated from on-chain script
-const Params = Data.Tuple([Data.BigInt]);
-type Params = Data.Static<typeof Params>;
+const ParamsSchema = Data.Tuple([Data.Integer()])
+type Params = Data.Static<typeof ParamsSchema>
+const Params = ParamsSchema as unknown as Params
 
 const mintingPolicy: MintingPolicy = {
   type: "PlutusV2",
@@ -22,7 +30,7 @@ export const mintNFT = async (lucid: Lucid, name: string): Promise<TxHash> => {
 
   const tx = await lucid
     .newTx()
-    .mintAssets({ [unit]: 1n }, Data.empty())
+    .mintAssets({ [unit]: 1n }, Data.void())
     .attachMintingPolicy(mintingPolicy)
     .complete()
 

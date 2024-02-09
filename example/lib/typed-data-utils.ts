@@ -1,14 +1,14 @@
 import { Data, Lucid, TxHash, fromText } from "lucid-cardano"
 
 // Type definition could be auto generated from on-chain script
-const MyDatum = Data.Object({
-  name: Data.String,
-  age: Data.BigInt,
-  colors: Data.Array(Data.String),
-  description: Data.Nullable(Data.String),
+const MyDatumSchema = Data.Object({
+  name: Data.Bytes(),
+  age: Data.Integer(),
+  colors: Data.Array(Data.Bytes()),
+  description: Data.Nullable(Data.Bytes()),
 })
-
-type MyDatum = Data.Static<typeof MyDatum>
+type MyDatum = Data.Static<typeof MyDatumSchema>
+const MyDatum = MyDatumSchema as unknown as MyDatum
 
 // to move from CBOR to typed data
 export const parse = (data: string) => Data.from<MyDatum>(data, MyDatum)
