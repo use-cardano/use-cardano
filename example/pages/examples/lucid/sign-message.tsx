@@ -1,6 +1,6 @@
 import { ExampleWrapper } from "components/ExampleWrapper"
 import { options } from "config/use-cardano-options"
-import { utf8ToHex } from "lucid-cardano"
+import { fromText } from "lucid-cardano"
 import { useCallback, useState } from "react"
 import styles from "styles/example.module.css"
 import { CardanoWalletSelector, useCardano, utility } from "use-cardano"
@@ -22,7 +22,7 @@ const SignMessageExample = () => {
     setIsSigning(true)
 
     try {
-      const payload = utf8ToHex(message)
+      const payload = fromText(message)
 
       const signedMessage = await lucid.newMessage(address, payload).sign()
       const hasSigned: boolean = lucid.verifyMessage(address, payload, signedMessage)
@@ -48,8 +48,8 @@ const SignMessageExample = () => {
       <br />
 
       <div>
-        This is a port of the Lucid &quot;Sign Message&quot; example. It lets you enter a message
-        and sign it on the blockchain using lucid.
+        This is a port of the Lucid &quot;Sign Message&quot; example. It lets you enter a message and sign it
+        on the blockchain using lucid.
       </div>
 
       <br />

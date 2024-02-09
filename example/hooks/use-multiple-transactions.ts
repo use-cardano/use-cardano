@@ -1,4 +1,4 @@
-import { Lucid, utf8ToHex } from "lucid-cardano"
+import { Lucid, fromText } from "lucid-cardano"
 import { useCallback, useEffect, useState } from "react"
 
 interface TransactionState {
@@ -30,7 +30,7 @@ const useMultipleTransactions = (isValid?: boolean, lucid?: Lucid) => {
 
       for (const transaction of transactions) {
         if (transaction.policyId) {
-          const unit = transaction.policyId + utf8ToHex("TestTest")
+          const unit = transaction.policyId + fromText("TestTest")
 
           newTx = newTx.payToAddress(transaction.toAccount, {
             [unit]: BigInt(transaction.lovelace),

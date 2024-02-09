@@ -46,7 +46,7 @@ import React from "react"
     key: WalletProvider
     name: string
     icon: string
-    version: string
+    apiVersion: string
     enable(): Promise<WalletApi>
     isEnabled(): Promise<boolean>
   }

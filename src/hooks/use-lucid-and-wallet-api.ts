@@ -90,7 +90,6 @@ export const useLucidAndWalletApi = (options: UseCardanoOptionsWithDefaults) => 
       // We must fetch network id here, since it is not available before a wallet is connected
       const networkId = (await api.getNetworkId()) as 0 | 1
       const provider = getNodeProvider({ ...node, testnetNetwork, networkId })
-      const network = toNetworkName(networkId, testnetNetwork)
 
       const allowedNetworks = allowedNetworkNames.map(toNetworkId)
 
@@ -114,7 +113,7 @@ export const useLucidAndWalletApi = (options: UseCardanoOptionsWithDefaults) => 
         setNetworkError(disallowedNetworkError(allowedNetworks, testnetNetwork, networkId))
       } else {
         const [updatedLucid, address, unusedAddress, rewardAddress] = await Promise.all([
-          isNil(lucid) ? Lucid.new(provider, network) : lucid.switchProvider(provider, network),
+          isNil(lucid) ? Lucid.new(provider, testnetNetwork) : lucid.switchProvider(provider, testnetNetwork),
           api.getUsedAddresses().then(hexArrayToAddress),
           api.getUnusedAddresses().then(hexArrayToAddress),
           api.getRewardAddresses().then(hexArrayToAddress),

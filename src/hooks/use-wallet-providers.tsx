@@ -11,8 +11,7 @@ const useWalletProviders = (options: UseCardanoOptionsWithDefaults) => {
 
   const interval = useRef<Interval>()
 
-  const { setWalletApiLoading, setWalletProvider, setAvailableProviders, setIsInitialized } =
-    useCardano()
+  const { setWalletApiLoading, setWalletProvider, setAvailableProviders, setIsInitialized } = useCardano()
 
   useEffect(() => {
     if (interval.current) clearInterval(interval.current)
@@ -38,9 +37,7 @@ const useWalletProviders = (options: UseCardanoOptionsWithDefaults) => {
 
       setAvailableProviders(providers)
 
-      const providerToConnectTo = autoReconnect
-        ? getStoredWalletProvider() || autoConnectTo
-        : autoConnectTo
+      const providerToConnectTo = autoReconnect ? getStoredWalletProvider() || autoConnectTo : autoConnectTo
 
       // prompt the user to connect to a wallet provider at first visit
       if (providers.some((p) => p.key === providerToConnectTo)) {

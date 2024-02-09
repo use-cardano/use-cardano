@@ -1,5 +1,5 @@
 import {
-    applyParamsToScript, Data, Lucid, MintingPolicy, PolicyId, TxHash, Unit, utf8ToHex
+    applyParamsToScript, Data, Lucid, MintingPolicy, PolicyId, TxHash, Unit, fromText
 } from "lucid-cardano"
 
 // Type definition could be auto generated from on-chain script
@@ -18,7 +18,7 @@ const mintingPolicy: MintingPolicy = {
 export const mintNFT = async (lucid: Lucid, name: string): Promise<TxHash> => {
   const policyId: PolicyId = lucid.utils.mintingPolicyToId(mintingPolicy)
 
-  const unit: Unit = policyId + utf8ToHex(name)
+  const unit: Unit = policyId + fromText(name)
 
   const tx = await lucid
     .newTx()

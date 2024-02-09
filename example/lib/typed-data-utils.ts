@@ -1,4 +1,4 @@
-import { Data, Lucid, TxHash, utf8ToHex } from "lucid-cardano"
+import { Data, Lucid, TxHash, fromText } from "lucid-cardano"
 
 // Type definition could be auto generated from on-chain script
 const MyDatum = Data.Object({
@@ -15,9 +15,9 @@ export const parse = (data: string) => Data.from<MyDatum>(data, MyDatum)
 
 export const send = async (lucid: Lucid, address: string): Promise<TxHash> => {
   const datum: MyDatum = {
-    name: utf8ToHex("Lucid"),
+    name: fromText("Lucid"),
     age: 0n,
-    colors: [utf8ToHex("Blue"), utf8ToHex("Purple")],
+    colors: [fromText("Blue"), fromText("Purple")],
     description: null,
   }
 

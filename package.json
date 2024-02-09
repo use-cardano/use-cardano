@@ -31,8 +31,8 @@
     "dev": "concurrently \"pnpm dev:package\" \"pnpm dev:example\" \"node scripts/open.mjs\""
   },
   "peerDependencies": {
-    "lucid-cardano": "0.8.3",
-    "react": "^16.0.0 || ^17.0.0 || ^18.2.0"
+    "lucid-cardano": "0.10.7",
+    "react": "^16 || ^17 || ^18"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^23.0.5",
@@ -52,6 +52,9 @@
     "typescript": "^4.9.4"
   },
   "dependencies": {
-    "lodash": "^4.17.21"
+    "@peculiar/webcrypto": "^1.4.5",
+    "lodash": "^4.17.21",
+    "node-fetch": "^3.3.2",
+    "ws": "^8.16.0"
   }
 }
