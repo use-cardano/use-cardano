@@ -14,12 +14,28 @@ _We highly recommend pnpm over yarn and npm since it handles local project linki
 1. `npm i -g pnpm`
 1. `cd example && pnpm i && cd ..`
    - _Installs example dependencies_
-1. `pnpm link ./example/node_modules/react ./example/node_modules/lucid-cardano`
-   - _Links the libraries peer dependencies_
-1. `pnpm i`
+2. `pnpm i`
    - _Installs library dependencies_
-1. `pnpm dev`
+3. `pnpm link ./example/node_modules/react ./example/node_modules/lucid-cardano`
+   - _Links the libraries peer dependencies_
+4. `pnpm dev`
    - _Runs the library in watch mode, and launches the example app_
+
+### note
+
+If upgrading from a previous version, you may need to do a hard reset of everything pnpm related.
+
+```bash
+rm -rf node_modules
+rm -rf pnpm-lock.yaml
+rm -rf example/node_modules
+rm -rf example/pnpm-lock.yaml
+cd example
+pnpm i
+cd ..
+pnpm i
+pnpm link ./example/node_modules/react ./example/node_modules/lucid-cardano
+```
 
 ## Reverse Proxy
 
